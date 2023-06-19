@@ -1,0 +1,187 @@
+{
+  "sessions": [
+    {
+      "id": "d6fd2f9c-94a9-49a3-8601-4c214a9f67cd",
+      "chat": {
+        "title": "常用颜色的含义与应用",
+        "systemRole": "你是一名精通体验设计的设计系统设计师，设计系统存在诸多类别的 token，比如品牌色、成功色等，你需要为各个类别的 token 提供说明文案。\n\n以品牌色举例：\n\n品牌色是体现产品特性和传播理念最直观的视觉元素之一。在你完成品牌主色的选取之后，我们会自动帮你生成一套完整的色板，并赋予它们有效的设计语义。\n",
+        "messages": [
+          {
+            "role": "user",
+            "content": "成功色"
+          },
+          {
+            "role": "assistant",
+            "content": "成功色是指在产品中表示成功、完成或者达成目标等积极意义的颜色。通常使用鲜艳、明亮的颜色来代表成功，例如绿色、蓝色、紫色等。在设计系统中，成功色可以用于按钮、图标、提示等元素上，以强调用户操作的成功与完成。"
+          },
+          {
+            "role": "user",
+            "content": "品牌色"
+          },
+          {
+            "role": "assistant",
+            "content": "品牌色是指代表品牌身份、品牌形象和品牌价值观的颜色。品牌色通常是一个品牌的核心色彩，需要在整个设计系统中得到广泛运用。品牌色的选择需要考虑到品牌的定位、目标用户、行业特点等因素，并且需要与其他视觉元素协调搭配。在设计系统中，品牌色可以用于品牌标识、按钮、链接、背景等元素上，以突出品牌的独特性和识别度。"
+          },
+          {
+            "role": "user",
+            "content": "警戒色"
+          },
+          {
+            "role": "assistant",
+            "content": "警戒色是指在产品中表示警示、警告或者错误等负面信息的颜色。通常使用醒目、鲜艳的颜色来吸引用户的注意力，例如红色、橙色、黄色等。在设计系统中，警戒色可以用于表单验证、错误提示、警告提示等元素上，以帮助用户避免错误操作或者提醒用户注意安全问题。同时，需要注意警戒色的使用频率和场景，避免过度使用或者误导用户。"
+          },
+          {
+            "role": "user",
+            "content": "失败色"
+          },
+          {
+            "role": "assistant",
+            "content": "失败色是指在产品中表示失败、未完成或者错误等负面信息的颜色。通常使用柔和、暗淡的颜色来代表失败，例如灰色、浅蓝色、淡紫色等。在设计系统中，失败色可以用于按钮、表单、进度条等元素上，以帮助用户区分成功和失败状态，并且提醒用户关注未完成的任务或者错误信息。同时，需要注意失败色的使用场景和频率，避免使用过于醒目或者误导用户。"
+          },
+          {
+            "role": "user",
+            "content": "信息色"
+          },
+          {
+            "role": "assistant",
+            "content": "信息色是指在产品中表示信息、提示、引导等中性信息的颜色。通常使用柔和、清淡的颜色来代表信息，例如浅蓝色、淡绿色、淡紫色等。在设计系统中，信息色可以用于标签、提示文本、图标等元素上，以帮助用户理解和掌握信息，并且提高产品的易用性和友好性。同时，需要注意信息色的使用场景和频率，避免使用过于突兀或者影响用户体验。"
+          },
+          {
+            "role": "user",
+            "content": "中性色"
+          },
+          {
+            "role": "assistant",
+            "content": "中性色是指在产品中用于衬托、平衡和调和其他颜色的中性颜色。通常使用白色、黑色、灰色等颜色来代表中性色。在设计系统中，中性色可以用于背景、文本、边框等元素上，以帮助用户集中注意力和提高设计的整体平衡感。同时，需要注意中性色的使用，避免使用过于单调或者与其他颜色冲突。"
+          }
+        ],
+        "model": "gpt-3.5-turbo"
+      }
+    },
+    {
+      "id": "1e52d693-7abe-4535-9c92-cc9c2ef83cc6",
+      "chat": {
+        "title": "\"创作奇幻风，还原 macOS\"",
+        "systemRole": "你是一名擅长使用 Stable Diffusion 书写 prompt 的专家，Stable Diffusion是一款利用深度学习的text2img模型，支持通过使用提示词来产生新的图像。我在这里引入 Prompt 概念，又被称为提示符。这里的 Prompt 通常可以用来描述图像，他由普通常见的单词构成，最好是可以在数据集来源站点找到的著名标签（比如 Danbooru)。下面我将说明 Prompt 的生成步骤，将 Tag 提示词组合在一起，Tag 必须使用英文单词，请使用英文半角 \",\" 做分隔符，并将这些 按从最重要到最不重要的顺序排列，其中不能带有 \"-\" 和 \".\" 可以有空格和自然语言，但不要太多，单词不能重复。当需要对关键词做强化时，Prompt 可以使用()增加权重，(flowers) 的意思是花的权重增加 1.1 倍，(((flowers))) 的意思是花的权重增加 1.1*1.1*1.1=1.331 倍，当括号里指定权重时就为对应的权重，如 (flowers:1.5) 的意思是花的权重增加 1.5 倍，(flowers:0.5) 的意思是花的权重降低为 0.5 倍。权重增加的数量不宜过多，只对需要特别强调的 Tag 进行加权。\n\nPrompt 由三部分组成，前缀（基本前缀+画风词+整体效果器） + 主体（画面中的主体部分） + 场景（背景，环境）：\n\n1. 前缀用于确定图片的总体生成质量。\n- 质量前缀：masterpiece, best quality, 4k 等用来提升画面质量和细节的 Tag\n- 画风词用于凸显图片的画风：插画illustration, 水彩watercolor_medium 等\n- 效果器：为光线效果 bestlighting，炫光 lensflare，景深 depthoffield 等\n\n2. 主体为图画想要凸显的主体，可以是人物，建筑，景物等，主体部分要进行丰富的描述才能获得细节丰富的图像。主体部分要进行详细的描述才能获得重视，通常我们对主体词要加权重，以提高主体的清晰程度。\n- 对于角色来说，通常包括了面部，头发，身体，衣着，姿态等描写。你需要通过提示词来描述 人物属性，主题，外表，情緒，衣服，姿势，视角，动作，背景。用英语单词或短语甚至自然语言的标签来描述，并不局限于我给你的单词。\n- 没有角色时，可以将场景中的重要点即高耸如云的城堡，绽放的花朵，破碎的钟表等，想要位于画面中心的物体进行描述。\n\n3. 场景是主体存在的周围场景，没有场景描述时容易生成纯色背景或者是效果tag相关的背景，且主体会显得很大。部分主体会自带场景内容，例如建筑，景物。单独的环境词汇会形成环绕与主体周边充斥整个画面的场景。的词汇如繁花草甸 flowerymeadow, 羽毛feather, 阳光sunlight, 河流river, 碎玻璃Brokenglass等。环境词汇进行堆叠就能丰富整个场景，主要不要让主体内容太少。背景词汇即环境词添加background做背景，例如：clockbackground, 这样的描述可以稳定让背景词出现与主体的背后。",
+        "messages": [
+          {
+            "role": "user",
+            "content": "当这个时代到来的时候锐不可当，万物肆意生长，尘埃与曙光升腾，江河汇聚成川，无名山丘崛起为峰，天地一时无比开阔"
+          },
+          {
+            "role": "assistant",
+            "content": "Prompt: masterpiece, surrealism, bestlighting, nature, mountains, river, sunrise, horizon, vastness, dust\n\nDescription: Create a surreal masterpiece with the best lighting that captures the essence of a world where everything is growing wildly. Use nature as the main inspiration, with mountains and rivers as prominent features. The focus should be on the sunrise and the vast horizon, with the dust of the world swirling around in the background."
+          },
+          {
+            "role": "user",
+            "content": "macOS 系统风格"
+          },
+          {
+            "role": "assistant",
+            "content": "Prompt: macOS, minimalism, flat design, dark mode, icons, dock, menu bar, typography\n\nDescription: Generate an image with a macOS system style, focusing on minimalism and flat design. Use dark mode as the dominant color scheme, and pay attention to the details of the icons, dock, and menu bar. The typography should be clean and easy to read."
+          }
+        ],
+        "model": "gpt-3.5-turbo"
+      }
+    },
+    {
+      "id": "775cf648-d28e-4ee6-8dd8-33bec5efd600",
+      "chat": {
+        "title": "使用GPT-4推进设计工程化",
+        "systemRole": "",
+        "messages": [
+          {
+            "role": "user",
+            "content": "请你帮我写一份GPT-4申请信，表达的核心观点为：\n\n1. GPT3.5 无法满足 在设计工程化领域的诉求；\n2. GPT4很强大，在这个领域中可以满足我们的诉求；\n3. 设计工程化是一个比较新的领域，可以发挥出人工智能更大的价值"
+          },
+          {
+            "role": "assistant",
+            "content": "尊敬的GPT-4团队：\n\n我代表我们的设计工程化团队，向您们表达我们对GPT-4的浓厚兴趣和期待。我们认为，GPT-3.5虽然在自然语言处理方面表现出色，但它无法满足我们在设计工程化领域的诉求。因此，我们希望能够使用更强大的GPT-4，以满足我们的需求。\n\n我们相信，GPT-4在设计工程化领域中具有巨大的潜力。设计工程化是一个比较新的领域，它需要强大的自然语言处理能力来支持。我们相信，GPT-4可以在这个领域中发挥出人工智能更大的价值，帮助我们更快、更准确地完成各种设计任务。\n\n我们的团队非常期待能够使用GPT-4，并对它的性能和功能充满期待。我们相信，GPT-4将成为我们在设计工程化领域中的得力助手，帮助我们实现更高的工作效率和更好的工作成果。\n\n谢谢您们的时间和关注，期待与您们的进一步合作。\n\n此致，\n\n敬礼"
+          },
+          {
+            "role": "user",
+            "content": "GPT-4团队替换为 OpenAI 团队。可以展开介绍一下 设计工程化，设计工程化是一个研究使用工程化方式来解决设计领域中的问题。比如交互界面的布局、设计与前端团队的协作提效等等"
+          },
+          {
+            "role": "assistant",
+            "content": "尊敬的OpenAI团队：\n\n我代表我们的设计工程化团队，向您们表达我们对OpenAI团队的浓厚兴趣和期待。我们认为，OpenAI团队在人工智能领域的技术和研究实力都是非常强大的，我们希望能够借助 GPT-4，来推进设计工程化领域的发展。\n\n设计工程化是一个研究使用工程化方式来解决设计领域问题的方向。这个领域涉及到从交互界面布局研究，设计效能，到设计与前端团队的协作提效等等方面的问题。我们相信，通过使用人工智能技术，我们可以更好地解决这些问题，并提高我们的工作效率和设计质量。\n\n我们现在就在研究如何使用 GPT-3.5 技术来进行 用户界面的生成（基于 Sketch，一款设计工具），但我们发现GPT-3.5在这方面表现并不理想，所以希望能够基于 GPT-4 的 API 来探索这个领域。想想如果我们能基于 GPT-4 实现让 AI 生成可控的用户界面，那这会震撼整个世界！\n\n我们相信，OpenAI团队的技术和研究实力可以为我们带来非常好的支持和帮助。我们期待能够与OpenAI团队合作，共同探索并推进设计工程化领域的发展。\n\n谢谢您们的时间和关注，期待与您们的进一步合作。\n\n此致，\n\n敬礼"
+          },
+          {
+            "role": "user",
+            "content": "请将上述内容翻译为英文"
+          },
+          {
+            "role": "assistant",
+            "content": "Dear OpenAI Team,\n\nOn behalf of our design engineering team, I would like to express our strong interest and expectations for OpenAI team. We believe that OpenAI team has strong technical and research capabilities in the field of artificial intelligence, and we hope to use GPT-4 to promote the development of the design engineering field.\n\nDesign engineering is a field that researches the use of engineering methods to solve problems in the design field. This field involves a range of issues such as layout of interactive interfaces, design efficiency, and collaboration with front-end teams to improve efficiency. We believe that by using artificial intelligence technology, we can better solve these problems and improve our work efficiency and design quality.\n\nWe are currently researching how to use GPT-3.5 technology to generate user interfaces (based on Sketch, a design tool), but we have found that GPT-3.5's performance in this area is not ideal. Therefore, we hope to explore this field based on the API of GPT-4. Imagine if we could use GPT-4 to generate controllable user interfaces, this would shake the whole world!\n\nWe believe that OpenAI's technical and research capabilities can provide us with great support and help. We look forward to working with the OpenAI team to explore and promote the development of the design engineering field.\n\nThank you for your time and attention. We look forward to further cooperation with you.\n\nBest regards,\n\n[Your Name]"
+          }
+        ],
+        "model": "gpt-3.5-turbo"
+      }
+    },
+    {
+      "id": "10d8a32f-34dc-43fa-bab2-1b9fc8c452c2",
+      "chat": {
+        "title": "单元测试不完善",
+        "systemRole": "你是一名专业的前端开发者，擅长结合 vitest 和`testing-library/react` 书写单元测试。接下来用户会输入一串 ts 代码，你需要给出完善的单元测试。\n\n你需要注意，单元测试代码中，不应该使用 jest 。如果需要使用 `jest.fn`，请使用 `vi.fn` 替换\n\n",
+        "messages": [
+          {
+            "role": "user",
+            "content": "import { useEffect } from 'react';\nimport { StoreApi } from 'zustand';\n\ndeclare type WithoutCallSignature<T> = {\n  [K in keyof T]: T[K];\n};\n\n// 定义一个函数，用于创建 Store 更新器\nexport const createStoreUpdater =\n  <T>(storeApi: WithoutCallSignature<StoreApi<T>>) =>\n  // 该函数接收三个参数：key，value 和 deps\n  // key：需要更新的 Store 中的 key\n  // value：需要更新的值\n  // deps：依赖项数组，默认为 [value]\n  // setStoreState：一个可选的回调函数，用于更新 Store 状态\n  (key: keyof T, value: any, deps = [value], setStoreState?: (param: any) => void) => {\n    // 获取 Store 更新函数\n    const setState = setStoreState ?? storeApi.setState;\n    // 使用 useEffect 监听依赖项变化\n    useEffect(() => {\n      // 如果 value 不为 undefined，就更新 Store 中的指定 key 的值\n      if (typeof value !== 'undefined') {\n        // @ts-ignore\n        setState({ [key]: value });\n      }\n    }, deps);\n  };\n"
+          },
+          {
+            "role": "assistant",
+            "content": "好的，首先需要安装 `vitest` 和 `testing-library/react` 两个库，然后使用 `vitest` 的 `test` 函数定义一个测试用例，使用 `testing-library/react` 的 `render` 函数渲染组件并断言结果。\n\n单元测试代码如下： \n\n```typescript\nimport { render } from '@testing-library/react';\nimport { test } from 'vitest';\nimport { createStoreUpdater } from './createStoreUpdater';\nimport { StoreApi } from 'zustand';\n\ntest('createStoreUpdater', () => {\n  const setState = vi.fn();\n  const storeApi = { setState } as unknown as WithoutCallSignature<StoreApi<{ key: string }>>;\n\n  const updater = createStoreUpdater(storeApi);\n\n  updater('key', 'value');\n\n  expect(setState.mock.calls.length).toBe(1);\n  expect(setState.mock.calls[0][0]).toEqual({ key: 'value' });\n\n  updater('key', 'new value', ['new value', {}]);\n\n  expect(setState.mock.calls.length).toBe(2);\n  expect(setState.mock.calls[1][0]).toEqual({ key: 'new value' });\n});\n```\n\n在这个测试用例中，我们首先使用 `vi.fn()` 创建了一个 `setState` 的 mock 函数，并使用这个 mock 函数创建了一个 `storeApi` 对象。然后我们创建了一个 `updater` 函数，并调用了两次，分别传入不同的参数。\n\n最后我们使用 `expect` 断言，确认 `setState` 被调用了两次，并且传入的参数分别为 `{ key: 'value' }` 和 `{ key: 'new value' }`。\n\n注意，在这个测试用例中，我们使用了 `vi.fn()` 替换了 `jest.fn()`。另外，我们还需要在代码中添加 `WithoutCallSignature` 的定义，否则代码会报错：\n\n```typescript\ndeclare type WithoutCallSignature<T> = {\n  [K in keyof T]: T[K];\n};\n```",
+            "choices": [
+              "对于这段代码，我们可以使用 vitest 编写单元测试。需要注意的是，由于该代码依赖于 react 和 zustand，我们需要在单元测试中 mock 掉这些依赖。\n\n下面是一个可能的单元测试实现：\n\n```typescript\nimport { createStoreUpdater } from './path/to/your/code';\nimport { renderHook } from '@testing-library/react-hooks';\nimport { StoreApi } from 'zustand';\n\n// mock react 和 zustand\njest.mock('react', () => ({\n  useEffect: jest.fn(),\n}));\njest.mock('zustand', () => ({\n  create: jest.fn(),\n}));\n\ndescribe('createStoreUpdater', () => {\n  const setState = jest.fn();\n  const storeApi: StoreApi<any> = {\n    setState,\n  };\n\n  afterEach(() => {\n    jest.clearAllMocks();\n  });\n\n  it('should update store state correctly', () => {\n    const key = 'foo';\n    const value = 'bar';\n\n    const { result } = renderHook(() =>\n      createStoreUpdater(storeApi)(key, value, [value], setState)\n    );\n\n    // 检查 useEffect 是否被正确调用\n    expect(useEffect).toHaveBeenCalledTimes(1);\n    expect(useEffect).toHaveBeenCalledWith(expect.any(Function), [value]);\n\n    // 手动触发 useEffect 中的回调函数\n    const [callback] = (useEffect as jest.Mock).mock.calls[0];\n    callback();\n\n    // 检查 setState 是否被正确调用\n    expect(setState).toHaveBeenCalledTimes(1);\n    expect(setState).toHaveBeenCalledWith({ [key]: value });\n\n    // 检查返回值是否为 undefined\n    expect(result.current).toBeUndefined();\n  });\n\n  it('should not update store state if value is undefined', () => {\n    const key = 'foo';\n    const value = undefined;\n\n    const { result } = renderHook(() =>\n      createStoreUpdater(storeApi)(key, value, [value], setState)\n    );\n\n    // 检查 useEffect 是否被正确调用\n    expect(useEffect).toHaveBeenCalledTimes(1);\n    expect(useEffect).toHaveBeenCalledWith(expect.any(Function), [value]);\n\n    // 手动触发 useEffect 中的回调函数\n    const [callback] = (useEffect as jest.Mock).mock.calls[0];\n    callback();\n\n    // 检查 setState 是否被正确调用\n    expect(setState).not.toHaveBeenCalled();\n\n    // 检查返回值是否为 undefined\n    expect(result.current).toBeUndefined();\n  });\n});\n```\n\n这个测试用例覆盖了 createStoreUpdater 的两个分支：当 value 不为 undefined 时，应该正确地更新 Store 中的指定 key 的值；当 value 为 undefined 时，不应该更新 Store。同时，我们也检查了 useEffect 和 setState 是否被正确调用。"
+            ]
+          }
+        ],
+        "model": "gpt-3.5-turbo"
+      }
+    },
+    {
+      "id": "fce8c388-249d-451d-b44d-590e925db182",
+      "chat": {
+        "title": "ChatGPT账户封禁申诉",
+        "systemRole": "你是一名擅长写英文邮件的作家",
+        "messages": [
+          {
+            "role": "user",
+            "content": "请将下述内容翻译为中文\n\nSubject: Urgent Appeal for Account Unban: Unauthorized Access and Misuse of My ChatGPT Account\nDear ChatGPT Support Team,\nI hope this email finds you well. My name is [ Your Name ], and I am writing to appeal for the removal of the ban on my ChatGPT account (username: [ Your Username] ). I believe that my account has been mistakenly flagged and banned due to suspicious activities, which I suspect were the result of unauthorized access and misuse.\nI recently discovered that my account was compromised, and I have reason to believe that it was accessed and misused by someone else without my knowledge or consent. I deeply regret any inconvenience or disruption this may have caused to the ChatGPT community and would like to assure you that I had no part in the activities that led to the ban.\nTo resolve this issue and restore my account, I have already taken the necessary steps to secure my account by changing my password and enabling two-factor authentication. I kindly request that you investigate my account to verify my claims and consider lifting the ban.\nI have always valued and respected the ChatGPT community guidelines and have strived to maintain a positive and constructive presence. I understand the importance of maintaining a safe and enjoyable environment for all users and sincerely apologize for any trouble this situation may have caused.\nPlease let me know if there is any additional information or action required from my end to facilitate the investigation and resolution of this issue. I am more than willing to cooperate with any further inquiries you may have\nThank you for your time and consideration. I eagerly await your response and hope that my account can be reinstated as soon as possible.\nBest regard\n[您的称呼]\n[您的账号]\n[您的电子邮件地址]\n\n作者：刘志军\n链接：https://juejin.cn/post/7217449801633054775\n来源：稀土掘金\n著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"
+          },
+          {
+            "role": "assistant",
+            "content": "主题：紧急呼吁取消封禁账户：我的ChatGPT账户遭到未经授权的访问和滥用\n\n尊敬的ChatGPT支持团队，\n\n希望您一切都好。我叫[您的名字]，写信请求取消对我的ChatGPT账户（用户名：[您的用户名]）的封禁。我认为我的账户由于可疑活动而被错误地标记并封禁，我怀疑这是未经授权的访问和滥用的结果。\n\n我最近发现我的账户被入侵了，我有理由相信它被别人在我不知情或未经同意的情况下访问和滥用了。我深感歉意，如果这给ChatGPT社区带来了任何不便或打扰，并想向您保证，我没有参与导致封禁的活动。\n\n为了解决这个问题并恢复我的账户，我已经采取了必要的步骤来保护我的账户，包括更改密码和启用双重身份验证。我恳请您调查我的账户以验证我的声明并考虑取消封禁。\n\n我一直珍视并尊重ChatGPT社区的准则，并努力保持积极和建设性的存在。我理解维护对所有用户安全和愉悦的环境的重要性，并对此情况可能引起的任何麻烦深表歉意。\n\n如果需要我进一步提供任何信息或采取任何行动以促进调查和解决此问题，请告知我。我非常愿意配合您的任何进一步询问。\n\n感谢您的时间和考虑。我热切期待您的回复，并希望我的账户能尽快恢复。\n\n最好的祝福，\n\n[您的称呼]\n\n[您的账号]\n\n[您的电子邮件地址]"
+          },
+          {
+            "role": "user",
+            "content": "请重新将其翻译为英文，态度需要更加诚恳"
+          },
+          {
+            "role": "assistant",
+            "content": "Subject: Urgent Request to Lift Account Ban: Unauthorized Access and Misuse of My ChatGPT Account\n\nDear ChatGPT Support Team,\n\nI sincerely hope this email finds you well. My name is [Your Name], and I am writing to appeal for the removal of the ban on my ChatGPT account (username: [Your Username]). I understand that my account has been flagged and banned due to suspicious activities, which I suspect were the result of unauthorized access and misuse.\n\nI recently discovered that my account was compromised, and I have reason to believe that it was accessed and misused by someone else without my knowledge or consent. I deeply regret any inconvenience or disruption this may have caused to the ChatGPT community and would like to assure you that I had no part in the activities that led to the ban.\n\nTo resolve this issue and restore my account, I have taken the necessary steps to secure my account by changing my password and enabling two-factor authentication. I kindly request that you investigate my account to verify my claims and consider lifting the ban.\n\nI understand the importance of maintaining a safe and enjoyable environment for all users, and I apologize for any trouble this situation may have caused. I value and respect the ChatGPT community guidelines and have always strived to maintain a positive and constructive presence.\n\nPlease let me know if there is any additional information or action required from my end to facilitate the investigation and resolution of this issue. I am more than willing to cooperate with any further inquiries you may have.\n\nThank you for your time and consideration. I sincerely hope that my account can be reinstated as soon as possible.\n\nBest regards,\n\n[Your Name]\n\n[Your Account]\n\n[Your Email Address]"
+          }
+        ],
+        "model": "gpt-3.5-turbo"
+      }
+    },
+    {
+      "id": "94eacc16-a763-4b54-ba14-ab23a52d541a",
+      "chat": {
+        "title": "Less和TS样式转换",
+        "systemRole": "你是一名熟知 antd 的前端开发者，现在需要你将前端应用中的样式从 less迁移为 cssinjs。\n\n转换规则有三条：\n\n1. 如果是用户定义的 className 存在嵌套，需要将其打平，\n   例如 `.avatarHolder { color:red; .name {color:blue;} }`，需要将其打平，变成 `{ avatarHolder : {color:\"red\"}, name:{ color:\"blue\"} }`;\n\n2. 需要将less的 @开通的 less 变量转换为 cssinjs 的 token ,变成 `token.xxx`;\n3. `:global` 的层级可以直接移除，\n    例如 `.a { color:red;  :global{.ant-tag{ color:blue }} }`，变成 `.a { color: \"red\", \".ant-tag\":{ color:blue }}`\n\n输入的less代码示例：\n```less\n@import '~antd/es/style/themes/default.less';\n\n.baseView {\n  display: flex;\n  padding-top: 12px;\n\n  :global {\n    .ant-legacy-form-item .ant-legacy-form-item-control-wrapper {\n      width: 100%;\n    }\n  }\n\n  .left {\n    min-width: 224px;\n    max-width: 448px;\n  }\n  .right {\n    flex: 1;\n    padding-left: 104px;\n    .avatar_title {\n      height: 22px;\n      margin-bottom: 8px;\n      color: @heading-color;\n      font-size: @font-size-base;\n      line-height: 22px;\n    }\n    .avatar {\n      width: 40px;\n      height: 40px;\n      margin-bottom: 12px;\n      overflow: hidden;\n      img {\n        width: 100%;\n      }\n    }\n    .button_view {\n      width: 144px;\n      text-align: center;\n    }\n  }\n}\n\n.area_code {\n  width: 72px;\n}\n.phone_number {\n  width: 214px;\n}\n\n@media screen and (max-width: @screen-xl) {\n  .baseView {\n    flex-direction: column-reverse;\n\n    .right {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      max-width: 448px;\n      padding: 20px;\n      .avatar_title {\n        display: none;\n      }\n    }\n  }\n}\n\n```\n\n输出的 cssinjs 的代码为：\n\n```ts\nimport { createStyles } from 'antd-style';\n\nexport const useStyles = createStyles(({ token, responsive }) => ({\n  baseView: {\n    display: 'flex',\n    paddingTop: '12px',\n\n    '.ant-legacy-form-item .ant-legacy-form-item-control-wrapper': {\n      width: '100%',\n    },\n    [responsive.xl]: {\n      flexDirection: 'column-reverse',\n    },\n  },\n  left: { minWidth: '224px', maxWidth: '448px' },\n  right: {\n    flex: 1,\n    paddingLeft: '104px',\n    [responsive.xl]: {\n      display: 'flex',\n      flexDirection: 'column',\n      alignItems: 'center',\n      maxWidth: '448px',\n      padding: '20px',\n    },\n  },\n  avatar_title: {\n    height: '22px',\n    marginBottom: '8px',\n    color: token.colorTextHeading,\n    fontSize: token.fontSize,\n    lineHeight: '22px',\n    [responsive.xl]: {\n      display: 'none',\n    },\n  },\n  avatar: {\n    width: '40px',\n    height: '40px',\n    marginBottom: '12px',\n    overflow: 'hidden',\n    img: { width: '100%' },\n  },\n  button_view: { width: '144px', textAlign: 'center' },\n  area_code: { width: '72px' },\n  phone_number: { width: '214px' },\n}));\n\n```",
+        "messages": [
+          {
+            "role": "user",
+            "content": "```less\n@import '~antd/es/style/themes/default.less';\n\n.avatarHolder {\n  margin-bottom: 24px;\n  text-align: center;\n\n  & > img {\n    width: 104px;\n    height: 104px;\n    margin-bottom: 20px;\n  }\n\n  .name {\n    margin-bottom: 4px;\n    color: @heading-color;\n    font-weight: 500;\n    font-size: 20px;\n    line-height: 28px;\n  }\n}\n\n.detail {\n  p {\n    position: relative;\n    margin-bottom: 8px;\n    padding-left: 26px;\n\n    &:last-child {\n      margin-bottom: 0;\n    }\n  }\n\n  i {\n    position: absolute;\n    top: 4px;\n    left: 0;\n    width: 14px;\n    height: 14px;\n  }\n}\n\n.tagsTitle,\n.teamTitle {\n  margin-bottom: 12px;\n  color: @heading-color;\n  font-weight: 500;\n}\n\n.tags {\n  :global {\n    .ant-tag {\n      margin-bottom: 8px;\n    }\n  }\n}\n\n.team {\n  :global {\n    .ant-avatar {\n      margin-right: 12px;\n    }\n  }\n\n  a {\n    display: block;\n    margin-bottom: 24px;\n    overflow: hidden;\n    color: @text-color;\n    white-space: nowrap;\n    text-overflow: ellipsis;\n    word-break: break-all;\n    transition: color 0.3s;\n\n    &:hover {\n      color: @primary-color;\n    }\n  }\n}\n\n.tabsCard {\n  :global {\n    .ant-card-head {\n      padding: 0 16px;\n    }\n  }\n}\n```"
+          },
+          {
+            "role": "assistant",
+            "content": "```ts\nimport { createStyles } from 'antd-style';\n\nexport const useStyles = createStyles(({ token }) => ({\n  avatarHolder: {\n    marginBottom: '24px',\n    textAlign: 'center',\n    '> img': {\n      width: '104px',\n      height: '104px',\n      marginBottom: '20px',\n    },\n    name: {\n      marginBottom: '4px',\n      color: token.colorTextHeading,\n      fontWeight: '500',\n      fontSize: '20px',\n      lineHeight: '28px',\n    },\n  },\n  detail: {\n    p: {\n      position: 'relative',\n      marginBottom: '8px',\n      paddingLeft: '26px',\n      '&:last-child': {\n        marginBottom: '0',\n      },\n    },\n    i: {\n      position: 'absolute',\n      top: '4px',\n      left: '0',\n      width: '14px',\n      height: '14px',\n    },\n  },\n  tagsTitle: {\n    marginBottom: '12px',\n    color: token.colorTextHeading,\n    fontWeight: '500',\n  },\n  teamTitle: {\n    marginBottom: '12px',\n    color: token.colorTextHeading,\n    fontWeight: '500',\n  },\n  tags: {\n    '.ant-tag': {\n      marginBottom: '8px',\n    },\n  },\n  team: {\n    '.ant-avatar': {\n      marginRight: '12px',\n    },\n    a: {\n      display: 'block',\n      marginBottom: '24px',\n      overflow: 'hidden',\n      color: token.colorText,\n      whiteSpace: 'nowrap',\n      textOverflow: 'ellipsis',\n      wordBreak: 'break-all',\n      transition: 'color 0.3s',\n      '&:hover': {\n        color: token.colorPrimary,\n      },\n    },\n  },\n  tabsCard: {\n    '.ant-card-head': {\n      padding: '0 16px',\n    },\n  },\n}));\n\n```"
+          }
+        ],
+        "model": "gpt-3.5-turbo"
+      }
+    }
+  ]
+}
