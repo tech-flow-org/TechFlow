@@ -19,7 +19,7 @@ const AITask = memo<{ id: string }>(({ id }) => {
         <NodeField id={'model'} title={'模型'}>
           {model}
         </NodeField>
-        <NodeField id={'prompt'} title={'提示词'}>
+        <NodeField id={'prompt'} title={'提示词输入'}>
           <Markdown>{content}</Markdown>
         </NodeField>
       </Flexbox>

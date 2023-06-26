@@ -4,14 +4,14 @@ import Output from './Preview';
 import Render from './Render';
 
 export const OutputSymbol: SymbolMasterDefinition<OutputNodeContent> = {
-  id: 'result',
-  title: '输出节点',
-  avatar: '🖨',
-  description: '将接收到的结果汇总到输出',
+  id: 'network',
+  title: '网络节点',
+  avatar: '🔗',
+  description: '将接受到的结果输出到服务器',
   preview: Output,
   render: Render,
   defaultContent: {
-    variable: '',
-    preview: false,
+    url: 'https://www.xxx.com/api',
+    data: '{"img":"{images}","text":"{text}"}',
   },
 };

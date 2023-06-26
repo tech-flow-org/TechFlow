@@ -3,8 +3,8 @@ import { FC } from 'react';
 import { XYPosition } from 'reactflow';
 
 export interface OutputNodeContent {
-  variable: string;
-  preview?: boolean;
+  data: string;
+  url?: string;
 }
 
 export type OnCreateNode<T> = (

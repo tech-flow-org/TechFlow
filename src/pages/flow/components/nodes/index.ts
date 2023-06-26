@@ -1,6 +1,6 @@
 import { SymbolMasterDefinition } from '@/types/flow';
 import { AITaskSymbol } from './AITask';
-import { OutputSymbol } from './Output';
+import { OutputSymbol } from './NetWork';
 import { SDTaskSymbol } from './SD';
 import { StringSymbol } from './String';
 
