@@ -33,6 +33,7 @@ interface MessageInputProps {
   renderButtons?: (text: string) => ButtonProps[];
   height?: number;
   className?: string;
+  placeholder?: string;
 }
 
 const MessageInput: FC<MessageInputProps> = ({
@@ -42,6 +43,7 @@ const MessageInput: FC<MessageInputProps> = ({
   renderButtons,
   height,
   className,
+  placeholder,
 }) => {
   const [tempSystemRole, setRole] = useState<string>(defaultValue || '');
 
@@ -50,7 +52,9 @@ const MessageInput: FC<MessageInputProps> = ({
       <Input.TextArea
         value={tempSystemRole}
         allowClear
-        placeholder={'例如：你是一名擅长翻译的翻译官，请将用户所输入的英文都翻译为中文。'}
+        placeholder={
+          placeholder || '例如：你是一名擅长翻译的翻译官，请将用户所输入的英文都翻译为中文。'
+        }
         style={{ height: height ?? 200 }}
         onChange={(e) => {
           setRole(e.target.value);

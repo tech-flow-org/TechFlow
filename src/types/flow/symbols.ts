@@ -19,7 +19,6 @@ export interface SymbolMasterDefinition<Content> {
   avatar: string;
   preview: FC<any>;
   render: FC<any>;
-
   defaultContent: Content;
   onCreateNode?: OnCreateNode<FlowBasicNode<Content>>;
 }

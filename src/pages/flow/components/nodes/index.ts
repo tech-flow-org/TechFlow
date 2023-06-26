@@ -1,11 +1,13 @@
 import { SymbolMasterDefinition } from '@/types/flow';
 import { AITaskSymbol } from './AITask';
 import { OutputSymbol } from './Output';
+import { SDTaskSymbol } from './SD';
 import { StringSymbol } from './String';
 
 export const symbolNodeList: SymbolMasterDefinition<any>[] = [
   StringSymbol,
   AITaskSymbol,
+  SDTaskSymbol,
   OutputSymbol,
 ];
 

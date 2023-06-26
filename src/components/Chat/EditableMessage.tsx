@@ -43,6 +43,7 @@ interface EditableMessageProps {
     markdown?: string;
     input?: string;
   };
+  placeholder?: string;
 }
 
 export const EditableMessage = memo<EditableMessageProps>(
@@ -54,6 +55,7 @@ export const EditableMessage = memo<EditableMessageProps>(
     editing,
     openModal,
     onOpenChange,
+    placeholder,
     showEditWhenEmpty = false,
   }) => {
     const [isEdit, setTyping] = useControlledState(false, {
@@ -68,6 +70,7 @@ export const EditableMessage = memo<EditableMessageProps>(
 
     return !value && showEditWhenEmpty ? (
       <MessageInput
+        placeholder={placeholder}
         onConfirm={(text) => {
           onChange?.(text);
           setTyping(false);
@@ -88,6 +91,7 @@ export const EditableMessage = memo<EditableMessageProps>(
         />
         {!expand && isEdit ? (
           <MessageInput
+            placeholder={placeholder}
             onConfirm={(text) => {
               onChange?.(text);
               setTyping(false);

@@ -7,6 +7,7 @@ import { LangChainParams } from '@/types/langchain';
 
 import { notification } from '@/layout';
 import { fetchLangChain } from '@/services/langChain';
+import { fetchSDServe } from '@/services/sdServe';
 import { AITaskContent } from '@/types/flow';
 import { genChatMessages } from '@/utils/genChatMessages';
 import { FlowStore } from '../action';
@@ -39,16 +40,6 @@ export const runnerSlice: StateCreator<
 
     const vars: Record<string, string> = {};
 
-    const prompts = genChatMessages({
-      systemRole: node.data.content.systemRole,
-      messages: node.data.content.input,
-    });
-    // 设定变量默认值 为自己
-    const inputVariables = getInputVariablesFromMessages(prompts);
-    inputVariables.forEach((variable) => {
-      vars[variable] = `{${variable}}`;
-    });
-
     // 从关联节点中找到变量信息
     const links = Object.values(flow.flattenEdges || {}).filter((i) => i.target === nodeId);
 
@@ -68,6 +59,55 @@ export const runnerSlice: StateCreator<
       }
     });
 
+    const { editor } = get();
+    const abortController = new AbortController();
+    editor.updateNodeState(node.id, 'abortController', abortController, { recordHistory: false });
+    abortController.signal.onabort = () => {
+      editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });
+    };
+    if (node.type === 'sdTask') {
+      const { editor } = get();
+      const params = node.data.content as any as {
+        prompt: string;
+        width: number;
+        height: number;
+        output?: string;
+      };
+      let prompt = params.prompt.replace(/\{(.+?)\}/g, (match, p1) => {
+        return lodashGet(vars, p1, match);
+      });
+      editor.updateNodeState(node.id, 'loading', true, { recordHistory: false });
+      const data = (await fetchSDServe({
+        ...params,
+        prompt,
+        output: '',
+      }).then((res) => res.json())) as {
+        images: string[];
+      };
+
+      editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });
+      editor.updateNodeContent<AITaskContent>(
+        node.id,
+        'output',
+        'data:image/png;base64,' + data.images.at(0),
+        {
+          recordHistory: false,
+        },
+      );
+      return;
+    }
+
+    const prompts = genChatMessages({
+      systemRole: node.data.content.systemRole,
+      messages: node.data.content.input,
+    });
+
+    // 设定变量默认值 为自己
+    const inputVariables = getInputVariablesFromMessages(prompts);
+    inputVariables.forEach((variable) => {
+      vars[variable] = `{${variable}}`;
+    });
+
     const request: LangChainParams = {
       llm: { model: 'gpt3.5-turbo', temperature: 0.6 },
       prompts,
@@ -75,10 +115,6 @@ export const runnerSlice: StateCreator<
     };
 
     let output = '';
-
-    const { editor } = get();
-    const abortController = new AbortController();
-    editor.updateNodeState(node.id, 'abortController', abortController, { recordHistory: false });
 
     await fetchLangChain({
       params: request,
@@ -101,7 +137,7 @@ export const runnerSlice: StateCreator<
 
     const task = getSafeFlowNodeById(agent, nodeId);
 
-    task?.data.state.abortController?.abort();
+    task?.data.state.abortController?.abort?.();
   },
 
   runFlow: async () => {

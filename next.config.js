@@ -24,6 +24,10 @@ const nextConfig = {
         source: '/api/chain-dev',
         destination: `${API_END_PORT_URL}/api/chain`,
       },
+      {
+        source: '/api/sd/text2img',
+        destination: `${API_END_PORT_URL}/api/sdserve`,
+      },
     ];
   },
   pageExtensions: ['page.tsx', 'api.ts'],
