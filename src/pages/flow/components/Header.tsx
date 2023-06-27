@@ -11,21 +11,31 @@ import { hasFlowRunner } from '@/helpers/flow';
 import { flowSelectors, useFlowStore } from '@/store/flow';
 
 const Header = memo(() => {
-  const [id, title, avatar, isTaskEmpty, runningTask, runFlow, dispatchFlow, cancelFlowNode] =
-    useFlowStore((s) => {
-      const flow = flowSelectors.currentFlowSafe(s);
-      const meta = flowSelectors.currentFlowMeta(s);
-      return [
-        flow.id,
-        meta.title,
-        meta.avatar,
-        !hasFlowRunner(flow.flattenEdges),
-        flow.state.runningTask,
-        s.runFlow,
-        s.dispatchFlow,
-        s.cancelFlowNode,
-      ];
-    }, shallow);
+  const [
+    id,
+    title,
+    avatar,
+    isTaskEmpty,
+    runningTask,
+    runFlow,
+    dispatchFlow,
+    cancelFlowNode,
+    exportWorkflow,
+  ] = useFlowStore((s) => {
+    const flow = flowSelectors.currentFlowSafe(s);
+    const meta = flowSelectors.currentFlowMeta(s);
+    return [
+      flow.id,
+      meta.title,
+      meta.avatar,
+      !hasFlowRunner(flow.flattenEdges),
+      flow.state.runningTask,
+      s.runFlow,
+      s.dispatchFlow,
+      s.cancelFlowNode,
+      s.exportWorkflow,
+    ];
+  }, shallow);
 
   const theme = useTheme();
   return (
@@ -74,6 +84,13 @@ const Header = memo(() => {
             结束运行
           </Button>
         ) : null}
+        <Button
+          onClick={() => {
+            exportWorkflow();
+          }}
+        >
+          导出
+        </Button>
       </Flexbox>
     </Flexbox>
   );

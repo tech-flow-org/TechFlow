@@ -6,6 +6,7 @@ import { FlowStore } from '@/store/flow';
 import { ChatAgent, LLMModel } from '@/types';
 
 import { createAITaskNode, createFlow } from '@/helpers/flow';
+import { Workflow } from '@/types/flow';
 import { initAITaskContent } from '../initialState';
 import { FlowsDispatch, flowsReducer } from '../reducers/flows';
 
@@ -45,6 +46,12 @@ export const flowCrudSlice: StateCreator<
     });
 
     Router.push(`/flow/${flowId}`);
+  },
+  importFlow: (flow: Workflow) => {
+    get().dispatchFlow({
+      type: 'addFlow',
+      flow,
+    });
   },
   createFlowBaseOnAgent: (agent) => {
     const flowId = uuid();

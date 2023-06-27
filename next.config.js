@@ -1,5 +1,5 @@
 // @ts-check
-const API_END_PORT_URL = process.env.API_END_PORT_URL || '';
+const API_END_PORT_URL = process.env.API_END_PORT_URL || 'https://drawing-board.antdigital.dev/';
 
 const withPWA = require('next-pwa')({
   dest: 'public',
@@ -26,11 +26,11 @@ const nextConfig = {
       },
       {
         source: '/api/sd/text2img',
-        destination: `${API_END_PORT_URL}/api/sdserve`,
+        destination: `/api/sdserve`,
       },
       {
         source: '/api/network/proxy',
-        destination: `${API_END_PORT_URL}/api/proxy`,
+        destination: `/api/proxy`,
       },
     ];
   },

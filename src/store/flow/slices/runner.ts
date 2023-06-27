@@ -20,8 +20,21 @@ import { flowSelectors } from '../selectors';
 export interface FlowRunnerSlice {
   runFlowNode: (nodeId: string) => Promise<void>;
   abortFlowNode: (id: string) => void;
+  /**
+   * 运行所有节点
+   * @returns
+   */
   runFlow: () => void;
+  /**
+   * 取消所有节点
+   * @returns
+   */
   cancelFlowNode: () => void;
+  /**
+   * 导出所有节点
+   * @returns
+   */
+  exportWorkflow: () => void;
 }
 
 const sizeToWidthAndHeight = (size: 'landing' | 'avatar' | '4:3') => {
@@ -214,26 +227,78 @@ export const runnerSlice: StateCreator<
   },
   runFlow: async () => {
     const { dispatchFlow } = get();
-    const { id, flattenNodes } = flowSelectors.currentFlow(get());
+    const { id, flattenNodes, flattenEdges } = flowSelectors.currentFlow(get());
+    const list = Object.values(flattenEdges).map((edge) => {
+      return { source: edge.source, target: edge.target };
+    });
+
+    const nodeList = Object.values(flattenNodes);
+    const firstItem = nodeList.find((item) => {
+      const hasTarget = list.some((edge) => {
+        if (edge.target === item.id) {
+          return true;
+        }
+        return false;
+      });
+      if (hasTarget) return false;
+      return true;
+    });
+    if (!firstItem) return;
+    const taskSortIndex: Record<string, number> = {};
+    let thisNode = [firstItem];
+    taskSortIndex[firstItem.id] = 0;
+    // 以 firstItem 对节点进行排序
+    list.forEach((_, index) => {
+      thisNode.forEach((nodeItem) => {
+        let thisNodeList: FlowBasicNode[] = [];
+        list.forEach((item) => {
+          if (item.source === nodeItem?.id) {
+            thisNodeList.push(flattenNodes[item.target]);
+          }
+        });
+        taskSortIndex[nodeItem.id] = index;
+        thisNode = thisNodeList;
+      });
+    });
+
+    const taskList: string[] = [];
+    Object.keys(taskSortIndex).forEach((node) => {
+      taskList[taskSortIndex[node]] = node;
+    });
 
     // 设定开始执行任务
     dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: true } });
 
     let isAbort = false;
 
-    const runFlowTreeNode = async (node: FlowBasicNode) => {
+    console.log('runFlowTreeNode', taskSortIndex);
+
+    const runFlowTreeNode = async (node: string) => {
       try {
-        await get().runFlowNode(node.id);
+        await get().runFlowNode(node);
       } catch (e) {
         isAbort = true;
       }
       return;
     };
 
-    for await (const node of Object.values(flattenNodes)) {
+    for await (const node of taskList) {
       if (isAbort) return;
       await runFlowTreeNode(node);
     }
     dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: false } });
+  },
+  exportWorkflow: async () => {
+    const data = flowSelectors.currentFlow(get());
+    const url = window.URL || window.webkitURL || window;
+    const blob = new Blob([JSON.stringify(data)]);
+    const saveLink = document.createElementNS(
+      'http://www.w3.org/1999/xhtml',
+      'a',
+    ) as HTMLAnchorElement;
+    saveLink.href = url.createObjectURL(blob);
+    // 设置 download 属性
+    saveLink.download = data.id + '.json';
+    saveLink.click();
   },
 });
