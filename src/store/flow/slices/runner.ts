@@ -200,13 +200,14 @@ export const runnerSlice: StateCreator<
   cancelFlowNode: async () => {
     const { dispatchFlow } = get();
     const { id, flattenNodes } = flowSelectors.currentFlow(get());
-
     /**
      * 结束所有的任务
      */
-    const { abortFlowNode } = get();
     for await (const node of Object.values(flattenNodes)) {
-      await abortFlowNode(node.id);
+      const agent = flowSelectors.currentFlow(get());
+      if (!agent) return;
+      const task = getSafeFlowNodeById(agent, node.id);
+      task?.data.state.abortController?.abort?.();
     }
 
     dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: false } });
