@@ -13,6 +13,7 @@ import { AITaskContent, OutputNodeContent } from '@/types/flow';
 import { SDTaskType } from '@/types/flow/node/sdTask';
 import { genChatMessages } from '@/utils/genChatMessages';
 import { message } from 'antd';
+import { FlowBasicNode } from 'kitchen-flow-editor';
 import { FlowStore } from '../action';
 import { flowSelectors } from '../selectors';
 
@@ -20,6 +21,7 @@ export interface FlowRunnerSlice {
   runFlowNode: (nodeId: string) => Promise<void>;
   abortFlowNode: (id: string) => void;
   runFlow: () => void;
+  cancelFlowNode: () => void;
 }
 
 const sizeToWidthAndHeight = (size: 'landing' | 'avatar' | '4:3') => {
@@ -192,36 +194,33 @@ export const runnerSlice: StateCreator<
 
     task?.data.state.abortController?.abort?.();
   },
-
+  cancelFlowNode: () => {
+    const { dispatchFlow } = get();
+    const { id } = flowSelectors.currentFlow(get());
+    dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: false } });
+  },
   runFlow: async () => {
     const { dispatchFlow } = get();
-    const {
-      // flowTree,
-      id,
-    } = flowSelectors.currentFlow(get());
+    const { id, flattenNodes } = flowSelectors.currentFlow(get());
 
     // 设定开始执行任务
     dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: true } });
 
-    // let isAbort = false;
+    let isAbort = false;
 
-    // const runFlowTreeNode = async (node: FlowTreeNode) => {
-    //   try {
-    //     await get().runFlowNode(node.id);
-    //   } catch (e) {
-    //     isAbort = true;
-    //   }
-    //
-    //   const pools = node.children.map(runFlowTreeNode);
-    //   await Promise.all(pools);
-    // };
+    const runFlowTreeNode = async (node: FlowBasicNode) => {
+      try {
+        await get().runFlowNode(node.id);
+      } catch (e) {
+        isAbort = true;
+      }
+      return;
+    };
 
-    // const pools = flowTree.map(async (node) => {
-    //   if (isAbort) return;
-    //   await runFlowTreeNode(node);
-    // });
-    // await Promise.all(pools);
-
-    // dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: false } });
+    for await (const node of Object.values(flattenNodes)) {
+      if (isAbort) return;
+      await runFlowTreeNode(node);
+    }
+    dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: false } });
   },
 });

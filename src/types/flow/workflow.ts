@@ -20,7 +20,6 @@ export interface Workflow {
   id: string;
   updateAt?: number;
   createAt?: number;
-
   meta: MetaData;
 
   /**

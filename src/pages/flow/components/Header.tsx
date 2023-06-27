@@ -11,19 +11,21 @@ import { hasFlowRunner } from '@/helpers/flow';
 import { flowSelectors, useFlowStore } from '@/store/flow';
 
 const Header = memo(() => {
-  const [id, title, avatar, isTaskEmpty, runningTask, runFlow, dispatchFlow] = useFlowStore((s) => {
-    const flow = flowSelectors.currentFlowSafe(s);
-    const meta = flowSelectors.currentFlowMeta(s);
-    return [
-      flow.id,
-      meta.title,
-      meta.avatar,
-      !hasFlowRunner(flow.flattenEdges),
-      flow.state.runningTask,
-      s.runFlow,
-      s.dispatchFlow,
-    ];
-  }, shallow);
+  const [id, title, avatar, isTaskEmpty, runningTask, runFlow, dispatchFlow, cancelFlowNode] =
+    useFlowStore((s) => {
+      const flow = flowSelectors.currentFlowSafe(s);
+      const meta = flowSelectors.currentFlowMeta(s);
+      return [
+        flow.id,
+        meta.title,
+        meta.avatar,
+        !hasFlowRunner(flow.flattenEdges),
+        flow.state.runningTask,
+        s.runFlow,
+        s.dispatchFlow,
+        s.cancelFlowNode,
+      ];
+    }, shallow);
 
   const theme = useTheme();
   return (
@@ -52,7 +54,7 @@ const Header = memo(() => {
           }}
         />
       </Flexbox>
-      <Flexbox>
+      <Flexbox direction="horizontal" gap={8}>
         <Button
           type={'primary'}
           disabled={isTaskEmpty}
@@ -60,8 +62,18 @@ const Header = memo(() => {
           onClick={runFlow}
           icon={<PlayCircleOutlined />}
         >
-          运 行
+          {runningTask ? '运行中' : '运行'}
         </Button>
+        {runningTask ? (
+          <Button
+            danger
+            onClick={() => {
+              cancelFlowNode();
+            }}
+          >
+            结束运行
+          </Button>
+        ) : null}
       </Flexbox>
     </Flexbox>
   );
