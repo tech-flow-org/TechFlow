@@ -184,7 +184,6 @@ export const runnerSlice: StateCreator<
       },
       abortController,
     });
-    editor.updateNodeState(node.id, 'abortController', undefined, { recordHistory: false });
   },
   abortFlowNode: (nodeId) => {
     const agent = flowSelectors.currentFlow(get());
@@ -193,10 +192,23 @@ export const runnerSlice: StateCreator<
     const task = getSafeFlowNodeById(agent, nodeId);
 
     task?.data.state.abortController?.abort?.();
+
+    // 结束全局任务
+    const { cancelFlowNode } = get();
+    cancelFlowNode?.();
   },
-  cancelFlowNode: () => {
+  cancelFlowNode: async () => {
     const { dispatchFlow } = get();
-    const { id } = flowSelectors.currentFlow(get());
+    const { id, flattenNodes } = flowSelectors.currentFlow(get());
+
+    /**
+     * 结束所有的任务
+     */
+    const { abortFlowNode } = get();
+    for await (const node of Object.values(flattenNodes)) {
+      await abortFlowNode(node.id);
+    }
+
     dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: false } });
   },
   runFlow: async () => {
