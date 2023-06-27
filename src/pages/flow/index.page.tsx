@@ -10,7 +10,7 @@ const Flow: NextPage = () => {
   return (
     <>
       <Head>
-        <title>DrawingBoard</title>
+        <title>Drawing Board</title>
       </Head>
       <FlowLayout>
         <Center flex={1} horizontal>
