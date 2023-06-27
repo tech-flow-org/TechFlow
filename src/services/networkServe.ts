@@ -1,12 +1,12 @@
 ﻿import { URLS } from '@/services/url';
-import { SDTaskType } from '@/types/flow/node/sdTask';
+import { OutputNodeContent } from '@/types/flow';
 
 /**
  * 专门用于 FlowChain 的 fetch
  */
-export const fetchSDServe = (params: SDTaskType) =>
+export const fetchNetworkServe = (params: OutputNodeContent) =>
   window
-    .fetch(URLS.sd, {
+    .fetch(URLS.network, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

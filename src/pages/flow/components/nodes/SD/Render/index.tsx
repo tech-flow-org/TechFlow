@@ -34,7 +34,6 @@ const useStyles = createStyles(({ css, token }) => ({
       rgba(0, 0, 0, 0.02) 0px 8px 4px, rgba(0, 0, 0, 0.02) 0px 16px 8px,
       rgba(0, 0, 0, 0.02) 0px 32px 16px;
   `,
-  result: css``,
 }));
 
 const Agent = memo<AITaskNodeProps>(({ selected, id }) => {
@@ -90,7 +89,7 @@ const Agent = memo<AITaskNodeProps>(({ selected, id }) => {
         selected={selected}
         className={styles.node}
       />
-      <Flexbox padding={24} gap={12} className={styles.result}>
+      <Flexbox padding={24} gap={12}>
         <TaskResult id={id} />
       </Flexbox>
     </Flexbox>

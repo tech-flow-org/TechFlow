@@ -12,6 +12,6 @@ export const OutputSymbol: SymbolMasterDefinition<OutputNodeContent> = {
   render: Render,
   defaultContent: {
     url: 'https://www.xxx.com/api',
-    data: '{"img":"{images}","text":"{text}"}',
+    data: '{"images":"{images}","text":"{text}"}',
   },
 };

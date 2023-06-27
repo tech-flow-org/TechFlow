@@ -7,9 +7,12 @@ import { LangChainParams } from '@/types/langchain';
 
 import { notification } from '@/layout';
 import { fetchLangChain } from '@/services/langChain';
+import { fetchNetworkServe } from '@/services/networkServe';
 import { fetchSDServe } from '@/services/sdServe';
-import { AITaskContent } from '@/types/flow';
+import { AITaskContent, OutputNodeContent } from '@/types/flow';
+import { SDTaskType } from '@/types/flow/node/sdTask';
 import { genChatMessages } from '@/utils/genChatMessages';
+import { message } from 'antd';
 import { FlowStore } from '../action';
 import { flowSelectors } from '../selectors';
 
@@ -18,6 +21,13 @@ export interface FlowRunnerSlice {
   abortFlowNode: (id: string) => void;
   runFlow: () => void;
 }
+
+const sizeToWidthAndHeight = (size: 'landing' | 'avatar' | '4:3') => {
+  if (size === 'landing') return { width: 300, height: 512 };
+  if (size === 'avatar') return { width: 120, height: 120 };
+  if (size === '4:3') return { width: 400, height: 300 };
+  return { width: 512, height: 512 };
+};
 
 // ====== Flow 节点运行 ======= //
 export const runnerSlice: StateCreator<
@@ -42,13 +52,22 @@ export const runnerSlice: StateCreator<
 
     // 从关联节点中找到变量信息
     const links = Object.values(flow.flattenEdges || {}).filter((i) => i.target === nodeId);
-
+    // 调用  langChain 接口
+    const prompts = genChatMessages({
+      systemRole: node.data.content.systemRole,
+      messages: node.data.content.input,
+    });
+    // 设定变量默认值 为自己
+    const inputVariables = getInputVariablesFromMessages(prompts);
+    inputVariables.forEach((variable) => {
+      vars[variable] = `{${variable}}`;
+    });
     links.forEach(({ sourceHandle, source, targetHandle }) => {
       // 找到上游数据源
       const sourceNode = getFlowNodeById(flow, source);
       const sourceData =
         !sourceHandle || sourceHandle === 'this'
-          ? sourceNode.data.content
+          ? sourceNode?.data?.content
           : lodashGet(sourceNode.data.content, sourceHandle);
 
       // TODO:看下这块逻辑有没有更好的实现方案
@@ -65,48 +84,82 @@ export const runnerSlice: StateCreator<
     abortController.signal.onabort = () => {
       editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });
     };
+
+    // 节点类型如果是文生图，直接调用文生图接口
     if (node.type === 'sdTask') {
       const { editor } = get();
-      const params = node.data.content as any as {
-        prompt: string;
-        width: number;
-        height: number;
-        output?: string;
-      };
+      const params = node.data.content as any as SDTaskType;
       let prompt = params.prompt.replace(/\{(.+?)\}/g, (match, p1) => {
         return lodashGet(vars, p1, match);
       });
       editor.updateNodeState(node.id, 'loading', true, { recordHistory: false });
-      const data = (await fetchSDServe({
-        ...params,
-        prompt,
-        output: '',
-      }).then((res) => res.json())) as {
-        images: string[];
-      };
+      try {
+        const data = (await fetchSDServe({
+          ...params,
+          prompt,
+          output: '',
+          ...sizeToWidthAndHeight(params.size),
+        })) as {
+          images: string[];
+        };
 
-      editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });
-      editor.updateNodeContent<AITaskContent>(
-        node.id,
-        'output',
-        'data:image/png;base64,' + data.images.at(0),
-        {
-          recordHistory: false,
-        },
-      );
+        editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });
+        editor.updateNodeContent<AITaskContent>(
+          node.id,
+          'output',
+          'data:image/png;base64,' + data.images.at(0),
+          {
+            recordHistory: false,
+          },
+        );
+      } catch (error) {
+        message.error('文生图接口调用失败');
+        editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });
+      }
       return;
     }
 
-    const prompts = genChatMessages({
-      systemRole: node.data.content.systemRole,
-      messages: node.data.content.input,
-    });
+    // 网络代理发送服务
+    if (node.type === 'network') {
+      const params = node.data.content as any as OutputNodeContent;
+      let data: Record<string, any> = {};
+      Object.keys(JSON.parse(params.data)).forEach((key) => {
+        data[key] = lodashGet(vars, key);
+      });
 
-    // 设定变量默认值 为自己
-    const inputVariables = getInputVariablesFromMessages(prompts);
-    inputVariables.forEach((variable) => {
-      vars[variable] = `{${variable}}`;
-    });
+      editor.updateNodeState(node.id, 'loading', true, { recordHistory: false });
+
+      try {
+        const res = (await fetchNetworkServe({
+          ...params,
+          data: JSON.stringify(data),
+        })) as unknown as {
+          message: string;
+        };
+        editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });
+        editor.updateNodeContent<OutputNodeContent>(
+          node.id,
+          'output',
+          JSON.stringify(res, null, 2),
+          {
+            recordHistory: false,
+          },
+        );
+      } catch (error) {
+        editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });
+        editor.updateNodeContent<OutputNodeContent>(
+          node.id,
+          'output',
+          JSON.stringify({
+            message: '网络代理接口调用失败',
+          }),
+          {
+            recordHistory: false,
+          },
+        );
+      }
+      return;
+    }
 
     const request: LangChainParams = {
       llm: { model: 'gpt3.5-turbo', temperature: 0.6 },

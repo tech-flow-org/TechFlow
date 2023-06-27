@@ -19,6 +19,6 @@ export const getSourceDataOfNode = (
   const sourceNode = flattNodes[edge.source];
 
   return !edge.sourceHandle || edge.sourceHandle === 'this'
-    ? sourceNode.data.content
-    : lodashGet(sourceNode.data.content, edge.sourceHandle);
+    ? sourceNode?.data?.content
+    : lodashGet(sourceNode?.data?.content, edge.sourceHandle);
 };

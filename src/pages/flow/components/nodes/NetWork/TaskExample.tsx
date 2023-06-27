@@ -48,7 +48,7 @@ const TaskExample = memo<TaskExampleProps>(({ id }) => {
       <Flexbox className={'nodrag'}>
         <VariableHandle
           handleId={'task'}
-          chatMessages={Object.values(JSON.parse('{"img":"{images}","text":"{text}"}'))}
+          chatMessages={Object.values(JSON.parse('{"images":"{images}","text":"{text}"}'))}
         />
         {isEdit ? (
           <EditableMessage
@@ -60,7 +60,7 @@ const TaskExample = memo<TaskExampleProps>(({ id }) => {
             editing={isEdit}
             onEditingChange={setTyping}
             onChange={(text) => {
-              editor.updateNodeContent(id, 'prompt', text);
+              editor.updateNodeContent(id, 'data', text);
             }}
           />
         ) : (

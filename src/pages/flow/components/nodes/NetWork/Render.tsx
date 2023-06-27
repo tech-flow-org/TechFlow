@@ -9,18 +9,30 @@ import { shallow } from 'zustand/shallow';
 
 import { IconAction } from '@/components/IconAction';
 import { createStyles } from 'antd-style';
+import { Flexbox } from 'react-layout-kit';
 import { useReactFlow } from 'reactflow';
 import { OutputNodeProps } from '../types';
 import TaskExample from './TaskExample';
+import TaskResult from './TaskResult';
 
 const useStyles = createStyles(({ css, token, prefixCls, isDarkMode }) => ({
   container: css`
+    width: ${token.aiTaskNodeWidth}px;
+    background: ${token.colorBgLayout};
+    border: 2px solid ${token.colorBorder};
+    border-radius: 14px;
+  `,
+  card: css`
     .${prefixCls}-card-head {
       position: relative;
       &-wrapper {
         z-index: 1;
       }
     }
+  `,
+  active: css`
+    border-color: ${token.colorPrimary};
+    box-shadow: 0 9px 25px -6px rgba(0, 0, 0, 0.1);
   `,
   progress: css`
     .${prefixCls}-card-head {
@@ -95,79 +107,84 @@ const OutputNode = memo<
   }, [loading]);
 
   return (
-    <BasicNode
-      id={id}
-      title={'结果输出'}
-      active={selected}
-      extra={
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            cursor: 'pointer',
-          }}
-        >
-          {loading ? (
+    <Flexbox className={cx(styles.container, selected && styles.active)}>
+      <BasicNode
+        id={id}
+        title={'结果输出'}
+        active={selected}
+        extra={
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              cursor: 'pointer',
+            }}
+          >
+            {loading ? (
+              <IconAction
+                title={'停止'}
+                type={'danger'}
+                icon={
+                  <div
+                    style={{ width: 16, height: 16, borderRadius: 2, background: theme.colorError }}
+                  />
+                }
+                onClick={() => {
+                  abortFlowNode(id);
+                }}
+              />
+            ) : null}
             <IconAction
-              title={'停止'}
-              type={'danger'}
-              icon={
-                <div
-                  style={{ width: 16, height: 16, borderRadius: 2, background: theme.colorError }}
-                />
-              }
+              title={'执行节点'}
+              loading={loading}
+              icon={<PlayCircleOutlined />}
               onClick={() => {
-                abortFlowNode(id);
+                runFlowNode(id);
               }}
             />
-          ) : null}
-          <IconAction
-            title={'执行节点'}
-            loading={loading}
-            icon={<PlayCircleOutlined />}
-            onClick={() => {
-              runFlowNode(id);
+            <IconAction
+              icon={<DeleteOutlined />}
+              key="delete"
+              onClick={() => {
+                modal.confirm({
+                  type: 'warning',
+                  title: '确认删除节点吗？',
+                  centered: true,
+                  okButtonProps: { danger: true },
+                  okText: '删除节点',
+                  cancelText: '取消',
+                  onOk: () => {
+                    reflow.deleteElements({ nodes: [{ id }] });
+                  },
+                });
+              }}
+            />
+          </div>
+        }
+        className={cx(styles.card, styles.progress)}
+        style={{ '--task-loading-progress': `${percent}%` } as any}
+      >
+        <NodeField title={'网络地址'} id={'url'}>
+          <Input
+            allowClear
+            style={{ width: '100%' }}
+            placeholder={'请输入网络'}
+            value={node?.url}
+            onChange={(e) => {
+              editor.updateNodeContent<OutputNodeContent>(id, 'url', e.target.value);
             }}
+            className={'nodrag'}
           />
-          <IconAction
-            icon={<DeleteOutlined />}
-            key="delete"
-            onClick={() => {
-              modal.confirm({
-                type: 'warning',
-                title: '确认删除节点吗？',
-                centered: true,
-                okButtonProps: { danger: true },
-                okText: '删除节点',
-                cancelText: '取消',
-                onOk: () => {
-                  reflow.deleteElements({ nodes: [{ id }] });
-                },
-              });
-            }}
-          />
-        </div>
-      }
-      className={cx(styles.container, styles.progress)}
-      style={{ '--task-loading-progress': `${percent}%` } as any}
-    >
-      <NodeField title={'网络地址'} id={'url'}>
-        <Input
-          allowClear
-          style={{ width: '100%' }}
-          placeholder={'请输入网络'}
-          value={node.url}
-          onChange={(e) => {
-            editor.updateNodeContent<OutputNodeContent>(id, 'url', e.target.value);
-          }}
-          className={'nodrag'}
-        />
-      </NodeField>
-      <NodeField title={'请求字段'} id={'source'} handles={{ source: true }}>
-        <TaskExample id={id} />
-      </NodeField>
-    </BasicNode>
+        </NodeField>
+        <NodeField title={'请求字段'} id={'source'} handles={{ source: true }}>
+          <TaskExample id={id} />
+        </NodeField>
+      </BasicNode>
+      <Flexbox padding={24} gap={12}>
+        <TaskResult id={id} />
+      </Flexbox>
+    </Flexbox>
   );
 }, memoEqual);
 

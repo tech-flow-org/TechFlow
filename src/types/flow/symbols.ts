@@ -4,7 +4,8 @@ import { XYPosition } from 'reactflow';
 
 export interface OutputNodeContent {
   data: string;
-  url?: string;
+  url: string;
+  output?: string;
 }
 
 export type OnCreateNode<T> = (

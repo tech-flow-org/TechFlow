@@ -28,6 +28,10 @@ const nextConfig = {
         source: '/api/sd/text2img',
         destination: `${API_END_PORT_URL}/api/sdserve`,
       },
+      {
+        source: '/api/network/proxy',
+        destination: `${API_END_PORT_URL}/api/proxy`,
+      },
     ];
   },
   pageExtensions: ['page.tsx', 'api.ts'],

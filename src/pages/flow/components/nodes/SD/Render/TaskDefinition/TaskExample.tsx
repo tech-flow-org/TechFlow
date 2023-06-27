@@ -7,6 +7,7 @@ import { Flexbox } from 'react-layout-kit';
 import { EditableMessage } from '@/components/Chat';
 import { flowSelectors, useFlowStore } from '@/store/flow';
 
+import { SDTaskType } from '@/types/flow/node/sdTask';
 import { VariableHandle } from './VariableHandle';
 
 interface TaskExampleProps {
@@ -15,10 +16,7 @@ interface TaskExampleProps {
 
 const TaskExample = memo<TaskExampleProps>(({ id }) => {
   const [chatExample, mode] = useFlowStore((s) => {
-    const content = flowSelectors.getNodeContentById<{
-      prompt: string;
-      mode: string;
-    }>(id)(s);
+    const content = flowSelectors.getNodeContentById<SDTaskType>(id)(s);
     return [content, content?.mode];
   }, isEqual);
   const editor = useFlowEditor();

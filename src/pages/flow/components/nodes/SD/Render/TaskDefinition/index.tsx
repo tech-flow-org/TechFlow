@@ -10,7 +10,8 @@ import TaskExample from './TaskExample';
 
 import { IconAction } from '@/components/IconAction';
 import { flowSelectors, useFlowStore } from '@/store/flow';
-import { Select } from 'antd';
+import { SDTaskType } from '@/types/flow/node/sdTask';
+import { Segmented } from 'antd';
 
 const useStyles = createStyles(({ css, token, prefixCls, isDarkMode }) => ({
   container: css`
@@ -57,12 +58,11 @@ interface TaskDefinitionProps {
 
 const TaskDefinition = memo<TaskDefinitionProps>(
   ({ loading, id, selected, headerExtra, title, className }) => {
-    const [model, collapsedKeys, runFlowNode, abortFlowNode] = useFlowStore((s) => {
-      const agent = flowSelectors.getNodeByIdSafe<{
-        model: string;
-      }>(id)(s);
+    const [model, size, collapsedKeys, runFlowNode, abortFlowNode] = useFlowStore((s) => {
+      const agent = flowSelectors.getNodeByIdSafe<SDTaskType>(id)(s);
       return [
         agent.data.content.model,
+        agent.data.content.size,
         agent.data.state?.collapsedKeys,
         s.runFlowNode,
         s.abortFlowNode,
@@ -138,49 +138,69 @@ const TaskDefinition = memo<TaskDefinitionProps>(
         style={{ '--task-loading-progress': `${percent}%` } as any}
       >
         <NodeField title={'模型'} id={'model'}>
-          <Select
+          <Segmented
             value={model}
             onChange={(value) => {
               editor.updateNodeContent(id, 'model', value);
             }}
-            bordered={false}
-            getPopupContainer={(node) => node.parentNode}
-            style={{ width: '100%' }}
+            block
+            style={{
+              width: '100%',
+            }}
             defaultValue="chilloutmix_NiPrunedFp32Fix"
             options={[
               {
+                title: '二次元',
                 model_name: 'camelliamix_v20',
                 hash: '2eb0c2a23a',
                 sha256: '2eb0c2a23ab412553c0f26001bc683d9229c78b6eb35880dd8074873a986457f',
                 filename: 'D:\\github\\good\\models\\Stable-diffusion\\camelliamix_v20.safetensors',
               },
               {
-                model_name: 'Chilled_re_generic_v2',
-                hash: '523b280d1c',
-                sha256: '523b280d1c24acbe525ba13e846caabbd146965fe37dab03face3e49d4ab4696',
-              },
-              {
-                model_name: 'CounterfeitV25_25',
-                hash: 'a074b8864e',
-                sha256: 'a074b8864e31b8681e40db3dfde0005df7b5309fd2a2f592a2caee59e4591cae',
-              },
-              {
+                title: 'anything',
                 model_name: 'v1-5-pruned-emaonly',
                 hash: '6ce0161689',
                 sha256: '6ce0161689b3853acaa03779ec93eafe75a02f4ced659bee03f50797806fa2fa',
               },
               {
+                title: '真人',
                 model_name: 'chilloutmix_NiPrunedFp32Fix',
                 hash: 'fc2511737a',
                 sha256: 'fc2511737a54c5e80b89ab03e0ab4b98d051ab187f92860f3cd664dc9d08b271',
               },
             ].map((item) => {
               return {
-                label: item.model_name,
+                label: item.title,
                 key: item.model_name,
                 value: item.model_name,
               };
             })}
+          />
+        </NodeField>
+        <NodeField title={'尺寸'} id={'size'}>
+          <Segmented
+            style={{
+              width: '100%',
+            }}
+            block
+            value={size}
+            onChange={(value) => {
+              editor.updateNodeContent(id, 'size', value);
+            }}
+            options={[
+              {
+                label: '落地页',
+                value: 'landing',
+              },
+              {
+                label: '头像',
+                value: 'avatar',
+              },
+              {
+                label: '4:3',
+                value: '4:3',
+              },
+            ]}
           />
         </NodeField>
         <TaskExample id={id} />
