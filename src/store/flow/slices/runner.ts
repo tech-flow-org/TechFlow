@@ -271,8 +271,6 @@ export const runnerSlice: StateCreator<
 
     let isAbort = false;
 
-    console.log('runFlowTreeNode', taskSortIndex);
-
     const runFlowTreeNode = async (node: string) => {
       try {
         await get().runFlowNode(node);

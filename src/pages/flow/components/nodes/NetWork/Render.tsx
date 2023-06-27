@@ -177,7 +177,7 @@ const OutputNode = memo<
             className={'nodrag'}
           />
         </NodeField>
-        <NodeField title={'请求字段'} id={'source'} handles={{ source: true }}>
+        <NodeField title={'请求字段'} id={'source'}>
           <TaskExample id={id} />
         </NodeField>
       </BasicNode>
