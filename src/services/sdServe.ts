@@ -11,6 +11,10 @@ export const fetchSDServe = (params: SDTaskType) =>
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(params),
+      body: JSON.stringify({
+        negative_prompt:
+          'EasyNegative, NSFW, 2faces, 4eyes, 3arms, 4arms, 3legs, 4legs, hand, foot, naked, penis, pussy, sex, porn, 1gril, 1boy, human, logo, text, watermark ',
+        ...params,
+      }),
     })
     .then((res) => res.json());

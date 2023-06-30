@@ -17,8 +17,8 @@ const tabs = [{ key: 'flow', title: '任务流', icon: FlowIcon }];
 
 export const Sidebar = memo(() => {
   const { styles, theme } = useStyles();
-  const [avatarImg, appearance, tabKey] = useSettings(
-    (s) => [s.avatar, s.appearance, s.sidebarKey || 'chat'],
+  const [avatarImg, appearance, tabKey, fontSize] = useSettings(
+    (s) => [s.avatar, s.appearance, s.sidebarKey || 'chat', s.fontSize],
     shallow,
   );
 
@@ -71,9 +71,15 @@ export const Sidebar = memo(() => {
             })}
           </Flexbox>
         </Flexbox>
-        <Space direction="vertical" size={16}>
+        <Space direction="vertical" size={fontSize}>
           <IconAction
-            icon={appearance === 'dark' ? <Moon /> : <Sun />}
+            icon={
+              appearance === 'dark' ? (
+                <Moon width="1.2em" height="1.2em" />
+              ) : (
+                <Sun width="1.2em" height="1.2em" />
+              )
+            }
             onClick={() => {
               useSettings.setState({ appearance: appearance === 'dark' ? 'light' : 'dark' });
             }}

@@ -36,7 +36,7 @@ const FlowView = () => {
   );
   const { styles, cx } = useStyles();
 
-  const [init, setInited] = useState(false);
+  const [init, setInitEd] = useState(false);
   const flowId = flow?.id;
 
   const { setNodeRef } = useDroppable({ id: 'agent-flow' });
@@ -54,7 +54,7 @@ const FlowView = () => {
             nodeTypes={FlowNodeRenderType}
             flattenNodes={flow.flattenNodes}
             onNodesInit={(editor) => {
-              setInited(true);
+              setInitEd(true);
               useFlowStore.setState({ editor });
             }}
             onFlattenNodesChange={(flattenNodes) => {

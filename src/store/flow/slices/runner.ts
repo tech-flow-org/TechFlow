@@ -13,6 +13,7 @@ import { AITaskContent, OutputNodeContent } from '@/types/flow';
 import { SDTaskType } from '@/types/flow/node/sdTask';
 import { genChatMessages } from '@/utils/genChatMessages';
 import { message } from 'antd';
+
 import { FlowBasicNode } from 'kitchen-flow-editor';
 import { FlowStore } from '../action';
 import { flowSelectors } from '../selectors';
@@ -26,15 +27,10 @@ export interface FlowRunnerSlice {
    */
   runFlow: () => void;
   /**
-   * 取消所有节点
+   * 取消所有节点的运行
    * @returns
    */
   cancelFlowNode: () => void;
-  /**
-   * 导出所有节点
-   * @returns
-   */
-  exportWorkflow: () => void;
 }
 
 const sizeToWidthAndHeight = (size: 'landing' | 'avatar' | '4:3') => {
@@ -222,7 +218,6 @@ export const runnerSlice: StateCreator<
       const task = getSafeFlowNodeById(agent, node.id);
       task?.data.state.abortController?.abort?.();
     }
-
     dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: false } });
   },
   runFlow: async () => {
@@ -285,18 +280,5 @@ export const runnerSlice: StateCreator<
       await runFlowTreeNode(node);
     }
     dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: false } });
-  },
-  exportWorkflow: async () => {
-    const data = flowSelectors.currentFlow(get());
-    const url = window.URL || window.webkitURL || window;
-    const blob = new Blob([JSON.stringify(data)]);
-    const saveLink = document.createElementNS(
-      'http://www.w3.org/1999/xhtml',
-      'a',
-    ) as HTMLAnchorElement;
-    saveLink.href = url.createObjectURL(blob);
-    // 设置 download 属性
-    saveLink.download = data.id + '.json';
-    saveLink.click();
   },
 });

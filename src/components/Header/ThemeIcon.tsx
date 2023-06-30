@@ -1,7 +1,8 @@
-export const Sun = () => (
+export const Sun = (props: any) => (
   <svg
     width="24"
     height="24"
+    {...props}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
@@ -13,10 +14,11 @@ export const Sun = () => (
   </svg>
 );
 
-export const Moon = () => (
+export const Moon = (props: any) => (
   <svg
     width="24"
     height="24"
+    {...props}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"

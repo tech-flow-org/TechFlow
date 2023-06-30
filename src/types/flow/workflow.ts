@@ -35,6 +35,8 @@ export interface Workflow {
   state: {
     viewport?: Viewport;
     runningTask?: boolean;
+    loading?: boolean;
+    importModalOpen?: boolean;
   };
 
   outputTemplate: string;

@@ -1,5 +1,17 @@
-import { PlayCircleOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import {
+  DownloadOutlined,
+  PlayCircleOutlined,
+  SettingOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
+import {
+  ModalForm,
+  ProFormDependency,
+  ProFormSegmented,
+  ProFormTextArea,
+  ProFormUploadDragger,
+} from '@ant-design/pro-components';
+import { Button, Dropdown } from 'antd';
 import { useTheme } from 'antd-style';
 import { memo } from 'react';
 import { Flexbox } from 'react-layout-kit';
@@ -11,16 +23,21 @@ import { hasFlowRunner } from '@/helpers/flow';
 import { flowSelectors, useFlowStore } from '@/store/flow';
 
 const Header = memo(() => {
+  const [openImportFlowModal, closeImportFlowModal, exportWorkflow] = useFlowStore(
+    (s) => [s.openImportFlowModal, s.closeImportFlowModal, s.exportWorkflow],
+    shallow,
+  );
+
   const [
     id,
     title,
     avatar,
+    importModalOpen,
     isTaskEmpty,
     runningTask,
     runFlow,
     dispatchFlow,
     cancelFlowNode,
-    exportWorkflow,
   ] = useFlowStore((s) => {
     const flow = flowSelectors.currentFlowSafe(s);
     const meta = flowSelectors.currentFlowMeta(s);
@@ -28,16 +45,17 @@ const Header = memo(() => {
       flow.id,
       meta.title,
       meta.avatar,
+      flow.state.importModalOpen,
       !hasFlowRunner(flow.flattenEdges),
       flow.state.runningTask,
       s.runFlow,
       s.dispatchFlow,
       s.cancelFlowNode,
-      s.exportWorkflow,
     ];
   }, shallow);
 
   const theme = useTheme();
+
   return (
     <Flexbox
       horizontal
@@ -84,14 +102,75 @@ const Header = memo(() => {
             结束运行
           </Button>
         ) : null}
-        <Button
-          onClick={() => {
-            exportWorkflow();
+
+        <Dropdown
+          menu={{
+            items: [
+              {
+                label: '导入 workflow',
+                icon: <UploadOutlined />,
+                key: 'import',
+                onClick: () => {
+                  openImportFlowModal(id);
+                },
+              },
+              {
+                key: 'export',
+                label: '导出 workflow',
+                icon: <DownloadOutlined />,
+                onClick: () => {
+                  exportWorkflow();
+                },
+              },
+            ],
           }}
         >
-          导出
-        </Button>
+          <Button
+            style={{
+              border: '1px solid #DDD',
+            }}
+            icon={<SettingOutlined />}
+          >
+            操作
+          </Button>
+        </Dropdown>
       </Flexbox>
+      <ModalForm
+        onOpenChange={(open) => {
+          if (!open) {
+            closeImportFlowModal(id);
+          }
+        }}
+        title="导入文件"
+        initialValues={{
+          method: 'text',
+        }}
+        open={importModalOpen}
+      >
+        <ProFormSegmented
+          name="method"
+          label="导入方式"
+          request={async () => {
+            return [
+              {
+                label: '文本输入',
+                value: 'text',
+              },
+              {
+                label: '文件',
+                value: 'file',
+              },
+            ];
+          }}
+        />
+        <ProFormDependency name={['method']}>
+          {({ method }) => {
+            if (method === 'text') return <ProFormTextArea name="text" label="yaml 文本" />;
+            if (method === 'file') return <ProFormUploadDragger name="file" label="yaml 文本" />;
+            return null;
+          }}
+        </ProFormDependency>
+      </ModalForm>
     </Flexbox>
   );
 });
