@@ -17,7 +17,7 @@ export interface FlowCRUDSlice {
   createFlow: () => void;
   createFlowBaseOnAgent: (agent: ChatAgent) => void;
   removeFlow: (id: string) => void;
-  importFlow: (flow: Workflow) => void;
+  importFlow: (id: string, flow: string) => void;
   openImportFlowModal: (id: string) => void;
   closeImportFlowModal: (id: string) => void;
   /**
@@ -73,10 +73,11 @@ export const flowCrudSlice: StateCreator<
       },
     });
   },
-  importFlow: (flow: Workflow) => {
+  importFlow: (id: string, flow: string) => {
     get().dispatchFlow({
-      type: 'addFlow',
-      flow,
+      type: 'updateFlow',
+      id,
+      flow: yaml.load(flow) as Workflow,
     });
   },
   createFlowBaseOnAgent: (agent) => {

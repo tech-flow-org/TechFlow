@@ -1,4 +1,5 @@
 import {
+  ClearOutlined,
   DownloadOutlined,
   PlayCircleOutlined,
   SettingOutlined,
@@ -6,27 +7,30 @@ import {
 } from '@ant-design/icons';
 import {
   ModalForm,
+  ProForm,
   ProFormDependency,
   ProFormSegmented,
   ProFormTextArea,
-  ProFormUploadDragger,
 } from '@ant-design/pro-components';
-import { Button, Dropdown } from 'antd';
+import { Button, Dropdown, FormInstance } from 'antd';
 import { useTheme } from 'antd-style';
-import { memo } from 'react';
+import { memo, useRef } from 'react';
 import { Flexbox } from 'react-layout-kit';
 import { shallow } from 'zustand/shallow';
 
 import AgentAvatar from '@/components/AgentAvatar';
 import { ControlInput } from '@/components/ControlInput';
+import { UploadDragger } from '@/components/UploadDragger';
 import { hasFlowRunner } from '@/helpers/flow';
 import { flowSelectors, useFlowStore } from '@/store/flow';
 
 const Header = memo(() => {
-  const [openImportFlowModal, closeImportFlowModal, exportWorkflow] = useFlowStore(
-    (s) => [s.openImportFlowModal, s.closeImportFlowModal, s.exportWorkflow],
+  const [openImportFlowModal, closeImportFlowModal, exportWorkflow, importFlow] = useFlowStore(
+    (s) => [s.openImportFlowModal, s.closeImportFlowModal, s.exportWorkflow, s.importFlow],
     shallow,
   );
+
+  const formRef = useRef<FormInstance>();
 
   const [
     id,
@@ -141,11 +145,15 @@ const Header = memo(() => {
             closeImportFlowModal(id);
           }
         }}
+        formRef={formRef}
         title="导入文件"
         initialValues={{
           method: 'text',
         }}
         open={importModalOpen}
+        onFinish={async (value) => {
+          return importFlow(id, value.file);
+        }}
       >
         <ProFormSegmented
           name="method"
@@ -165,8 +173,34 @@ const Header = memo(() => {
         />
         <ProFormDependency name={['method']}>
           {({ method }) => {
-            if (method === 'text') return <ProFormTextArea name="text" label="yaml 文本" />;
-            if (method === 'file') return <ProFormUploadDragger name="file" label="yaml 文本" />;
+            if (method === 'text') return <ProFormTextArea name="file" label="yaml 文本" />;
+            if (method === 'file')
+              return (
+                <ProForm.Item
+                  name="file"
+                  label={
+                    <div
+                      style={{
+                        display: 'flex',
+                        gap: 8,
+                        alignItems: 'center',
+                      }}
+                    >
+                      <span>yaml 文本</span>
+                      <Button
+                        icon={<ClearOutlined />}
+                        onClick={() => {
+                          formRef.current?.setFieldsValue({
+                            file: '',
+                          });
+                        }}
+                      />
+                    </div>
+                  }
+                >
+                  <UploadDragger />
+                </ProForm.Item>
+              );
             return null;
           }}
         </ProFormDependency>

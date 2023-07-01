@@ -33,6 +33,7 @@ export const flowsReducer = (state: WorkflowMap, payload: FlowsDispatch): Workfl
     case 'updateFlow':
       return produce(state, (draftState) => {
         const flow = draftState[payload.id];
+        delete payload.flow.id;
         if (flow) {
           Object.assign(
             flow,
