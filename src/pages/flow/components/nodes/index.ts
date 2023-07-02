@@ -18,3 +18,8 @@ export const SymbolNodeMasterTypes = Object.fromEntries(
 export const FlowNodeRenderType = Object.fromEntries(
   symbolNodeList.map((item) => [item.id, item.render]).filter(Boolean),
 );
+
+export const SymbolNodeRunMap = symbolNodeList.reduce((pre, current) => {
+  pre[current.id] = current.run;
+  return pre;
+}, {} as Record<string, SymbolMasterDefinition<any>['run']>);

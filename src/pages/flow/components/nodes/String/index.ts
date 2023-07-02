@@ -15,4 +15,10 @@ export const StringSymbol: SymbolMasterDefinition<StringNodeContent> = {
   defaultContent: { text: '' },
   preview: Preview,
   render: Render,
+  run: async (node) => {
+    return {
+      type: 'text',
+      output: node.text,
+    };
+  },
 };

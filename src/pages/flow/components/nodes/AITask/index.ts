@@ -1,7 +1,10 @@
 import { createAITaskContent, createNode } from '@/helpers/flow';
+import { fetchLangChain } from '@/services/langChain';
 import { initAITaskContent } from '@/store/flow/initialState';
 import { ChatAgent, LLMModel } from '@/types';
 import { AITaskContent, SymbolMasterDefinition } from '@/types/flow';
+import { LangChainParams } from '@/types/langchain';
+import { genChatMessages } from '@/utils/genChatMessages';
 import Preview from './Preview';
 import Render from './Render';
 
@@ -28,5 +31,37 @@ export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
     }
 
     return createNode(node, initAITaskContent, { title: 'AI 节点' });
+  },
+  run: async (node, vars, action) => {
+    const prompts = genChatMessages({
+      systemRole: node.systemRole,
+      messages: node.input,
+    });
+    const request: LangChainParams = {
+      llm: { model: 'gpt3.5-turbo', temperature: 0.6 },
+      prompts,
+      vars,
+    };
+
+    let output = '';
+
+    await fetchLangChain({
+      params: request,
+      onMessageHandle: (text) => {
+        output += text;
+        action.flow.editor.updateNodeContent<AITaskContent>(action.node.id, 'output', output, {
+          recordHistory: false,
+        });
+      },
+      onLoadingChange: (loading) => {
+        action.updateLoading(loading);
+      },
+      abortController: action.abortController,
+    });
+
+    return {
+      type: 'text',
+      output,
+    };
   },
 };

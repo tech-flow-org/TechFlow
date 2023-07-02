@@ -1,3 +1,4 @@
+import { FlowStore } from '@/store/flow/action';
 import { FlowBasicNode } from 'kitchen-flow-editor';
 import { FC } from 'react';
 import { XYPosition } from 'reactflow';
@@ -22,4 +23,17 @@ export interface SymbolMasterDefinition<Content> {
   render: FC<any>;
   defaultContent: Content;
   onCreateNode?: OnCreateNode<FlowBasicNode<Content>>;
+  run: (
+    node: Content,
+    vars: Record<string, any>,
+    options: {
+      flow: FlowStore;
+      updateLoading: (loading: boolean) => void;
+      node: FlowBasicNode<Content>;
+      abortController?: AbortController;
+    },
+  ) => Promise<{
+    type: 'img' | 'text';
+    output: string;
+  }>;
 }
