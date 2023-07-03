@@ -49,7 +49,7 @@ const FlowStepForm = () => {
             if (_.step !== 0)
               return [
                 <Button
-                  key="reload"
+                  key="pre"
                   onClick={() => {
                     _.onPre();
                   }}
