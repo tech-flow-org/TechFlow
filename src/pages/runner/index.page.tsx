@@ -20,14 +20,13 @@ const useStyles = createStyles(({ css }) => {
   return {
     layout: css`
       position: relative;
-      display: grid;
-      grid-template-areas:
-        'header header'
-        'flow panel'
-        'terminal terminal';
-      grid-template-columns: 1fr auto;
       width: 100%;
       padding: 24px;
+      max-width: 60vw;
+      margin: 0 auto;
+      background-image: url('https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/V-_oS6r-i7wAAAAAAAAAAAAAFl94AQBr');
+      background-size: 100% 100%;
+      background-position: left top;
     `,
   };
 });
@@ -71,9 +70,6 @@ const FlowStepForm = () => {
         }}
       >
         <StepsForm.StepForm
-          style={{
-            minWidth: '60vw',
-          }}
           title={'选择工作流'}
           formRef={flowSelectFormRef}
           onFinish={async (values) => {
@@ -120,14 +116,7 @@ const FlowStepForm = () => {
           </ProFormDependency>
         </StepsForm.StepForm>
 
-        <StepsForm.StepForm
-          style={{
-            minWidth: '60vw',
-            maxWidth: '80vw',
-            width: '80vw',
-          }}
-          title={'模型执行'}
-        >
+        <StepsForm.StepForm title={'模型执行'}>
           <div
             style={{
               padding: 24,
