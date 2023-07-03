@@ -117,9 +117,7 @@ export const runnerSlice: StateCreator<
           },
         },
       });
-      editor.updateNodeContent<OutputNodeContent>(node.id, 'output', data.output, {
-        recordHistory: false,
-      });
+      editor.updateNodeContent<OutputNodeContent>(node.id, 'output', data.output);
     } catch (error) {
       editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });
       editor.updateNodeContent<OutputNodeContent>(
@@ -216,9 +214,9 @@ export const runnerSlice: StateCreator<
 
     let isAbort = false;
 
-    const runFlowTreeNode = async (node: string) => {
+    const runFlowTreeNode = async (nodeId: string) => {
       try {
-        await get().runFlowNode(node);
+        await get().runFlowNode(nodeId);
       } catch (e) {
         isAbort = true;
       }

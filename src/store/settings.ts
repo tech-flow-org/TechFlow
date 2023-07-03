@@ -22,6 +22,8 @@ export const useSettings = create<SettingsStore>()(
     (set) => ({
       fontSize: 16,
       contentWidth: 800,
+      avatar:
+        'https://mdn.alipayobjects.com/huamei_gcee1x/afts/img/A*xAMjRZ4-qYAAAAAAAAAAAAAADml6AQ/original',
       sessionsWidth: 320,
       sessionExpandable: true,
       sidebarKey: 'chat',

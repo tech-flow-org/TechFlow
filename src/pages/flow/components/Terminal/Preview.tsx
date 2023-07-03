@@ -85,7 +85,6 @@ const Preview = () => {
                 if (index < currentTaskIndex) {
                   status = 'finish';
                 }
-                console.log(status);
                 return {
                   status: status,
                   title: n.data?.meta?.title,

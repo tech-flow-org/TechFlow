@@ -14,7 +14,7 @@ const Flow: NextPage = () => {
       </Head>
       <FlowLayout>
         <Center flex={1} horizontal>
-          <Empty description={'新建任务流或基于角色新建'} />
+          <Empty description={'新建任务流'} />
         </Center>
       </FlowLayout>
     </>

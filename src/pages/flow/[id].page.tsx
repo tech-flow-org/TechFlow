@@ -49,7 +49,7 @@ const Flow: NextPage = () => {
   return (
     <>
       <Head>
-        <title>{title ? `${title} - DrawingBoard` : '角色设定'}</title>
+        <title>{title ? `${title} - DrawingBoard` : '流程编排 - DrawingBoard'}</title>
       </Head>
       <FlowLayout>
         <div className={styles.layout}>

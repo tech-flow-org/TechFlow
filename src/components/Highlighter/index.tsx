@@ -59,7 +59,7 @@ export const Highlighter: FC<HighlighterProps> = memo(
 
         {language && <div className={styles.lang}>{language.toLowerCase()}</div>}
 
-        <SyntaxHighlighter language={language?.toLowerCase()}>{children.trim()}</SyntaxHighlighter>
+        <SyntaxHighlighter language={language?.toLowerCase()}>{children?.trim()}</SyntaxHighlighter>
       </div>
     );
   },
