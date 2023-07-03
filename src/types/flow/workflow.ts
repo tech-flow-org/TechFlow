@@ -35,7 +35,14 @@ export interface Workflow {
   state: {
     viewport?: Viewport;
     runningTask?: boolean;
+    taskList?: string[];
     loading?: boolean;
+    currentTask?:
+      | (FlowBasicNode & {
+          params: Record<string, any>;
+          result: Record<string, any>;
+        })
+      | null;
     importModalOpen?: boolean;
   };
 

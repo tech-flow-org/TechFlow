@@ -42,6 +42,7 @@ const Agent = memo<AITaskNodeProps>(({ selected, id }) => {
 
   const reactflow = useReactFlow();
   const editor = useFlowEditor();
+
   const [loading, title] = useFlowStore((s) => {
     const { meta, state } = flowSelectors.getNodeByIdSafe(id)(s).data;
     return [state?.loading, meta?.title];
@@ -50,6 +51,7 @@ const Agent = memo<AITaskNodeProps>(({ selected, id }) => {
   useEffect(() => {
     editor.updateNodeState(id, 'loading', false, { recordHistory: false });
   }, []);
+
   return (
     <Flexbox className={cx(styles.container, selected && styles.active)}>
       <TaskDefinition

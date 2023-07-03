@@ -16,6 +16,10 @@ const useStyles = createStyles(({ css, token, isDarkMode }) => {
           display: list-item;
         }
       }
+
+      p:last-child {
+        margin-bottom: 0;
+      }
     `,
 
     code: css`

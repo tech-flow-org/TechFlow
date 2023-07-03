@@ -73,6 +73,13 @@ const OutputNode = memo<
   const [runFlowNode, abortFlowNode] = useFlowStore((s) => {
     return [s.runFlowNode, s.abortFlowNode];
   }, shallow);
+
+  const [title] = useFlowStore((s) => {
+    const { meta } = flowSelectors.getNodeByIdSafe(id)(s).data;
+
+    return [meta?.title];
+  }, isEqual);
+
   const { modal } = App.useApp();
 
   const editor = useFlowEditor();
@@ -110,7 +117,7 @@ const OutputNode = memo<
     <Flexbox className={cx(styles.container, selected && styles.active)}>
       <BasicNode
         id={id}
-        title={'结果输出'}
+        title={title}
         active={selected}
         extra={
           <div

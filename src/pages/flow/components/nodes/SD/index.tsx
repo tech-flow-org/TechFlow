@@ -1,6 +1,7 @@
 import { fetchSDServe } from '@/services/sdServe';
 import { SymbolMasterDefinition } from '@/types/flow';
 import { SDTaskType } from '@/types/flow/node/sdTask';
+import { Image } from 'antd';
 import lodashGet from 'lodash.get';
 import Preview from './Preview';
 import Render from './Render';
@@ -29,19 +30,27 @@ export const SDTaskSymbol: SymbolMasterDefinition<SDTaskType> = {
     negative_prompt:
       'EasyNegative, NSFW, 2faces, 4eyes, 3arms, 4arms, 3legs, 4legs, hand, foot, naked, penis, pussy, sex, porn, 1gril, 1boy, human, logo, text, watermark ',
   },
-  run: async (node, vars) => {
+  outputRender: (output: string) => {
+    if (output?.startsWith('data:image')) {
+      return <Image src={output} alt="文生图节点" />;
+    }
+    return output;
+  },
+  run: async (node, vars, { updateParams }) => {
     let prompt = node?.prompt!.replace(/\{(.+?)\}/g, (match, p1) => {
       return lodashGet(vars, p1, match);
     });
-    const data = (await fetchSDServe({
+    const params = {
       ...node,
       prompt,
-      output: '',
+      output: undefined,
+      params: undefined,
       ...sizeToWidthAndHeight(node.size!),
-    })) as {
+    };
+    updateParams(params);
+    const data = (await fetchSDServe(params)) as {
       images: string[];
     };
-
     return {
       type: 'img',
       output: 'data:image/png;base64,' + data.images.at(0),

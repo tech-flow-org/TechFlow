@@ -1,3 +1,4 @@
+import Markdown from '@/components/Markdown';
 import { createAITaskContent, createNode } from '@/helpers/flow';
 import { fetchLangChain } from '@/services/langChain';
 import { initAITaskContent } from '@/store/flow/initialState';
@@ -42,7 +43,7 @@ export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
       prompts,
       vars,
     };
-
+    action.updateParams(request);
     let output = '';
 
     await fetchLangChain({
@@ -63,5 +64,8 @@ export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
       type: 'text',
       output,
     };
+  },
+  outputRender: (output: string) => {
+    return <Markdown>{output}</Markdown>;
   },
 };

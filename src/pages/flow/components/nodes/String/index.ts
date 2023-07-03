@@ -21,4 +21,7 @@ export const StringSymbol: SymbolMasterDefinition<StringNodeContent> = {
       output: node.text,
     };
   },
+  outputRender: (output) => {
+    return output;
+  },
 };

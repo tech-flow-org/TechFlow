@@ -7,12 +7,19 @@ import { flowSelectors, useFlowStore } from '@/store/flow';
 import { StringNodeContent } from '@/types/flow';
 import { DeleteOutlined } from '@ant-design/icons';
 import { BasicNode, NodeField, memoEqual, useFlowEditor } from 'kitchen-flow-editor';
+import { isEqual } from 'lodash-es';
 
 const InputNode = memo<NodeProps>(({ id, selected }) => {
-  const [value, title] = useFlowStore((s) => {
+  const [value] = useFlowStore((s) => {
     const node = flowSelectors.getNodeByIdSafe<StringNodeContent>(id)(s);
-    return [node.data.content.text, node.data.meta.title];
+    return [node.data.content.text];
   }, shallow);
+
+  const [title] = useFlowStore((s) => {
+    const { meta } = flowSelectors.getNodeByIdSafe(id)(s).data;
+
+    return [meta?.title];
+  }, isEqual);
 
   const { modal } = App.useApp();
 
@@ -24,6 +31,7 @@ const InputNode = memo<NodeProps>(({ id, selected }) => {
     <BasicNode
       id={id}
       title={title}
+      onTitleChange={() => {}}
       active={selected}
       extra={[
         <div

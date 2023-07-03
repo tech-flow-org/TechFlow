@@ -1,30 +1,30 @@
-import { LinkOutlined } from '@ant-design/icons';
-import { LinkBreak1Icon } from '@radix-ui/react-icons';
-import { Input, Tag } from 'antd';
 import isEqual from 'fast-deep-equal';
 import { Flexbox } from 'react-layout-kit';
 
 import { flowSelectors, useFlowStore } from '@/store/flow';
 
 import { DraggablePanel } from '@/components/DraggablePanel';
+import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { useTheme } from 'antd-style';
 import { NodeField } from 'kitchen-flow-editor';
 import { shallow } from 'zustand/shallow';
 import Preview from './Preview';
 
 const Terminal = () => {
-  const [id, input, template, variables, dispatchFlow] = useFlowStore((s) => {
+  const [flattenNodes, loading, runFlow, editor] = useFlowStore((s) => {
     const flow = flowSelectors.currentFlowSafe(s);
-
-    const variables = flowSelectors.getResultVariables(s);
-    return [flow.id, flow.previewInput, flow.outputTemplate, variables, s.dispatchFlow];
+    return [flow.flattenNodes, flow.state.runningTask, s.runFlow, s.editor];
   }, isEqual);
+
   const [terminalHeight, showTerminal] = useFlowStore(
     (s) => [s.terminalHeight, s.showTerminal],
     shallow,
   );
 
+  const inputNodes = Object.values(flattenNodes).filter((n) => n.type === 'string');
+
   const theme = useTheme();
+
   return (
     <div
       style={{
@@ -39,7 +39,10 @@ const Terminal = () => {
       <DraggablePanel
         isExpand={showTerminal}
         onExpandChange={(expand) => {
-          useFlowStore.setState({ showTerminal: expand, terminalHeight: expand ? 300 : 0 });
+          useFlowStore.setState({
+            showTerminal: expand,
+            terminalHeight: expand ? (document.body.clientHeight / 3) * 2 : 0,
+          });
         }}
         size={{ width: '100%', height: terminalHeight }}
         onSizeChange={(_, size) => {
@@ -55,49 +58,38 @@ const Terminal = () => {
             height={'100%'}
             style={{ overflowY: 'scroll', paddingRight: 8, paddingBottom: 16 }}
           >
-            <NodeField id={'template'} valueContainer={false} title={'输出模板'}>
-              <Input.TextArea
-                value={template}
-                placeholder={'请定义该流程的输出结果'}
-                style={{ height: 200 }}
-                onChange={(e) => {
-                  dispatchFlow({
-                    type: 'updateFlow',
-                    id,
-                    flow: { outputTemplate: e.target.value },
-                  });
-                }}
-              />
-
-              <Flexbox horizontal gap={8}>
-                {variables.map((v) => (
-                  <Tag
-                    key={v.name}
-                    color={v.sourceId ? 'green' : v.nodeId ? 'blue' : undefined}
-                    bordered={false}
-                    style={{ gap: 4, display: 'flex' }}
-                  >
-                    {v.sourceId ? (
-                      <LinkOutlined />
-                    ) : (
-                      <span className={'anticon'}>
-                        <LinkBreak1Icon width={14} />
-                      </span>
-                    )}
-                    {v.name}
-                  </Tag>
-                ))}
-              </Flexbox>
-            </NodeField>
             <NodeField valueContainer={false} title={'输入'} id={'input'}>
-              <Input.TextArea
-                value={input}
-                placeholder={'添加你的测试输入'}
-                style={{ height: 200 }}
-                onChange={(e) => {
-                  dispatchFlow({ type: 'updateFlow', id, flow: { previewInput: e.target.value } });
+              <ProForm
+                onFinish={async (values) => {
+                  Object.keys(values).forEach((key) => {
+                    if (values[key] !== undefined) {
+                      editor.updateNodeContent(key, 'text', values[key]);
+                      editor.updateNodeContent(key, 'output', values[key]);
+                    }
+                  });
+                  runFlow?.();
                 }}
-              />
+                submitter={{
+                  searchConfig: {
+                    submitText: '运行',
+                  },
+                  submitButtonProps: {
+                    loading,
+                  },
+                  resetButtonProps: false,
+                }}
+              >
+                {inputNodes.map((node) => {
+                  return (
+                    <ProFormText
+                      initialValue={node.data.content.text}
+                      key={node.id}
+                      name={node.id}
+                      label={node.data.meta.title}
+                    />
+                  );
+                })}
+              </ProForm>
             </NodeField>
           </Flexbox>
           <Preview />

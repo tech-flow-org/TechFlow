@@ -23,3 +23,8 @@ export const SymbolNodeRunMap = symbolNodeList.reduce((pre, current) => {
   pre[current.id] = current.run;
   return pre;
 }, {} as Record<string, SymbolMasterDefinition<any>['run']>);
+
+export const SymbolNodeRenderMap = symbolNodeList.reduce((pre, current) => {
+  pre[current.id] = current.outputRender;
+  return pre;
+}, {} as Record<string, SymbolMasterDefinition<any>['outputRender']>);

@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { XYPosition } from 'reactflow';
 
 export interface OutputNodeContent {
+  params?: Record<string, any>;
   data: string;
   url: string;
   output?: string;
@@ -31,9 +32,11 @@ export interface SymbolMasterDefinition<Content> {
       updateLoading: (loading: boolean) => void;
       node: FlowBasicNode<Content>;
       abortController?: AbortController;
+      updateParams: (params: Record<string, any>) => void;
     },
   ) => Promise<{
     type: 'img' | 'text';
     output: string;
   }>;
+  outputRender: (output: string, node: Content) => React.ReactNode;
 }

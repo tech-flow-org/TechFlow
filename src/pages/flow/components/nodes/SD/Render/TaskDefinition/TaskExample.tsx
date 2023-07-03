@@ -52,14 +52,14 @@ const TaskExample = memo<TaskExampleProps>(({ id }) => {
       }
     >
       <Flexbox className={'nodrag'}>
-        <VariableHandle handleId={'task'} chatMessages={[chatExample?.prompt]} />
+        <VariableHandle handleId={'task'} chatMessages={[chatExample?.prompt || '']} />
         {isEdit ? (
           <EditableMessage
             showEditWhenEmpty
             openModal={expand}
             placeholder="请输入提示词,以逗号分隔，如：Hello World,1cubemonster,<lora:cubemonster-000018:0.8> "
             onOpenChange={setExpand}
-            value={chatExample?.prompt}
+            value={chatExample?.prompt || '1cubemonster <lora:cubemonster-000018:0.8>'}
             editing={isEdit}
             onEditingChange={setTyping}
             onChange={(text) => {

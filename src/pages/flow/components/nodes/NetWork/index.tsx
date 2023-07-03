@@ -1,5 +1,6 @@
 import { OutputNodeContent, SymbolMasterDefinition } from '@/types/flow';
 
+import Highlighter from '@/components/Highlighter';
 import { fetchNetworkServe } from '@/services/networkServe';
 import lodashGet from 'lodash.get';
 import Output from './Preview';
@@ -16,11 +17,14 @@ export const OutputSymbol: SymbolMasterDefinition<OutputNodeContent> = {
     url: 'https://www.xxx.com/api',
     data: '{"images":"{images}","text":"{text}"}',
   },
-  run: async (node, vars) => {
+  run: async (node, vars, { updateParams }) => {
     let data: Record<string, any> = {};
     Object.keys(JSON.parse(node.data)).forEach((key) => {
       data[key] = lodashGet(vars, key);
     });
+
+    const params = { ...node, data: JSON.stringify(data) };
+    updateParams(params);
 
     const res = (await fetchNetworkServe({
       ...node,
@@ -28,9 +32,13 @@ export const OutputSymbol: SymbolMasterDefinition<OutputNodeContent> = {
     })) as unknown as {
       message: string;
     };
+
     return {
       type: 'text',
       output: JSON.stringify(res, null, 2),
     };
+  },
+  outputRender: (output: string) => {
+    return <Highlighter language="json">{output}</Highlighter>;
   },
 };

@@ -72,7 +72,7 @@ export const runnerSlice: StateCreator<
         vars[template] = sourceData;
       }
     });
-    const { editor } = get();
+    const { editor, dispatchFlow } = get();
     const abortController = new AbortController();
     editor.updateNodeState(node.id, 'abortController', abortController, { recordHistory: false });
     abortController.signal.onabort = () => {
@@ -82,12 +82,39 @@ export const runnerSlice: StateCreator<
     const nodeData = node.data.content as any as OutputNodeContent;
     try {
       editor.updateNodeState(node.id, 'loading', true, { recordHistory: false });
+      const flowId = flowSelectors.currentFlow(get()).id;
+      dispatchFlow({
+        type: 'updateFlowState',
+        id: flowId,
+        state: {
+          currentTask: {
+            ...node,
+            params: vars,
+            result: {},
+          },
+        },
+      });
       const data = await SymbolNodeRunMap[node.type as 'string']?.(nodeData, vars, {
         flow: get(),
         abortController,
         node,
         updateLoading: (loading) => {
           editor.updateNodeState(node.id, 'loading', loading, { recordHistory: false });
+        },
+        updateParams: (params) => {
+          editor.updateNodeContent<OutputNodeContent>(node.id, 'params', params);
+        },
+      });
+
+      dispatchFlow({
+        type: 'updateFlowState',
+        id: flowId,
+        state: {
+          currentTask: {
+            ...node,
+            params: vars,
+            result: data,
+          },
         },
       });
       editor.updateNodeContent<OutputNodeContent>(node.id, 'output', data.output, {
@@ -98,9 +125,13 @@ export const runnerSlice: StateCreator<
       editor.updateNodeContent<OutputNodeContent>(
         node.id,
         'output',
-        JSON.stringify({
-          message: `调用 ${node?.data?.meta?.title || '节点'} 接口失败`,
-        }),
+        JSON.stringify(
+          {
+            message: `调用 ${node?.data?.meta?.title || '节点'} 接口失败`,
+          },
+          null,
+          2,
+        ),
         {
           recordHistory: false,
         },
@@ -153,7 +184,9 @@ export const runnerSlice: StateCreator<
     });
     if (!firstItem) return;
     const taskSortIndex: Record<string, number> = {};
+    const taskListSort: FlowBasicNode[][] = [];
     let thisNode = [firstItem];
+    taskListSort.push([firstItem]);
     taskSortIndex[firstItem.id] = 0;
     // 以 firstItem 对节点进行排序
     list.forEach((_, index) => {
@@ -166,14 +199,18 @@ export const runnerSlice: StateCreator<
         });
         taskSortIndex[nodeItem.id] = index;
         thisNode = thisNodeList;
+        taskListSort.push(thisNodeList);
       });
     });
 
     const taskList: string[] = [];
+
     Object.keys(taskSortIndex).forEach((node) => {
       taskList[taskSortIndex[node]] = node;
     });
 
+    // 准备任务列表
+    dispatchFlow({ type: 'updateFlowState', id, state: { taskList } });
     // 设定开始执行任务
     dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: true } });
 
@@ -193,5 +230,6 @@ export const runnerSlice: StateCreator<
       await runFlowTreeNode(node);
     }
     dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: false } });
+    dispatchFlow({ type: 'updateFlowState', id, state: { currentTask: null } });
   },
 });
