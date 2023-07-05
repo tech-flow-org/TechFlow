@@ -4,12 +4,12 @@ import { Node } from 'reactflow';
 import { initAITaskContent } from '@/store/flow/initialState';
 import { AITaskContent, FlowAITaskNode, Workflow } from '@/types/flow';
 import { MetaData } from '@/types/meta';
-import { FlowBasicNode } from 'kitchen-flow-editor';
+import { IFlowBasicNode } from 'kitchen-flow-editor';
 
 export const createFlow = (
   id: string,
   meta: MetaData,
-  flattenNodes: Record<string, FlowBasicNode>,
+  flattenNodes: Record<string, IFlowBasicNode>,
 ): Workflow => {
   return {
     id,
@@ -35,7 +35,7 @@ export const createNode = (node: Partial<Node>, content?: any, meta?: Partial<Me
       content,
       meta,
     },
-  } as FlowBasicNode);
+  } as IFlowBasicNode);
 
 export const createAITaskContent = (content: Partial<AITaskContent>): AITaskContent => {
   return merge({}, initAITaskContent, content);

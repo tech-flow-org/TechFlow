@@ -9,7 +9,7 @@ import { OutputNodeContent } from '@/types/flow';
 import { genChatMessages } from '@/utils/genChatMessages';
 
 import { SymbolNodeRunMap } from '@/pages/flow/components/nodes';
-import { FlowBasicNode } from 'kitchen-flow-editor';
+import { IFlowBasicNode } from 'kitchen-flow-editor';
 import { FlowStore } from '../action';
 import { flowSelectors } from '../selectors';
 
@@ -182,14 +182,14 @@ export const runnerSlice: StateCreator<
     });
     if (!firstItem) return;
     const taskSortIndex: Record<string, number> = {};
-    const taskListSort: FlowBasicNode[][] = [];
+    const taskListSort: IFlowBasicNode[][] = [];
     let thisNode = [firstItem];
     taskListSort.push([firstItem]);
     taskSortIndex[firstItem.id] = 0;
     // 以 firstItem 对节点进行排序
     list.forEach((_, index) => {
       thisNode.forEach((nodeItem) => {
-        let thisNodeList: FlowBasicNode[] = [];
+        let thisNodeList: IFlowBasicNode[] = [];
         list.forEach((item) => {
           if (item.source === nodeItem?.id) {
             thisNodeList.push(flattenNodes[item.target]);

@@ -1,6 +1,6 @@
 import { useDndMonitor } from '@dnd-kit/core';
 import { useTheme } from 'antd-style';
-import { FlowBasicNode } from 'kitchen-flow-editor';
+import { IFlowBasicNode } from 'kitchen-flow-editor';
 import { PointerEvent, useState } from 'react';
 import { useReactFlow } from 'reactflow';
 import { v4 as uuid } from 'uuid';
@@ -42,7 +42,7 @@ export const useDropNodeOnCanvas = () => {
       const symbolNode = symbolNodeList.find((item) => item.id === active.data.current?.type);
 
       if (symbolNode) {
-        const node: FlowBasicNode = symbolNode.onCreateNode
+        const node: IFlowBasicNode = symbolNode.onCreateNode
           ? //   如果有定义 onCreateNode ，则使用 onCreateNode 创建节点
             symbolNode.onCreateNode(
               { id, position, type: symbolNode.id },

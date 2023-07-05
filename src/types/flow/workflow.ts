@@ -1,9 +1,9 @@
 import { Viewport } from 'reactflow';
 
 import { MetaData } from '@/types/meta';
-import { FlattenEdges, FlowBasicNode } from 'kitchen-flow-editor';
+import { FlattenEdges, IFlowBasicNode } from 'kitchen-flow-editor';
 
-export type FlattenNodes = Record<string, FlowBasicNode>;
+export type FlattenNodes = Record<string, IFlowBasicNode>;
 
 export interface ResultVariable {
   name: string;
@@ -38,7 +38,7 @@ export interface Workflow {
     taskList?: string[];
     loading?: boolean;
     currentTask?:
-      | (FlowBasicNode & {
+      | (IFlowBasicNode & {
           params: Record<string, any>;
           result: Record<string, any>;
         })

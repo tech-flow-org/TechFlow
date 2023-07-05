@@ -7,7 +7,7 @@ import {
   WorkflowMeta,
 } from '@/types/flow';
 import { StringTemplate } from '@/utils/StringTemplate';
-import { FlowBasicNode } from 'kitchen-flow-editor';
+import { IFlowBasicNode } from 'kitchen-flow-editor';
 
 export const getFlowMeta = (flow: Workflow): WorkflowMeta => {
   const { id, createAt, updateAt, meta } = flow;
@@ -32,7 +32,9 @@ export const getResultVariables = (flow: Workflow) => {
 
   return new StringTemplate(flow.outputTemplate).variableNames.map((v) => {
     const variable: ResultVariable = { name: v };
-    const node = nodes.find((e: FlowBasicNode<OutputNodeContent>) => v === e.data.content.variable);
+    const node = nodes.find(
+      (e: IFlowBasicNode<OutputNodeContent>) => v === e.data.content.variable,
+    );
 
     // 有节点的情况下，查找source id
     if (node) {

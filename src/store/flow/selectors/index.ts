@@ -9,7 +9,7 @@ import {
 } from '@/helpers/flow';
 import { FlowStore } from '@/store/flow';
 import { AITaskContent } from '@/types/flow';
-import { FlowBasicNode } from 'kitchen-flow-editor';
+import { IFlowBasicNode } from 'kitchen-flow-editor';
 
 export const flowSelectors = {
   currentFlow: (s: FlowStore) => s.flows[s.activeId || ''],
@@ -27,9 +27,9 @@ export const flowSelectors = {
 
   getNodeByIdSafe:
     <T = AITaskContent>(id: string) =>
-    (s: FlowStore): FlowBasicNode<T> => {
+    (s: FlowStore): IFlowBasicNode<T> => {
       const flow = flowSelectors.currentFlowSafe(s);
-      return getSafeFlowNodeById(flow, id) as FlowBasicNode<T>;
+      return getSafeFlowNodeById(flow, id) as IFlowBasicNode<T>;
     },
 
   getNodeContentById:

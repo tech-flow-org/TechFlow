@@ -1,4 +1,4 @@
-import { FlowBasicNodeData } from 'kitchen-flow-editor';
+import { IFlowBasicNodeData } from 'kitchen-flow-editor';
 import { Node } from 'reactflow';
 import type { ChatExample } from '../../agent';
 import { LLMModel } from '../../agent';
@@ -18,7 +18,7 @@ export interface AITaskContent {
   mode?: 'prompt' | 'chat';
 }
 // 流程图中每个智能体的定义
-export interface AITaskData extends FlowBasicNodeData {
+export interface AITaskData extends IFlowBasicNodeData {
   content: AITaskContent;
 }
 

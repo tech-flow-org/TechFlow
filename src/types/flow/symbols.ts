@@ -1,5 +1,5 @@
 import { FlowStore } from '@/store/flow/action';
-import { FlowBasicNode } from 'kitchen-flow-editor';
+import { IFlowBasicNode } from 'kitchen-flow-editor';
 import { FC } from 'react';
 import { XYPosition } from 'reactflow';
 
@@ -23,14 +23,14 @@ export interface SymbolMasterDefinition<Content> {
   preview: FC<any>;
   render: FC<any>;
   defaultContent: Content;
-  onCreateNode?: OnCreateNode<FlowBasicNode<Content>>;
+  onCreateNode?: OnCreateNode<IFlowBasicNode<Content>>;
   run: (
     node: Content,
     vars: Record<string, any>,
     options: {
       flow: FlowStore;
       updateLoading: (loading: boolean) => void;
-      node: FlowBasicNode<Content>;
+      node: IFlowBasicNode<Content>;
       abortController?: AbortController;
       updateParams: (params: Record<string, any>) => void;
     },
