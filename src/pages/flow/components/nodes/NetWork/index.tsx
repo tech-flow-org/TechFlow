@@ -23,13 +23,11 @@ export const OutputSymbol: SymbolMasterDefinition<OutputNodeContent> = {
       data[key] = lodashGet(vars, key);
     });
 
-    const params = { ...node, data: JSON.stringify(data) };
+    const params = { ...node, output: undefined, params: undefined, data: JSON.stringify(data) };
+
     updateParams(params);
 
-    const res = (await fetchNetworkServe({
-      ...node,
-      data: JSON.stringify(data),
-    })) as unknown as {
+    const res = (await fetchNetworkServe(params)) as unknown as {
       message: string;
     };
 

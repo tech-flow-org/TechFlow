@@ -5,7 +5,7 @@ import { StateCreator } from 'zustand';
 import { FlowStore, flowSelectors } from '@/store/flow';
 import { ChatAgent, LLMModel } from '@/types';
 
-import { createAITaskNode, createFlow } from '@/helpers/flow';
+import { createFlow, createTextTaskNode } from '@/helpers/flow';
 import { Workflow } from '@/types/flow';
 import { message } from 'antd';
 import yaml from 'js-yaml';
@@ -44,13 +44,19 @@ export const flowCrudSlice: StateCreator<
     const flowId = uuid();
     const agentId = uuid();
 
-    const aiTaskNode = createAITaskNode({ id: agentId }, initAITaskContent, {
+    const aiTaskNode = createTextTaskNode({ id: agentId }, initAITaskContent, {
       title: '默认节点',
     });
 
     get().dispatchFlow({
       type: 'addFlow',
-      flow: createFlow(flowId, { title: '新的任务流' }, { [agentId]: aiTaskNode }),
+      flow: createFlow(
+        flowId,
+        { title: '新的任务流' },
+        {
+          [aiTaskNode.id]: aiTaskNode,
+        },
+      ),
     });
 
     Router.push(`/flow/${flowId}`);
@@ -90,7 +96,7 @@ export const flowCrudSlice: StateCreator<
       description: `基于 「${agent.title}」 创建的任务 \n ${agent.description}`,
     };
 
-    const aiTaskNode = createAITaskNode(
+    const aiTaskNode = createTextTaskNode(
       { id: agent.id },
       { llm: { model: agent.model || LLMModel.GPT3_5 }, systemRole: agent.content },
       {

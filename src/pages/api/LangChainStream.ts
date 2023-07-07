@@ -84,6 +84,7 @@ export function LangChainStream(payload: LangChainParams) {
       } catch (e) {
         // 如果在执行过程中发生错误，向流发送错误
         controller.error(e);
+        console.log(e);
       }
     },
   });

@@ -41,7 +41,7 @@ export const createAITaskContent = (content: Partial<AITaskContent>): AITaskCont
   return merge({}, initAITaskContent, content);
 };
 
-export const createAITaskNode = (
+export const createTextTaskNode = (
   node: Partial<Node>,
   content: Partial<AITaskContent>,
   meta: Partial<MetaData>,
@@ -49,7 +49,7 @@ export const createAITaskNode = (
   return createNode(
     {
       ...node,
-      type: 'aiTask',
+      type: 'string',
     },
     createAITaskContent(content),
     meta,

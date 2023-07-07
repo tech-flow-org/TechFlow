@@ -1,5 +1,5 @@
 // @ts-check
-const API_END_PORT_URL = process.env.API_END_PORT_URL || 'https://drawing-board.antdigital.dev/';
+const API_END_PORT_URL = process.env.API_END_PORT_URL || 'https://drawing-board.antdigital.dev';
 
 const withPWA = require('next-pwa')({
   dest: 'public',

@@ -22,7 +22,8 @@ const Preview = () => {
         ?.map((key) => {
           return flattenNodes[key];
         })
-        .filter((n) => n.type !== 'string')
+        .filter((n) => n)
+        .filter((n) => n?.type !== 'string')
         ?.findIndex((node) => node.id === currentTask?.id || '') || 0,
     [taskList?.join('-'), currentTask?.id],
   );
@@ -73,7 +74,8 @@ const Preview = () => {
               ?.map((key) => {
                 return flattenNodes[key];
               })
-              .filter((n) => n.type !== 'string')
+              .filter((n) => n)
+              .filter((n) => n?.type !== 'string')
               .map((n, index) => {
                 let status: 'process' | 'wait' | 'finish' | undefined = undefined;
                 if (index === currentTaskIndex) {
@@ -101,7 +103,8 @@ const Preview = () => {
               ?.map((key) => {
                 return flattenNodes[key];
               })
-              .filter((n) => n.type !== 'string')
+              .filter((n) => n)
+              .filter((n) => n?.type !== 'string')
               .map((flowNode) => {
                 const { data } = flowNode;
                 return {

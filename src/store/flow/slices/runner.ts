@@ -5,11 +5,11 @@ import { getFlowNodeById, getNodeContentById, getSafeFlowNodeById } from '@/help
 import { getInputVariablesFromMessages } from '@/helpers/prompt';
 
 import { notification } from '@/layout';
-import { OutputNodeContent } from '@/types/flow';
+import { FlattenNodes, OutputNodeContent } from '@/types/flow';
 import { genChatMessages } from '@/utils/genChatMessages';
 
 import { SymbolNodeRunMap } from '@/pages/flow/components/nodes';
-import { IFlowBasicNode } from 'kitchen-flow-editor';
+import { FlattenEdges } from 'kitchen-flow-editor';
 import { FlowStore } from '../action';
 import { flowSelectors } from '../selectors';
 
@@ -27,6 +27,82 @@ export interface FlowRunnerSlice {
    */
   cancelFlowNode: () => void;
 }
+
+//封装图类
+class Graph {
+  vertexes: string[];
+  edges: Map<string, string[]>;
+  constructor() {
+    //属性：顶点(数组)/边(字典)
+    this.vertexes = []; //顶点
+    this.edges = new Map(); //边
+  }
+
+  addVertex(v: string) {
+    this.vertexes.push(v);
+    //将边添加到字典中，新增的顶点作为键，对应的值为一个存储边的空数组
+    this.edges.set(v, []);
+  }
+  addEdge(v1: string, v2: string) {
+    this.edges.get(v1)?.push(v2);
+  }
+  getPathForFirstToLast(last: string) {
+    const path: string[] = [last];
+    if (!this.edges.get(last)) return path;
+    const next = this.edges.get(last);
+    const findNextItem = (edgeList: string[]) => {
+      edgeList.forEach((item) => {
+        if (this.edges.get(item)) {
+          path.push(item);
+          findNextItem(this.edges.get(item) || []);
+        }
+      });
+    };
+    findNextItem(next || []);
+    return path;
+  }
+  toString() {
+    let resultString = '';
+    for (let i = 0; i < this.vertexes.length; i++) {
+      //遍历所有顶点
+      resultString += this.vertexes[i] + '-->  ';
+      let vEdges = this.edges.get(this.vertexes[i]) || [];
+      for (let j = 0; j < vEdges.length; j++) {
+        //遍历字典中每个顶点对应的数组
+        resultString += vEdges[j] + ' ';
+      }
+      resultString += '\n';
+    }
+    return resultString;
+  }
+}
+
+const getTaskList = (flattenNodes: FlattenNodes, flattenEdges: FlattenEdges) => {
+  const graph = new Graph();
+  const nodeList = Object.values(flattenNodes);
+  nodeList.forEach((node) => {
+    graph.addVertex(node.id);
+  });
+
+  const list = Object.values(flattenEdges).map((edge) => {
+    graph.addEdge(edge.source, edge.target);
+    return { source: edge.source, target: edge.target };
+  });
+
+  const firstItem = nodeList.find((item) => {
+    const hasTarget = list.some((edge) => {
+      if (edge.target === item.id) {
+        return true;
+      }
+      return false;
+    });
+    if (hasTarget) return false;
+    return true;
+  });
+  if (!firstItem) return [];
+
+  return Array.from(new Set(graph.getPathForFirstToLast(firstItem.id)));
+};
 
 // ====== Flow 节点运行 ======= //
 export const runnerSlice: StateCreator<
@@ -165,48 +241,8 @@ export const runnerSlice: StateCreator<
   runFlow: async () => {
     const { dispatchFlow } = get();
     const { id, flattenNodes, flattenEdges } = flowSelectors.currentFlow(get());
-    const list = Object.values(flattenEdges).map((edge) => {
-      return { source: edge.source, target: edge.target };
-    });
 
-    const nodeList = Object.values(flattenNodes);
-    const firstItem = nodeList.find((item) => {
-      const hasTarget = list.some((edge) => {
-        if (edge.target === item.id) {
-          return true;
-        }
-        return false;
-      });
-      if (hasTarget) return false;
-      return true;
-    });
-    if (!firstItem) return;
-    const taskSortIndex: Record<string, number> = {};
-    const taskListSort: IFlowBasicNode[][] = [];
-    let thisNode = [firstItem];
-    taskListSort.push([firstItem]);
-    taskSortIndex[firstItem.id] = 0;
-    // 以 firstItem 对节点进行排序
-    list.forEach((_, index) => {
-      thisNode.forEach((nodeItem) => {
-        let thisNodeList: IFlowBasicNode[] = [];
-        list.forEach((item) => {
-          if (item.source === nodeItem?.id) {
-            thisNodeList.push(flattenNodes[item.target]);
-          }
-        });
-        taskSortIndex[nodeItem.id] = index;
-        thisNode = thisNodeList;
-        taskListSort.push(thisNodeList);
-      });
-    });
-
-    const taskList: string[] = [];
-
-    Object.keys(taskSortIndex).forEach((node) => {
-      taskList[taskSortIndex[node]] = node;
-    });
-
+    const taskList = getTaskList(flattenNodes, flattenEdges);
     // 准备任务列表
     dispatchFlow({ type: 'updateFlowState', id, state: { taskList } });
     // 设定开始执行任务
@@ -223,9 +259,12 @@ export const runnerSlice: StateCreator<
       return;
     };
 
+    const ruinedList = [];
     for await (const node of taskList) {
       if (isAbort) return;
+      if (!node) return;
       await runFlowTreeNode(node);
+      ruinedList.push(node);
     }
     dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: false } });
     dispatchFlow({ type: 'updateFlowState', id, state: { currentTask: null } });

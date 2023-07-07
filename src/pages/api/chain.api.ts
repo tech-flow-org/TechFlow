@@ -11,6 +11,5 @@ export const config = {
 
 export default async function handler(request: Request) {
   const payload = (await request.json()) as LangChainParams;
-
   return new Response(LangChainStream(payload));
 }
