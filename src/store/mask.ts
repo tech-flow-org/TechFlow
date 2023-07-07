@@ -16,14 +16,6 @@ export const ALL_MODELS = [
     name: 'gpt-3.5-turbo-0613',
     available: true,
   },
-  {
-    name: 'gpt-3.5-turbo-16k',
-    available: true,
-  },
-  {
-    name: 'gpt-3.5-turbo-16k-0613',
-    available: true,
-  },
 ] as const;
 
 export type ModelType = (typeof ALL_MODELS)[number]['name'];
@@ -34,6 +26,7 @@ export type ChatMessage = {
   isError?: boolean;
   id?: number;
   model?: ModelType;
+  content: string;
 };
 
 const defaultModelConfig = {
@@ -68,6 +61,7 @@ export const DEFAULT_MASK_STATE = {
 };
 
 export type MaskState = typeof DEFAULT_MASK_STATE;
+
 type MaskStore = MaskState & {
   create: (mask?: Partial<Mask>) => Mask;
   update: (id: number, updater: (mask: Mask) => void) => void;

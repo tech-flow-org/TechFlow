@@ -22,6 +22,7 @@
 .new-chat {
   height: 100%;
   width: 100%;
+  max-width: calc(100vw - 56px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,9 +80,11 @@
 .new-chat .masks {
   flex-grow: 1;
   width: 100%;
-  overflow: auto;
+  max-width: 100%;
+  overflow: hidden;
   align-items: center;
   padding-top: 20px;
+  padding: 12px;
   -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), black, rgba(0, 0, 0, 0));
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), black, rgba(0, 0, 0, 0));
   animation: slide-in ease 0.5s;

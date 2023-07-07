@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Mask, useMaskStore } from '@/store/mask';
 import { EyeOutlined, UserAddOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import router from 'next/router';
 import styles from './index.module.css';
 import { MaskLayout } from './layout';
 
@@ -80,9 +81,11 @@ function MaskPage() {
     }
   }, [groups]);
 
+  console.log(maskStore.getAll());
+
   return (
     <MaskLayout>
-      <div className={styles['new-chat']} id="app-body">
+      <div className={styles['new-chat']}>
         <div className={styles['mask-cards']}>
           <div className={styles['mask-card']}>😀</div>
           <div className={styles['mask-card']}>👺</div>
@@ -93,16 +96,29 @@ function MaskPage() {
         <div className={styles['sub-title']}>现在开始，以更专业的方式使用 LLM</div>
 
         <div className={styles['actions']}>
-          <Button size="large" icon={<EyeOutlined />}>
+          <Button
+            size="large"
+            onClick={() => {
+              router.push('/mask/list');
+            }}
+            icon={<EyeOutlined />}
+          >
             查看更多
           </Button>
-
-          <Button size="large" icon={<UserAddOutlined />} type="primary" className={styles['skip']}>
+          <Button
+            size="large"
+            onClick={() => {
+              router.push('/mask/new');
+            }}
+            icon={<UserAddOutlined />}
+            type="primary"
+            className={styles['skip']}
+          >
             新建角色
           </Button>
         </div>
 
-        <div className={styles['masks']} ref={maskRef}>
+        <div className={styles['masks']} ref={maskRef} id="app-body">
           {groups.map((masks, i) => (
             <div key={i} className={styles['mask-row']}>
               {masks.map((mask, index) => (

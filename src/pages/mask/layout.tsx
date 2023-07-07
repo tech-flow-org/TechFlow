@@ -8,9 +8,9 @@ export const MaskLayout: React.FC<{
   return (
     <>
       <Head>
-        <title>Drawing Board</title>
+        <title>角色市场</title>
       </Head>
-      <Flexbox id={'RunnerLayout'} horizontal width={'100%'} height={'100%'}>
+      <Flexbox id={'RunnerLayout'} horizontal width="100%" height={'100%'}>
         <Sidebar />
         {props.children}
       </Flexbox>

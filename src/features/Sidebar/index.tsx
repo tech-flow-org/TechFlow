@@ -16,13 +16,12 @@ import { useStyles } from './style';
 
 const tabs = [
   { key: 'flow', title: '任务流', icon: FlowIcon },
-  { key: 'runner', title: '执行器', icon: RunnerIcon },
-
   {
     key: 'mask',
     title: '角色',
     icon: MaskIcon,
   },
+  { key: 'runner', title: '任务流执行', icon: RunnerIcon },
 ];
 
 export const Sidebar = memo(() => {

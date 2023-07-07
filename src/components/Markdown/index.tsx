@@ -20,6 +20,11 @@ const useStyles = createStyles(({ css, token, isDarkMode }) => {
       p:last-child {
         margin-bottom: 0;
       }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
     `,
 
     code: css`
