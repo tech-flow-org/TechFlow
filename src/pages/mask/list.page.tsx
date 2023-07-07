@@ -125,7 +125,7 @@ const MaskLayout: React.FC<{
           {mask?.context.map((item, index) => {
             return (
               <div key={item.id || index}>
-                <Markdown>{item.content}</Markdown>
+                <Markdown>{item.content || ''}</Markdown>
               </div>
             );
           })}

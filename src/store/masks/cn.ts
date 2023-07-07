@@ -28,7 +28,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 32,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -52,7 +52,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 4,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -76,7 +76,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 4,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -100,7 +100,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 4,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -124,7 +124,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 4,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -148,7 +148,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 4,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -172,7 +172,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 4,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -196,7 +196,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 0,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -225,7 +225,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 4,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -249,7 +249,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 4,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -279,7 +279,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 4,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -309,7 +309,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 4,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -359,7 +359,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 4,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
   {
@@ -379,7 +379,7 @@ export const CN_MASKS: BuiltinMask[] = [
       },
     ],
     modelConfig: {
-      model: 'gpt-4',
+      model: 'gpt-3.5-turbo',
       temperature: 0.5,
       max_tokens: 2000,
       presence_penalty: 0,
@@ -388,7 +388,7 @@ export const CN_MASKS: BuiltinMask[] = [
       historyMessageCount: 4,
       compressMessageLengthThreshold: 1000,
     },
-    lang: 'cn',
+    lang: 'zh-CN',
     builtin: true,
   },
 ];

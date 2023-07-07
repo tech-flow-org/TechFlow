@@ -26,7 +26,8 @@ export type ChatMessage = {
   isError?: boolean;
   id?: number;
   model?: ModelType;
-  content: string;
+  content?: string;
+  role?: 'system' | 'assistant' | 'user';
 };
 
 const defaultModelConfig = {
