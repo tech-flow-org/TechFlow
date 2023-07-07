@@ -20,6 +20,10 @@ export const ChatIcon = memo<IconProps>(({ style }) => {
   );
 });
 
+export const MaskIcon = memo<IconProps>(({ style }) => {
+  return <span style={{ ...style }}>👺</span>;
+});
+
 export const RunnerIcon = memo<IconProps>(({ style }) => {
   return (
     <svg

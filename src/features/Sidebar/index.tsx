@@ -6,7 +6,7 @@ import { memo, useEffect, useMemo } from 'react';
 import { Flexbox } from 'react-layout-kit';
 
 import Settings from '@/components/Settings';
-import { FlowIcon, RunnerIcon } from '@/features/Sidebar/Icons';
+import { FlowIcon, MaskIcon, RunnerIcon } from '@/features/Sidebar/Icons';
 import { SidebarTabKey, useSettings } from '@/store/settings';
 import { createUploadImageHandler } from '@/utils/uploadFIle';
 import Link from 'next/link';
@@ -17,6 +17,12 @@ import { useStyles } from './style';
 const tabs = [
   { key: 'flow', title: '任务流', icon: FlowIcon },
   { key: 'runner', title: '执行器', icon: RunnerIcon },
+
+  {
+    key: 'mask',
+    title: '角色',
+    icon: MaskIcon,
+  },
 ];
 
 export const Sidebar = memo(() => {

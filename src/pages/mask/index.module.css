@@ -1,0 +1,143 @@
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@keyframes slide-in-from-top {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.new-chat {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.new-chat .mask-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+
+  box-sizing: border-box;
+  animation: slide-in-from-top ease 0.3s;
+}
+.new-chat .mask-cards {
+  display: flex;
+  margin-top: 5vh;
+  margin-bottom: 20px;
+  animation: slide-in ease 0.3s;
+}
+.new-chat .mask-cards .mask-card {
+  padding: 20px 10px;
+  border: 1px solid #dedede;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
+  border-radius: 14px;
+  background-color: #fff;
+  transform: scale(1);
+}
+.new-chat .mask-cards .mask-card:first-child {
+  transform: rotate(-15deg) translateY(5px);
+}
+.new-chat .mask-cards .mask-card:last-child {
+  transform: rotate(15deg) translateY(5px);
+}
+.new-chat .title {
+  font-size: 32px;
+  font-weight: bolder;
+  margin-bottom: 1vh;
+  animation: slide-in ease 0.35s;
+}
+.new-chat .sub-title {
+  animation: slide-in ease 0.4s;
+}
+.new-chat .actions {
+  margin-top: 5vh;
+  margin-bottom: 2vh;
+  animation: slide-in ease 0.45s;
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+}
+.new-chat .actions .skip {
+  margin-left: 10px;
+}
+.new-chat .masks {
+  flex-grow: 1;
+  width: 100%;
+  overflow: auto;
+  align-items: center;
+  padding-top: 20px;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), black, rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), black, rgba(0, 0, 0, 0));
+  animation: slide-in ease 0.5s;
+}
+.new-chat .masks .mask-row {
+  display: flex;
+  margin-bottom: 10px;
+}
+.new-chat .masks .mask-row:nth-child(2) {
+  margin-left: 50px;
+}
+.new-chat .masks .mask-row:nth-child(4) {
+  margin-left: 50px;
+}
+.new-chat .masks .mask-row:nth-child(6) {
+  margin-left: 50px;
+}
+.new-chat .masks .mask-row:nth-child(8) {
+  margin-left: 50px;
+}
+.new-chat .masks .mask-row:nth-child(10) {
+  margin-left: 50px;
+}
+.new-chat .masks .mask-row:nth-child(12) {
+  margin-left: 50px;
+}
+.new-chat .masks .mask-row:nth-child(14) {
+  margin-left: 50px;
+}
+.new-chat .masks .mask-row:nth-child(16) {
+  margin-left: 50px;
+}
+.new-chat .masks .mask-row:nth-child(18) {
+  margin-left: 50px;
+}
+.new-chat .masks .mask-row .mask {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  border: 1px solid #dedede;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+  border-radius: 10px;
+  margin-right: 10px;
+  max-width: 8em;
+  min-width: max-content;
+  transform: scale(1);
+  cursor: pointer;
+  transition: all ease 0.3s;
+}
+.new-chat .masks .mask-row .mask:hover {
+  transform: translateY(-5px) scale(1.1);
+  z-index: 999;
+  border-color: #1d93ab;
+}
+.new-chat .masks .mask-row .mask .mask-name {
+  margin-left: 10px;
+  font-size: 14px;
+}
