@@ -44,7 +44,6 @@ const SystemRole = memo(({ id }: { id: string }) => {
       ]}
     >
       <VariableHandle handleId={'content'} chatMessages={[{ role: 'system', content: value }]} />
-
       <EditableMessage
         openModal={expand}
         onOpenChange={setExpand}

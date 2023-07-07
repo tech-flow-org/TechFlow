@@ -118,27 +118,31 @@ export const flowCrudSlice: StateCreator<
    */
   exportWorkflow: async () => {
     const hideLoading = message.loading('正在导出...', 0);
-    const data = flowSelectors.currentFlow(get());
-    const url = window.URL || window.webkitURL || window;
-    const blob = new Blob([
-      yaml.dump(data, {
-        indent: 2,
-        replacer: (key, value) => {
-          if (key === 'output') {
-            return undefined;
-          }
-          return value;
-        },
-      }),
-    ]);
-    const saveLink = document.createElementNS(
-      'http://www.w3.org/1999/xhtml',
-      'a',
-    ) as HTMLAnchorElement;
-    saveLink.href = url.createObjectURL(blob);
-    // 设置 download 属性
-    saveLink.download = data.id + '-workflow.yml';
-    saveLink.click();
+    try {
+      const data = flowSelectors.currentFlow(get());
+      const url = window.URL || window.webkitURL || window;
+      const blob = new Blob([
+        yaml.dump(data, {
+          indent: 2,
+          replacer: (key, value) => {
+            if (key === 'output') {
+              return undefined;
+            }
+            return value;
+          },
+        }),
+      ]);
+      const saveLink = document.createElementNS(
+        'http://www.w3.org/1999/xhtml',
+        'a',
+      ) as HTMLAnchorElement;
+      saveLink.href = url.createObjectURL(blob);
+      // 设置 download 属性
+      saveLink.download = data.id + '-workflow.yml';
+      saveLink.click();
+    } catch (error) {
+      message.error('导出失败');
+    }
     hideLoading();
   },
 });

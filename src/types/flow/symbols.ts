@@ -7,6 +7,7 @@ export interface OutputNodeContent {
   params?: Record<string, any>;
   data: string;
   url: string;
+  variable?: string;
   output?: string;
 }
 
