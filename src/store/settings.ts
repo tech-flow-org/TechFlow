@@ -4,7 +4,7 @@ import { ThemeAppearance } from 'antd-style';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type SidebarTabKey = 'chat' | 'flow' | 'comfy';
+export type SidebarTabKey = 'chat' | 'flow' | 'runner';
 
 interface SettingsStore {
   fontSize: number;

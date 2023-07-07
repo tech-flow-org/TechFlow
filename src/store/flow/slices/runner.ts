@@ -101,7 +101,7 @@ const getTaskList = (flattenNodes: FlattenNodes, flattenEdges: FlattenEdges) => 
   });
   if (!firstItem) return [];
 
-  return Array.from(new Set(graph.getPathForFirstToLast(firstItem.id)));
+  return Array.from(new Set(graph.getPathForFirstToLast(firstItem.id).reverse())).reverse();
 };
 
 // ====== Flow 节点运行 ======= //
