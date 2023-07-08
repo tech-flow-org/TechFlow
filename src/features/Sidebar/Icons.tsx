@@ -37,7 +37,7 @@ export const MaskIcon = memo<IconProps>(({ style }) => {
   );
 });
 
-export const FLowIcon = memo<IconProps>(({ style }) => {
+export const GrapeIcon = memo<IconProps>(({ style }) => {
   return (
     <svg
       style={style}
