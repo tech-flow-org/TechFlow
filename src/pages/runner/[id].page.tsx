@@ -100,7 +100,7 @@ const FlowStepForm: React.FC<{
           }}
         >
           <StepsForm.StepForm
-            title={'选择工作流'}
+            title={'输入必选参数'}
             formRef={flowSelectFormRef}
             onFinish={async (values) => {
               const flowId = flowSelectFormRef.current?.getFieldValue('flowId');
