@@ -1,11 +1,9 @@
 ﻿import Head from 'next/head';
 import { memo, useEffect } from 'react';
-import { shallow } from 'zustand/shallow';
 
 import { Sidebar } from '@/features/Sidebar';
 import { Menu } from '@/layout/FlowLayout/Menu';
 import { useSettings } from '@/store';
-import { flowSelectors, useFlowStore } from '@/store/flow';
 import { createStyles } from 'antd-style';
 import { FlowEditorProvider } from 'kitchen-flow-editor';
 import React from 'react';
@@ -30,8 +28,6 @@ const useStyles = createStyles(({ css }) => {
 const RunnerLayout: React.FC<{
   children: React.ReactNode;
 }> = (props) => {
-  const [title] = useFlowStore((s) => [flowSelectors.currentFlowMeta(s).title], shallow);
-
   useEffect(() => {
     useSettings.setState({ sidebarKey: 'runner' });
   }, []);
@@ -42,7 +38,7 @@ const RunnerLayout: React.FC<{
     <FlowEditorProvider>
       <>
         <Head>
-          <title>{title ? `正在执行 ${title} - DrawingBoard` : '节点运行 - DrawingBoard'}</title>
+          <title>{'节点运行 - DrawingBoard'}</title>
         </Head>
         <Flexbox id={'RunnerLayout'} horizontal width={'100%'} height={'100%'}>
           <Sidebar />
