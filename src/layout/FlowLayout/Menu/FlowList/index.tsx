@@ -8,12 +8,16 @@ import { shallow } from 'zustand/shallow';
 import { flowSelectors, useFlowStore } from '@/store/flow';
 import FlowItem from './FlowItem';
 
-const FlowList = memo(() => {
+const FlowList: React.FC<{
+  prefixPath: string;
+}> = memo((props) => {
   const [activeId, isEmpty, loading] = useFlowStore(
     (s) => [s.activeId, flowSelectors.flowMetaList(s).length === 0, s.loading],
     shallow,
   );
   const list = useFlowStore(flowSelectors.flowMetaList, isEqual);
+
+  const { prefixPath = '/flow' } = props;
 
   return isEmpty ? (
     <Empty
@@ -25,7 +29,7 @@ const FlowList = memo(() => {
     <>
       {list.map(({ id }) => (
         <Flexbox key={id} gap={4} paddingBlock={4}>
-          <Link href={`/flow/${id}`}>
+          <Link href={`/${prefixPath}/${id}`}>
             <FlowItem
               active={activeId === id}
               key={id}

@@ -44,6 +44,12 @@ const Flow: NextPage = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    return () => {
+      useFlowStore.setState({ activeId: undefined });
+    };
+  }, []);
+
   const [title] = useFlowStore((s) => [flowSelectors.currentFlowMeta(s).title], shallow);
 
   return (

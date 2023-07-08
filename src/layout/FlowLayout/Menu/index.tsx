@@ -1,5 +1,5 @@
 import { createStyles } from 'antd-style';
-import { memo } from 'react';
+import React, { memo } from 'react';
 import { Flexbox } from 'react-layout-kit';
 
 import FolderPanel from '../../../features/FolderPanel';
@@ -15,7 +15,7 @@ export const useStyles = createStyles(({ css }) => ({
   `,
 }));
 
-export const Menu = memo(() => {
+export const Menu: React.FC<{ prefixPath: string }> = memo((props) => {
   const { styles, cx } = useStyles();
 
   return (
@@ -23,7 +23,7 @@ export const Menu = memo(() => {
       <Flexbox gap={8} height={'100%'}>
         <Header />
         <Flexbox className={cx(styles.center)}>
-          <FlowList />
+          <FlowList {...props} />
         </Flexbox>
       </Flexbox>
     </FolderPanel>

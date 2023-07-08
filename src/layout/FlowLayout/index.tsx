@@ -19,7 +19,7 @@ const FlowLayout = ({ children }: PropsWithChildren) => {
     <DndContext>
       <Flexbox id={'FlowLayout'} horizontal width={'100%'} height={'100%'}>
         <Sidebar />
-        <Menu />
+        <Menu prefixPath="flow" />
         <FlowEditorProvider showDevtools>{children}</FlowEditorProvider>
       </Flexbox>
     </DndContext>
