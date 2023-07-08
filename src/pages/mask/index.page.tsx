@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
+import Markdown from '@/components/Markdown';
 import { Mask, useMaskStore } from '@/store/mask';
 import { EyeOutlined, UserAddOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import router from 'next/router';
 import styles from './index.module.css';
 import { MaskLayout } from './layout';
@@ -73,6 +74,8 @@ function MaskPage() {
   const masks = maskStore.getAll();
   const groups = useMaskGroup(masks);
 
+  const [mask, setMask] = useState<Mask | null>();
+
   const maskRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -122,12 +125,44 @@ function MaskPage() {
           {groups.map((masks, i) => (
             <div key={i} className={styles['mask-row']}>
               {masks.map((mask, index) => (
-                <MaskItem key={index} mask={mask} />
+                <MaskItem
+                  key={index}
+                  mask={mask}
+                  onClick={() => {
+                    setMask(mask);
+                  }}
+                />
               ))}
             </div>
           ))}
         </div>
       </div>
+
+      <Modal
+        width={800}
+        title={mask?.name}
+        open={!!mask?.id}
+        onCancel={() => {
+          setMask(null);
+        }}
+        footer={null}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 8,
+          }}
+        >
+          {mask?.context.map((item, index) => {
+            return (
+              <div key={item.id || index}>
+                <Markdown>{item.content || ''}</Markdown>
+              </div>
+            );
+          })}
+        </div>
+      </Modal>
     </MaskLayout>
   );
 }

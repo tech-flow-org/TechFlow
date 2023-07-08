@@ -6,6 +6,7 @@ export const useStyles = createStyles(({ css, token }) => ({
     grid-area: sidebar;
 
     width: ${token.sidebarWidth}px;
+    min-width: ${token.sidebarWidth}px;
     padding: 16px 0;
 
     background: ${token.colorBgLayoutSecondary};

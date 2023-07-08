@@ -18,14 +18,16 @@ const useStyles = createStyles(({ css }) => {
   return {
     layout: css`
       position: relative;
+
       width: 100%;
-      padding: 24px;
       max-width: 60vw;
       margin: 0 auto;
-      background-image: url('https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/V-_oS6r-i7wAAAAAAAAAAAAAFl94AQBr');
-      background-size: 100% 100%;
-      background-position: left top;
+      padding: 24px;
       padding-bottom: 80px;
+
+      background-image: url('https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/V-_oS6r-i7wAAAAAAAAAAAAAFl94AQBr');
+      background-position: left top;
+      background-size: 100% 100%;
     `,
   };
 });
@@ -103,7 +105,6 @@ const FlowStepForm: React.FC<{
             title={'输入必选参数'}
             formRef={flowSelectFormRef}
             onFinish={async (values) => {
-              const flowId = flowSelectFormRef.current?.getFieldValue('flowId');
               if (flowId) {
                 Object.keys(values).forEach((key) => {
                   if (key !== flowId && values[key] !== undefined) {
