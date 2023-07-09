@@ -187,13 +187,18 @@ export const FixMode: FC<FixModePanelProps> = memo<FixModePanelProps>(
           minHeight: typeof minHeight === 'number' ? Math.max(minHeight, 0) : undefined,
           maxWidth: typeof maxWidth === 'number' ? Math.max(maxWidth, 0) : undefined,
           defaultSize,
-          size: size as Size,
+          size: {
+            width: typeof minWidth === 'number' ? Math.max(minWidth, 0) : 280,
+            height: typeof minHeight === 'number' ? Math.max(minHeight, 0) : undefined,
+            ...size,
+          } as Size,
           style,
         }
       : {
           minWidth: 0,
           minHeight: 0,
-          size: { width: 0, height: 0 },
+          size: { width: 0, height: 0, ...size },
+          style,
         };
 
     const { Arrow, className: arrowPlacement } = useMemo(() => {
@@ -226,32 +231,30 @@ export const FixMode: FC<FixModePanelProps> = memo<FixModePanelProps>(
             <Arrow rotate={isExpand ? 180 : 0} />
           </Center>
         )}
-        {
-          <Resizable
-            {...sizeProps}
-            className={styles.fixed}
-            enable={canResizing ? (resizing as Enable) : undefined}
-            handleClasses={resizeHandleClassNames}
-            onResizeStop={(e, direction, ref, delta) => {
-              setShowExpand(true);
-              onSizeChange?.(delta, {
-                width: ref.style.width,
-                height: ref.style.height,
-              });
-            }}
-            onResizeStart={() => {
-              setShowExpand(false);
-            }}
-            onResize={(_, direction, ref, delta) => {
-              onSizeDragging?.(delta, {
-                width: ref.style.width,
-                height: ref.style.height,
-              });
-            }}
-          >
-            {children}
-          </Resizable>
-        }
+        <Resizable
+          {...sizeProps}
+          className={styles.fixed}
+          enable={canResizing ? (resizing as Enable) : undefined}
+          handleClasses={resizeHandleClassNames}
+          onResizeStop={(e, direction, ref, delta) => {
+            setShowExpand(true);
+            onSizeChange?.(delta, {
+              width: ref.style.width,
+              height: ref.style.height,
+            });
+          }}
+          onResizeStart={() => {
+            setShowExpand(false);
+          }}
+          onResize={(_, direction, ref, delta) => {
+            onSizeDragging?.(delta, {
+              width: ref.style.width,
+              height: ref.style.height,
+            });
+          }}
+        >
+          {children}
+        </Resizable>
       </div>
     );
   },

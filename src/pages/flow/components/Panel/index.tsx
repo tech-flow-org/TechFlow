@@ -24,6 +24,7 @@ export default () => {
       style={{
         paddingInline: 4,
         gridArea: 'panel',
+        transition: 'all 0.3s ease-in-out',
       }}
     >
       <Flexbox gap={8} height={'100%'}>

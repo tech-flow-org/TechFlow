@@ -19,13 +19,14 @@ export default ({ children }: PropsWithChildren) => {
     (s) => [s.sessionsWidth, s.sessionExpandable],
     shallow,
   );
-  const [tmpWidth, setWidth] = useState(sessionsWidth);
+  const [tmpWidth, setWidth] = useState(sessionsWidth || 280);
   if (tmpWidth !== sessionsWidth) setWidth(sessionsWidth);
 
   return (
     <DraggablePanel
       placement="left"
-      maxWidth={400}
+      maxWidth={300}
+      minWidth={180}
       defaultSize={{ width: tmpWidth }}
       size={{ width: sessionsWidth, height: '100vh' }}
       onSizeChange={(_, size) => {
@@ -46,6 +47,9 @@ export default ({ children }: PropsWithChildren) => {
         });
       }}
       className={styles.panel}
+      style={{
+        transition: 'all 0.2s ease-in-out',
+      }}
     >
       {children}
     </DraggablePanel>
