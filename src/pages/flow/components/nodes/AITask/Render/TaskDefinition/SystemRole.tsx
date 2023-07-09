@@ -84,6 +84,7 @@ const SystemRole = memo(({ id }: { id: string }) => {
         onCancel={() => setOpen(false)}
         open={open}
         footer={null}
+        getContainer={() => document.body}
       >
         <List
           itemLayout="horizontal"
@@ -105,6 +106,7 @@ const SystemRole = memo(({ id }: { id: string }) => {
                         'systemRole',
                         item.context.map((c) => c.content).join('\n'),
                       );
+                      editor.updateNodeContent<AITaskContent>(id, 'llm', item.modelConfig);
                       setOpen(false);
                     }}
                   >

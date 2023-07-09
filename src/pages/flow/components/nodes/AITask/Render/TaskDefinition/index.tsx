@@ -2,7 +2,7 @@ import { PlayCircleOutlined } from '@ant-design/icons';
 import { useDebounce } from 'ahooks';
 import { createStyles } from 'antd-style';
 import { BasicNode, NodeField } from 'kitchen-flow-editor';
-import { ReactNode, memo, useEffect, useState } from 'react';
+import { ReactNode, memo, useEffect, useRef, useState } from 'react';
 import { Flexbox } from 'react-layout-kit';
 import { shallow } from 'zustand/shallow';
 
@@ -12,7 +12,7 @@ import TaskExample from './TaskExample';
 import { IconAction } from '@/components/IconAction';
 import { flowSelectors, useFlowStore } from '@/store/flow';
 import { ALL_MODELS } from '@/store/mask';
-import { Select } from 'antd';
+import { ConfigProvider, Select } from 'antd';
 
 const useStyles = createStyles(({ css, token, prefixCls, isDarkMode }) => ({
   container: css`
@@ -100,59 +100,83 @@ const TaskDefinition = memo<TaskDefinitionProps>(
       return () => clearInterval(intervalId);
     }, [loading]);
 
+    const htmlRef = useRef<HTMLDivElement>(null);
+
     return (
-      <BasicNode
-        id={id}
-        title={title}
-        active={selected}
-        collapsedKeys={collapsedKeys}
-        extra={
-          <Flexbox horizontal gap={4}>
-            {loading ? (
+      <ConfigProvider
+        getPopupContainer={() => {
+          return htmlRef.current || document.body;
+        }}
+      >
+        <div ref={htmlRef} />
+        <BasicNode
+          id={id}
+          title={title}
+          active={selected}
+          collapsedKeys={collapsedKeys}
+          extra={
+            <Flexbox horizontal gap={4}>
+              {loading ? (
+                <IconAction
+                  title={'停止'}
+                  type={'danger'}
+                  icon={
+                    <div
+                      style={{
+                        width: 16,
+                        height: 16,
+                        borderRadius: 2,
+                        background: theme.colorError,
+                      }}
+                    />
+                  }
+                  onClick={() => {
+                    abortFlowNode(id);
+                  }}
+                />
+              ) : null}
               <IconAction
-                title={'停止'}
-                type={'danger'}
-                icon={
-                  <div
-                    style={{ width: 16, height: 16, borderRadius: 2, background: theme.colorError }}
-                  />
-                }
+                title={'执行节点'}
+                loading={loading}
+                icon={<PlayCircleOutlined />}
                 onClick={() => {
-                  abortFlowNode(id);
+                  runFlowNode(id);
                 }}
               />
-            ) : null}
-            <IconAction
-              title={'执行节点'}
-              loading={loading}
-              icon={<PlayCircleOutlined />}
-              onClick={() => {
-                runFlowNode(id);
+              {headerExtra}
+            </Flexbox>
+          }
+          className={cx(styles.container, className, showProgress && styles.progress)}
+          style={{ '--task-loading-progress': `${percent}%` } as any}
+        >
+          <NodeField title={'模型'} id={'model'}>
+            <div
+              style={{
+                width: '100%',
               }}
-            />
-            {headerExtra}
-          </Flexbox>
-        }
-        className={cx(styles.container, className, showProgress && styles.progress)}
-        style={{ '--task-loading-progress': `${percent}%` } as any}
-      >
-        <NodeField title={'模型'} id={'model'}>
-          <Select
-            style={{
-              width: '100%',
-            }}
-            value={model}
-            options={ALL_MODELS.map((item) => {
-              return {
-                label: item.name,
-                value: item.name,
-              };
-            })}
-          />
-        </NodeField>
-        <SystemRole id={id} />
-        <TaskExample id={id} />
-      </BasicNode>
+              onContextMenu={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              <Select
+                style={{
+                  width: '100%',
+                }}
+                value={model}
+                options={ALL_MODELS.map((item) => {
+                  return {
+                    label: item.name,
+                    value: item.name,
+                  };
+                })}
+              />
+            </div>
+          </NodeField>
+          <SystemRole id={id} />
+          <TaskExample id={id} />
+        </BasicNode>
+      </ConfigProvider>
     );
   },
 );

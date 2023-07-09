@@ -1,16 +1,10 @@
+import { ModelConfig } from '@/store/mask';
 import { IFlowBasicNodeData } from 'kitchen-flow-editor';
 import { Node } from 'reactflow';
 import type { ChatExample } from '../../agent';
-import { LLMModel } from '../../agent';
 
 export interface AITaskContent {
-  llm: {
-    /**
-     * 角色所使用的 LLM 模型
-     * @description 可选参数，如果不传则使用默认模型
-     */
-    model?: LLMModel;
-  };
+  llm: ModelConfig;
   systemRole: string;
   input: ChatExample;
   output: string;
