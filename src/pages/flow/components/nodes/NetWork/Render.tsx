@@ -1,9 +1,8 @@
 import { flowSelectors, useFlowStore } from '@/store/flow';
-import { OutputNodeContent } from '@/types/flow';
 import { DeleteOutlined, PlayCircleOutlined } from '@ant-design/icons';
-import { App, Input } from 'antd';
+import { App } from 'antd';
 import isEqual from 'fast-deep-equal';
-import { BasicNode, NodeField, memoEqual, useFlowEditor } from 'kitchen-flow-editor';
+import { BasicNode, memoEqual } from 'kitchen-flow-editor';
 import { memo, useEffect, useState } from 'react';
 import { shallow } from 'zustand/shallow';
 
@@ -11,8 +10,8 @@ import { IconAction } from '@/components/IconAction';
 import { createStyles } from 'antd-style';
 import { Flexbox } from 'react-layout-kit';
 import { useReactFlow } from 'reactflow';
+import { InputSchemaRender } from '../../InputSchemaRender';
 import { OutputNodeProps } from '../types';
-import TaskExample from './TaskExample';
 import TaskResult from './TaskResult';
 
 const useStyles = createStyles(({ css, token, prefixCls, isDarkMode }) => ({
@@ -65,10 +64,6 @@ const OutputNode = memo<
     loading?: boolean;
   }
 >(({ id, selected, loading }) => {
-  const [node] = useFlowStore((s) => {
-    const node = flowSelectors.getNodeContentById<OutputNodeContent>(id)(s);
-    return [node];
-  }, isEqual);
   const { styles, theme, cx } = useStyles();
   const [runFlowNode, abortFlowNode] = useFlowStore((s) => {
     return [s.runFlowNode, s.abortFlowNode];
@@ -81,8 +76,6 @@ const OutputNode = memo<
   }, isEqual);
 
   const { modal } = App.useApp();
-
-  const editor = useFlowEditor();
 
   const reflow = useReactFlow();
 
@@ -172,21 +165,7 @@ const OutputNode = memo<
         className={cx(styles.card, styles.progress)}
         style={{ '--task-loading-progress': `${percent}%` } as any}
       >
-        <NodeField title={'网络地址'} id={'url'}>
-          <Input
-            allowClear
-            style={{ width: '100%' }}
-            placeholder={'请输入网络'}
-            value={node?.url}
-            onChange={(e) => {
-              editor.updateNodeContent<OutputNodeContent>(id, 'url', e.target.value);
-            }}
-            className={'nodrag'}
-          />
-        </NodeField>
-        <NodeField title={'请求字段'} id={'source'}>
-          <TaskExample id={id} />
-        </NodeField>
+        <InputSchemaRender id={id} />
       </BasicNode>
       <Flexbox padding={24} gap={12}>
         <TaskResult id={id} />

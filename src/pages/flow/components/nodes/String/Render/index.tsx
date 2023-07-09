@@ -1,20 +1,13 @@
-import { App, Input } from 'antd';
+import { flowSelectors, useFlowStore } from '@/store/flow';
+import { DeleteOutlined } from '@ant-design/icons';
+import { App } from 'antd';
+import { BasicNode, memoEqual } from 'kitchen-flow-editor';
+import { isEqual } from 'lodash-es';
 import { memo } from 'react';
 import { NodeProps, useReactFlow } from 'reactflow';
-import { shallow } from 'zustand/shallow';
-
-import { flowSelectors, useFlowStore } from '@/store/flow';
-import { StringNodeContent } from '@/types/flow';
-import { DeleteOutlined } from '@ant-design/icons';
-import { BasicNode, NodeField, memoEqual, useFlowEditor } from 'kitchen-flow-editor';
-import { isEqual } from 'lodash-es';
+import { InputSchemaRender } from '../../../InputSchemaRender';
 
 const InputNode = memo<NodeProps>(({ id, selected }) => {
-  const [value] = useFlowStore((s) => {
-    const node = flowSelectors.getNodeByIdSafe<StringNodeContent>(id)(s);
-    return [node.data.content.text];
-  }, shallow);
-
   const [title] = useFlowStore((s) => {
     const { meta } = flowSelectors.getNodeByIdSafe(id)(s).data;
 
@@ -22,8 +15,6 @@ const InputNode = memo<NodeProps>(({ id, selected }) => {
   }, isEqual);
 
   const { modal } = App.useApp();
-
-  const editor = useFlowEditor();
 
   const reflow = useReactFlow();
 
@@ -54,16 +45,7 @@ const InputNode = memo<NodeProps>(({ id, selected }) => {
         </div>,
       ]}
     >
-      <NodeField valueContainer={false} title={'文本'} id={'text'} handles={{ target: 'text' }}>
-        <Input.TextArea
-          value={value}
-          className={'nowheel nodrag'}
-          onChange={(e) => {
-            editor.updateNodeContent<StringNodeContent>(id, 'text', e.target.value);
-          }}
-          placeholder={'请输入内容'}
-        />
-      </NodeField>
+      <InputSchemaRender id={id} />
     </BasicNode>
   );
 }, memoEqual);

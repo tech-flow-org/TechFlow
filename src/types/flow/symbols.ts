@@ -24,6 +24,25 @@ export interface SymbolMasterDefinition<Content> {
   preview: FC<any>;
   render: FC<any>;
   defaultContent: Content;
+  schema: Record<
+    string,
+    {
+      type: 'input' | 'output';
+      title: string;
+      valueContainer?: boolean;
+      hideContainer?: boolean;
+      valueKey?: string[];
+      component?: 'Input' | 'Segmented' | 'InputArea' | 'SystemRole' | 'TaskPromptsInput';
+      options?: {
+        label: string;
+        value: string;
+      }[];
+      handles?: {
+        source?: true | string;
+        target?: true | string;
+      };
+    }
+  >;
   onCreateNode?: OnCreateNode<IFlowBasicNode<Content>>;
   run: (
     node: Content,

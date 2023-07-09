@@ -2,7 +2,8 @@ import Markdown from '@/components/Markdown';
 import { createAITaskContent, createNode } from '@/helpers/flow';
 import { fetchLangChain } from '@/services/langChain';
 import { initAITaskContent } from '@/store/flow/initialState';
-import { ChatAgent, LLMModel } from '@/types';
+import { ALL_MODELS } from '@/store/mask';
+import { ChatAgent } from '@/types';
 import { AITaskContent, SymbolMasterDefinition } from '@/types/flow';
 import { LangChainParams } from '@/types/langchain';
 import { genChatMessages } from '@/utils/genChatMessages';
@@ -18,13 +19,41 @@ export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
   render: Render,
   defaultContent: initAITaskContent,
 
+  schema: {
+    model: {
+      type: 'input',
+      valueKey: ['llm', 'model'],
+      component: 'Segmented',
+      title: '模型',
+      options: ALL_MODELS.map((model) => ({
+        label: model.name,
+        value: model.name,
+      })),
+      valueContainer: false,
+    },
+    systemRole: {
+      type: 'input',
+      hideContainer: true,
+      component: 'SystemRole',
+      title: '角色定义',
+      valueContainer: false,
+    },
+    input: {
+      type: 'input',
+      component: 'TaskPromptsInput',
+      title: '运行输入',
+      hideContainer: true,
+      valueContainer: false,
+    },
+  },
+
   onCreateNode: (node, activeData) => {
     if (activeData?.source === 'agent') {
       const agent = activeData as unknown as ChatAgent;
       return createNode(
         node,
         createAITaskContent({
-          llm: { model: agent.model || LLMModel.GPT3_5 },
+          llm: { model: 'gpt-3.5-turbo' },
           systemRole: agent.content,
         }),
         agent,

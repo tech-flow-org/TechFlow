@@ -13,6 +13,17 @@ export const StringSymbol: SymbolMasterDefinition<StringNodeContent> = {
   description: '纯文本输入节点',
   avatar: '📝',
   defaultContent: { text: '' },
+  schema: {
+    text: {
+      type: 'input',
+      title: '文本',
+      valueContainer: false,
+      component: 'InputArea',
+      handles: {
+        target: true,
+      },
+    },
+  },
   preview: Preview,
   render: Render,
   run: async (node) => {

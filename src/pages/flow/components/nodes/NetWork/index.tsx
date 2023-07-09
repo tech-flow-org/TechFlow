@@ -17,6 +17,18 @@ export const OutputSymbol: SymbolMasterDefinition<OutputNodeContent> = {
     url: 'http://127.0.0.1:8001/api/data',
     data: '{"images":"{images}","text":"{text}"}',
   },
+  schema: {
+    url: {
+      type: 'input',
+      component: 'Input',
+      title: 'URL',
+    },
+    data: {
+      type: 'input',
+      component: 'InputArea',
+      title: '数据',
+    },
+  },
   run: async (node, vars, { updateParams }) => {
     let data: Record<string, any> = {};
     Object.keys(JSON.parse(node.data)).forEach((key) => {

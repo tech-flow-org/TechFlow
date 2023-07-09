@@ -14,7 +14,6 @@ import { Flexbox } from 'react-layout-kit';
 import { ChatMessageList, EditableMessage } from '@/components/Chat';
 import { flowSelectors, useFlowStore } from '@/store/flow';
 import { ChatExample } from '@/types';
-
 import { VariableHandle } from './VariableHandle';
 
 const useStyles = createStyles(({ css }) => ({
@@ -34,18 +33,22 @@ const useStyles = createStyles(({ css }) => ({
   `,
 }));
 
-interface TaskExampleProps {
+interface TaskPromptsInputProps {
   id: string;
+  valueKey: string;
+  value: ChatExample;
+  title: React.ReactNode;
+  onChange: (value: ChatExample) => void;
 }
 
-const TaskExample = memo<TaskExampleProps>(({ id }) => {
+const TaskPromptsInput = memo<TaskPromptsInputProps>(({ id, ...props }) => {
   const { styles } = useStyles();
 
-  const [chatExample, disabled, mode] = useFlowStore((s) => {
+  const [disabled, mode] = useFlowStore((s) => {
     const content = flowSelectors.getNodeContentById(id)(s);
     const node = flowSelectors.getNodeByIdSafe(id)(s);
 
-    return [content?.input, node.data.state?.loading, content?.mode];
+    return [node.data.state?.loading, content?.mode];
   }, isEqual);
   const editor = useFlowEditor();
 
@@ -55,7 +58,7 @@ const TaskExample = memo<TaskExampleProps>(({ id }) => {
   const isArray = mode === 'chat';
 
   const onExampleChange = useCallback((value: ChatExample) => {
-    editor.updateNodeContent(id, 'input', value);
+    props.onChange(value);
   }, []);
 
   return (
@@ -63,7 +66,7 @@ const TaskExample = memo<TaskExampleProps>(({ id }) => {
       id={'input'}
       title={
         <Flexbox horizontal gap={8} align={'center'}>
-          运行输入
+          <span>{props.title}</span>
           <Segmented
             value={mode}
             className={styles.segment}
@@ -95,11 +98,11 @@ const TaskExample = memo<TaskExampleProps>(({ id }) => {
       }
     >
       <Flexbox className={'nodrag'}>
-        <VariableHandle handleId={'task.input'} chatMessages={chatExample} />
+        <VariableHandle handleId={'task.input'} chatMessages={props.value} />
         {isArray ? (
           <ChatMessageList
             disabled={disabled}
-            dataSources={chatExample}
+            dataSources={props.value}
             onChange={onExampleChange}
           />
         ) : (
@@ -107,11 +110,11 @@ const TaskExample = memo<TaskExampleProps>(({ id }) => {
             showEditWhenEmpty
             openModal={expand}
             onOpenChange={setExpand}
-            value={chatExample?.[0]?.content}
+            value={props.value?.[0]?.content}
             editing={isEdit}
             onEditingChange={setTyping}
             onChange={(text) => {
-              editor.updateNodeContent(id, 'input', [{ role: 'user', content: text }]);
+              props.onChange([{ role: 'user', content: text }]);
             }}
           />
         )}
@@ -120,4 +123,4 @@ const TaskExample = memo<TaskExampleProps>(({ id }) => {
   );
 }, isEqual);
 
-export default TaskExample;
+export default TaskPromptsInput;

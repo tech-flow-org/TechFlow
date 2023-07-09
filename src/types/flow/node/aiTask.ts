@@ -4,7 +4,7 @@ import { Node } from 'reactflow';
 import type { ChatExample } from '../../agent';
 
 export interface AITaskContent {
-  llm: ModelConfig;
+  llm: Partial<ModelConfig>;
   systemRole: string;
   input: ChatExample;
   output: string;

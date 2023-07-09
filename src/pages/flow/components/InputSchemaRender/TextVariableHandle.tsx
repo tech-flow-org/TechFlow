@@ -28,7 +28,7 @@ interface VariableHandleProps {
   chatMessages: string[];
   handleId: string;
 }
-export const VariableHandle = memo<VariableHandleProps>(({ handleId, chatMessages = [] }) => {
+export const TextVariableHandle = memo<VariableHandleProps>(({ handleId, chatMessages = [] }) => {
   const { styles, cx } = useStyles();
   const { styles: fieldStyles } = useNodeFieldStyles();
 
@@ -40,6 +40,7 @@ export const VariableHandle = memo<VariableHandleProps>(({ handleId, chatMessage
       };
     }),
   );
+
   return (
     <Flexbox gap={16} className={styles.handleContainer}>
       {inputVariables

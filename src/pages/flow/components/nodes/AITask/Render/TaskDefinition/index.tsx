@@ -1,18 +1,15 @@
 import { PlayCircleOutlined } from '@ant-design/icons';
 import { useDebounce } from 'ahooks';
 import { createStyles } from 'antd-style';
-import { BasicNode, NodeField } from 'kitchen-flow-editor';
+import { BasicNode } from 'kitchen-flow-editor';
 import { ReactNode, memo, useEffect, useRef, useState } from 'react';
 import { Flexbox } from 'react-layout-kit';
 import { shallow } from 'zustand/shallow';
 
-import SystemRole from './SystemRole';
-import TaskExample from './TaskExample';
-
 import { IconAction } from '@/components/IconAction';
+import { InputSchemaRender } from '@/pages/flow/components/InputSchemaRender';
 import { flowSelectors, useFlowStore } from '@/store/flow';
-import { ALL_MODELS } from '@/store/mask';
-import { ConfigProvider, Select } from 'antd';
+import { ConfigProvider } from 'antd';
 
 const useStyles = createStyles(({ css, token, prefixCls, isDarkMode }) => ({
   container: css`
@@ -59,14 +56,9 @@ interface TaskDefinitionProps {
 
 const TaskDefinition = memo<TaskDefinitionProps>(
   ({ loading, id, selected, headerExtra, title, className }) => {
-    const [model, collapsedKeys, runFlowNode, abortFlowNode] = useFlowStore((s) => {
+    const [collapsedKeys, runFlowNode, abortFlowNode] = useFlowStore((s) => {
       const agent = flowSelectors.getNodeByIdSafe(id)(s);
-      return [
-        agent.data.content.llm?.model,
-        agent.data.state?.collapsedKeys,
-        s.runFlowNode,
-        s.abortFlowNode,
-      ];
+      return [agent.data.state?.collapsedKeys, s.runFlowNode, s.abortFlowNode];
     }, shallow);
 
     const { styles, theme, cx } = useStyles();
@@ -149,32 +141,7 @@ const TaskDefinition = memo<TaskDefinitionProps>(
           className={cx(styles.container, className, showProgress && styles.progress)}
           style={{ '--task-loading-progress': `${percent}%` } as any}
         >
-          <NodeField title={'模型'} id={'model'}>
-            <div
-              style={{
-                width: '100%',
-              }}
-              onContextMenu={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-            >
-              <Select
-                style={{
-                  width: '100%',
-                }}
-                value={model}
-                options={ALL_MODELS.map((item) => {
-                  return {
-                    label: item.name,
-                    value: item.name,
-                  };
-                })}
-              />
-            </div>
-          </NodeField>
-          <SystemRole id={id} />
-          <TaskExample id={id} />
+          <InputSchemaRender id={id} />
         </BasicNode>
       </ConfigProvider>
     );
