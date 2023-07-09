@@ -6,9 +6,18 @@ import CodeBlock from './CodeBlock';
 const useStyles = createStyles(({ css, token, isDarkMode }) => {
   return {
     container: css`
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        color: ${token.colorTextHeading};
+      }
       * {
         color: ${token.colorTextSecondary};
       }
+
       p:not(:last-child) {
         margin-bottom: 1em;
       }
