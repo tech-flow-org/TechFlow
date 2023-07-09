@@ -1,4 +1,4 @@
-import { App, ConfigProvider, theme } from 'antd';
+import { App, ConfigProvider } from 'antd';
 import { ThemeProvider, useThemeMode } from 'antd-style';
 import 'antd/dist/reset.css';
 import Zh_CN from 'antd/locale/zh_CN';
@@ -22,12 +22,7 @@ const Layout = ({ children }: PropsWithChildren) => {
   const { styles } = useStyles();
 
   return (
-    <ConfigProvider
-      locale={Zh_CN}
-      theme={{
-        algorithm: theme.compactAlgorithm,
-      }}
-    >
+    <ConfigProvider locale={Zh_CN}>
       <App className={styles.bg}>{children}</App>
     </ConfigProvider>
   );
@@ -60,7 +55,6 @@ export default ({ children }: PropsWithChildren) => {
       theme={(appearance) => {
         const defaultValue = getAntdTheme(appearance);
         return {
-          algorithm: theme.compactAlgorithm,
           ...defaultValue,
           token: { ...defaultValue?.token, fontSize },
         };
