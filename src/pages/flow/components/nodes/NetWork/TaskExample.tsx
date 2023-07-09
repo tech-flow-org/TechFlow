@@ -27,11 +27,6 @@ const TaskExample = memo<TaskExampleProps>(({ id }) => {
   return (
     <NodeField
       id={'input'}
-      title={
-        <Flexbox horizontal gap={8} align={'center'}>
-          提示词输入
-        </Flexbox>
-      }
       extra={[
         {
           icon: <ArrowsAltOutlined />,

@@ -27,50 +27,96 @@ const TaskExample = memo<TaskExampleProps>(({ id }) => {
   const isArray = mode === 'chat';
 
   return (
-    <NodeField
-      id={'input'}
-      title={
-        <Flexbox horizontal gap={8} align={'center'}>
-          提示词输入
+    <>
+      <NodeField
+        id={'input'}
+        title={
+          <Flexbox horizontal gap={8} align={'center'}>
+            提示词输入
+          </Flexbox>
+        }
+        extra={
+          isArray
+            ? []
+            : [
+                {
+                  icon: <ArrowsAltOutlined />,
+                  title: '展开',
+                  onClick: () => setExpand(!expand),
+                },
+                {
+                  icon: <EditOutlined />,
+                  title: '编辑',
+                  onClick: () => setTyping(true),
+                },
+              ]
+        }
+      >
+        <Flexbox className={'nodrag'}>
+          <VariableHandle handleId={'task'} chatMessages={[chatExample?.prompt || '']} />
+          {isEdit ? (
+            <EditableMessage
+              showEditWhenEmpty
+              openModal={expand}
+              placeholder="请输入提示词,以逗号分隔，如：Hello World,1cubemonster,<lora:cubemonster-000018:0.8> "
+              onOpenChange={setExpand}
+              value={chatExample?.prompt || '1cubemonster <lora:cubemonster-000018:0.8>'}
+              editing={isEdit}
+              onEditingChange={setTyping}
+              onChange={(text) => {
+                editor.updateNodeContent(id, 'prompt', text);
+              }}
+            />
+          ) : (
+            <div style={{ width: '100%' }}>{chatExample?.prompt}</div>
+          )}
         </Flexbox>
-      }
-      extra={
-        isArray
-          ? []
-          : [
-              {
-                icon: <ArrowsAltOutlined />,
-                title: '展开',
-                onClick: () => setExpand(!expand),
-              },
-              {
-                icon: <EditOutlined />,
-                title: '编辑',
-                onClick: () => setTyping(true),
-              },
-            ]
-      }
-    >
-      <Flexbox className={'nodrag'}>
-        <VariableHandle handleId={'task'} chatMessages={[chatExample?.prompt || '']} />
-        {isEdit ? (
-          <EditableMessage
-            showEditWhenEmpty
-            openModal={expand}
-            placeholder="请输入提示词,以逗号分隔，如：Hello World,1cubemonster,<lora:cubemonster-000018:0.8> "
-            onOpenChange={setExpand}
-            value={chatExample?.prompt || '1cubemonster <lora:cubemonster-000018:0.8>'}
-            editing={isEdit}
-            onEditingChange={setTyping}
-            onChange={(text) => {
-              editor.updateNodeContent(id, 'prompt', text);
-            }}
-          />
-        ) : (
-          <div style={{ width: '100%' }}>{chatExample?.prompt}</div>
-        )}
-      </Flexbox>
-    </NodeField>
+      </NodeField>
+      <NodeField
+        id={'negative_prompt'}
+        title={
+          <Flexbox horizontal gap={8} align={'center'}>
+            反向提示词输入
+          </Flexbox>
+        }
+        extra={
+          isArray
+            ? []
+            : [
+                {
+                  icon: <ArrowsAltOutlined />,
+                  title: '展开',
+                  onClick: () => setExpand(!expand),
+                },
+                {
+                  icon: <EditOutlined />,
+                  title: '编辑',
+                  onClick: () => setTyping(true),
+                },
+              ]
+        }
+      >
+        <Flexbox className={'nodrag'}>
+          <VariableHandle handleId={'task'} chatMessages={[chatExample?.negative_prompt || '']} />
+          {isEdit ? (
+            <EditableMessage
+              showEditWhenEmpty
+              openModal={expand}
+              placeholder="请输入反向提示词,以逗号分隔"
+              onOpenChange={setExpand}
+              value={chatExample?.negative_prompt || '1cubemonster <lora:cubemonster-000018:0.8>'}
+              editing={isEdit}
+              onEditingChange={setTyping}
+              onChange={(text) => {
+                editor.updateNodeContent(id, 'negative_prompt', text);
+              }}
+            />
+          ) : (
+            <div style={{ width: '100%' }}>{chatExample?.negative_prompt}</div>
+          )}
+        </Flexbox>
+      </NodeField>
+    </>
   );
 }, isEqual);
 

@@ -14,7 +14,7 @@ export const OutputSymbol: SymbolMasterDefinition<OutputNodeContent> = {
   preview: Output,
   render: Render,
   defaultContent: {
-    url: 'https://www.xxx.com/api',
+    url: 'http://127.0.0.1:8001/api/data',
     data: '{"images":"{images}","text":"{text}"}',
   },
   run: async (node, vars, { updateParams }) => {

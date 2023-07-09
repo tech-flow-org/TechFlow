@@ -11,6 +11,8 @@ import TaskExample from './TaskExample';
 
 import { IconAction } from '@/components/IconAction';
 import { flowSelectors, useFlowStore } from '@/store/flow';
+import { ALL_MODELS } from '@/store/mask';
+import { Select } from 'antd';
 
 const useStyles = createStyles(({ css, token, prefixCls, isDarkMode }) => ({
   container: css`
@@ -135,7 +137,18 @@ const TaskDefinition = memo<TaskDefinitionProps>(
         style={{ '--task-loading-progress': `${percent}%` } as any}
       >
         <NodeField title={'模型'} id={'model'}>
-          {model}
+          <Select
+            style={{
+              width: '100%',
+            }}
+            value={model}
+            options={ALL_MODELS.map((item) => {
+              return {
+                label: item.name,
+                value: item.name,
+              };
+            })}
+          />
         </NodeField>
         <SystemRole id={id} />
         <TaskExample id={id} />
