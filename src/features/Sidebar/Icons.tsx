@@ -26,8 +26,8 @@ export const MaskIcon = memo<IconProps>(({ style }) => {
       viewBox="64 64 896 896"
       focusable="false"
       data-icon="smile"
-      width="1.4em"
-      height="1.4em"
+      width="1.35em"
+      height="1.35em"
       fill="currentColor"
       aria-hidden="true"
       style={style}

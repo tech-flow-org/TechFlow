@@ -237,10 +237,13 @@ export const runnerSlice: StateCreator<
       task?.data.state.abortController?.abort?.();
     }
     dispatchFlow({ type: 'updateFlowState', id, state: { runningTask: false } });
+    dispatchFlow({ type: 'updateFlowState', id, state: { currentTask: null } });
   },
   runFlow: async () => {
     const { dispatchFlow } = get();
     const { id, flattenNodes, flattenEdges } = flowSelectors.currentFlow(get());
+
+    dispatchFlow({ type: 'updateFlowState', id, state: { currentTask: null } });
 
     const taskList = getTaskList(flattenNodes, flattenEdges);
     // 准备任务列表

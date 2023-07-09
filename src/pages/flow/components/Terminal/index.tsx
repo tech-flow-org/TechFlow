@@ -48,7 +48,7 @@ const Terminal = () => {
         onSizeChange={(_, size) => {
           useFlowStore.setState({ terminalHeight: parseInt(size?.height as string) });
         }}
-        style={{ paddingInline: 12, background: theme.colorBgContainer }}
+        style={{ paddingInline: 12, background: theme.colorBgContainer, transition: 'height 0.3s' }}
         placement={'bottom'}
       >
         <Flexbox horizontal style={{ paddingTop: 16 }} gap={40} height={'100%'}>

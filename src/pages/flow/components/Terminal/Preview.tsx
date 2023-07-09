@@ -10,23 +10,30 @@ import { SymbolNodeRenderMap } from '../nodes';
 import { useStyles } from './style';
 
 const Preview = () => {
-  const [flattenNodes, loading, currentTask, taskList] = useFlowStore((s) => {
+  const [flattenNodes, loading, currentTask, taskList, runningTask] = useFlowStore((s) => {
     const flow = flowSelectors.currentFlowSafe(s);
-    return [flow.flattenNodes, flow.state.runningTask, flow.state.currentTask, flow.state.taskList];
+    return [
+      flow.flattenNodes,
+      flow.state.runningTask,
+      flow.state.currentTask,
+      flow.state.taskList,
+      flow.state.runningTask,
+    ];
   }, isEqual);
 
   // 当前任务在任务列表中的索引
-  const currentTaskIndex = useMemo(
-    () =>
+  const currentTaskIndex = useMemo(() => {
+    if (!runningTask) return 0;
+    return (
       taskList
         ?.map((key) => {
           return flattenNodes[key];
         })
         .filter((n) => n)
         .filter((n) => n?.type !== 'string')
-        ?.findIndex((node) => node.id === currentTask?.id || '') || 0,
-    [taskList?.join('-'), currentTask?.id],
-  );
+        ?.findIndex((node) => node.id === currentTask?.id || '') || 0
+    );
+  }, [taskList?.join('-'), currentTask?.id]);
 
   const { styles } = useStyles();
 
@@ -56,7 +63,7 @@ const Preview = () => {
             gap: 8,
           }}
         >
-          {currentTask ? (
+          {currentTask && runningTask ? (
             <Alert
               banner
               type="info"
@@ -68,7 +75,7 @@ const Preview = () => {
               padding: '0 8px',
               margin: '8px 0',
             }}
-            current={currentTaskIndex}
+            current={currentTaskIndex || 0}
             size="small"
             items={taskList
               ?.map((key) => {
