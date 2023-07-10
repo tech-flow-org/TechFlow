@@ -60,8 +60,8 @@ const FlowStepForm: React.FC<{
   return (
     <FlowStoreProvider
       editorRef={editorRef}
-      flattenNodes={flow.flattenNodes}
-      flattenEdges={flow.flattenEdges}
+      flattenNodes={flow?.flattenNodes || {}}
+      flattenEdges={flow?.flattenEdges || {}}
       onFlattenEdgesChange={(flattenEdges) => {
         dispatchFlow({
           type: 'updateFlow',

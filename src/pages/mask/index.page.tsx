@@ -84,8 +84,6 @@ function MaskPage() {
     }
   }, [groups]);
 
-  console.log(maskStore.getAll());
-
   return (
     <MaskLayout>
       <div className={styles['new-chat']}>

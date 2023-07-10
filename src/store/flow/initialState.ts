@@ -1,4 +1,3 @@
-import { LLMModel } from '@/types';
 import { AITaskContent, FlowAITaskNode, Workflow, WorkflowMap } from '@/types/flow';
 import { FlowEditorInstance } from 'kitchen-flow-editor';
 
@@ -20,7 +19,7 @@ export interface FlowState {
 export const initAITaskContent: AITaskContent = {
   mode: 'prompt',
   llm: {
-    model: LLMModel.GPT3_5,
+    model: 'gpt-3.5-turbo',
   },
   systemRole: '',
   input: [{ role: 'user', content: '' }],

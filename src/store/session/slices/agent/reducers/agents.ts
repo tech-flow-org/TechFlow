@@ -1,4 +1,4 @@
-import { ChatAgent, ChatAgentMap, LLMModel } from '@/types';
+import { ChatAgent, ChatAgentMap } from '@/types';
 import { produce } from 'immer';
 import { Md5 } from 'ts-md5';
 import { v4 as uuid } from 'uuid';
@@ -34,7 +34,7 @@ export const agentsReducer = (state: ChatAgentMap, payload: AgentDispatch): Chat
           content,
           hash: Md5.hashStr(content),
           avatar,
-          model: LLMModel.GPT3_5,
+          model: 'gpt-3.5-turbo',
         };
 
         draft[newAgent.id] = newAgent;

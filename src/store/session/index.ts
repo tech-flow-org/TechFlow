@@ -1,15 +1,12 @@
 import { create } from 'zustand';
 import { devtools, persist, PersistOptions } from 'zustand/middleware';
 
-import { Migration } from '@/migrations';
-
 import { createStore, SessionStore } from './store';
 
 type SessionPersist = Pick<SessionStore, 'agents' | 'chats' | 'displayMode'>;
 
 const persistOptions: PersistOptions<SessionStore, SessionPersist> = {
   name: 'CHAT_SESSION',
-  version: Migration.targetVersion,
 
   partialize: (s) => ({
     chats: s.chats,
@@ -17,11 +14,6 @@ const persistOptions: PersistOptions<SessionStore, SessionPersist> = {
     displayMode: s.displayMode,
   }),
 
-  migrate: (persistedState: any, version) => {
-    const { state } = Migration.migrate({ state: persistedState, version });
-
-    return { ...persistedState, ...state };
-  },
   // 手动控制 Hydration ，避免 ssr 报错
   skipHydration: true,
 };

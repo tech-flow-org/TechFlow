@@ -26,7 +26,6 @@ export const getInputVariablesFromMessages = (chatMessages: ChatMessage[]) => {
   let inputVariables: string[] = [];
   try {
     const chatPrompt = getChatPromptTemplate(chatMessages);
-    console.log(chatPrompt, chatMessages);
     inputVariables = chatPrompt.inputVariables;
   } catch (e) {}
 

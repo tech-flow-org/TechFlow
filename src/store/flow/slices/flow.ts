@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { StateCreator } from 'zustand';
 
 import { FlowStore, flowSelectors } from '@/store/flow';
-import { ChatAgent, LLMModel } from '@/types';
+import { ChatAgent } from '@/types';
 
 import { createFlow, createTextTaskNode } from '@/helpers/flow';
 import { Workflow } from '@/types/flow';
@@ -98,7 +98,7 @@ export const flowCrudSlice: StateCreator<
 
     const aiTaskNode = createTextTaskNode(
       { id: agent.id },
-      { llm: { model: agent.model || LLMModel.GPT3_5 }, systemRole: agent.content },
+      { llm: { model: agent.model || 'gpt-3.5-turbo' }, systemRole: agent.content },
       {
         title: agent.title,
         avatar: agent.avatar,

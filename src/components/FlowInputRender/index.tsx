@@ -8,7 +8,7 @@ export const FlowInputRender: React.FC<{
 }> = memo((props) => {
   const [flattenNodes] = useFlowStore((s) => {
     const flow = s.flows[props.flowId];
-    return [flow.flattenNodes];
+    return [flow?.flattenNodes || {}];
   }, isEqual);
 
   const inputNodes = Object.values(flattenNodes || {}).filter((n) => n.type === 'string');

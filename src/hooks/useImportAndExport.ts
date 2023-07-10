@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { shallow } from 'zustand/shallow';
 
 import { notification } from '@/layout';
-import { CURRENT_CONFIG_VERSION, Migration } from '@/migrations';
 import { useSessionStore, useSettings } from '@/store';
 import { useFlowStore } from '@/store/flow';
 import { ConfigFile, ConfigSettings } from '@/types';
@@ -28,7 +27,7 @@ export const useImportAndExport = () => {
   // 将 入参转换为 配置文件格式
   const config: ConfigFile = {
     state: { chats, agents, settings, flows },
-    version: Migration.targetVersion,
+    version: 3.0,
   };
 
   const exportConfigFile = () => {
@@ -41,7 +40,7 @@ export const useImportAndExport = () => {
     // 创建一个 <a> 元素，设置下载链接和文件名
     const a = document.createElement('a');
     a.href = url;
-    a.download = `DrawingBoard_Config_v${CURRENT_CONFIG_VERSION}.json`;
+    a.download = `DrawingBoard_Config_v3.0.json`;
 
     // 触发 <a> 元素的点击事件，开始下载
     document.body.appendChild(a);
@@ -60,7 +59,7 @@ export const useImportAndExport = () => {
       const fileJson = fileString as string;
 
       try {
-        const { state } = Migration.migrate(JSON.parse(fileJson));
+        const { state } = JSON.parse(fileJson);
         if (isEqual(config, state)) return;
 
         importChatSessions(state);

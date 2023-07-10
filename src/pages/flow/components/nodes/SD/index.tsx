@@ -20,6 +20,7 @@ export const SDTaskSymbol: SymbolMasterDefinition<SDTaskType> = {
   description: '使用 SD 绘图',
   preview: Preview,
   render: Render,
+  schema: {},
   defaultContent: {
     model: 'chilloutmix_NiPrunedFp32Fix',
     width: 512,

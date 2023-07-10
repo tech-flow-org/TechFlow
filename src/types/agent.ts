@@ -1,22 +1,5 @@
+import { ModelType } from '@/store/mask';
 import { ChatMessage } from './chat';
-
-/**
- * LLM 模型枚举
- */
-export enum LLMModel {
-  /**
-   * @title GPT 3.5 Turbo
-   * @description 一个高性能的自然语言处理模型，由 OpenAI 开发
-   */
-  GPT3_5 = 'gpt-3.5-turbo',
-  GPT4 = 'gpt-4',
-
-  /**
-   * @title Chat GLM
-   * @description 一个基于 GLM 模型的聊天机器人，由清华开发
-   */
-  CHAT_GLM = 'chatGLM-6B',
-}
 
 export type ChatExample = ChatMessage[];
 
@@ -53,7 +36,7 @@ export interface ChatAgent {
    * @title 角色所使用的 LLM 模型
    * @description 可选参数，如果不传则使用默认模型
    */
-  model?: LLMModel;
+  model?: ModelType;
   /**
    * @title 角色对话内容
    */

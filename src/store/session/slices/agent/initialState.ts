@@ -1,4 +1,4 @@
-import { ChatAgent, ChatAgentMap, LLMModel } from '@/types';
+import { ChatAgent, ChatAgentMap } from '@/types';
 
 export interface AgentState {
   /**
@@ -14,7 +14,7 @@ export const initialAgent: ChatAgent = {
   content: '',
   id: '',
   hash: '',
-  model: LLMModel.GPT3_5,
+  model: 'gpt-3.5-turbo',
 };
 
 export const initialAgentState: AgentState = {
