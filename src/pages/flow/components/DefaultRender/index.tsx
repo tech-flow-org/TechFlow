@@ -36,82 +36,95 @@ const useStyles = createStyles(({ css, token }) => ({
   result: css``,
 }));
 
-const DefaultRender = memo<BasicFlowNodeProps<Record<string, any>>>(({ selected, id }) => {
-  const { styles, theme, cx } = useStyles();
+const ActionList = ({ id, hasRun }: { id: string; hasRun: boolean }) => {
   const { modal } = App.useApp();
+  const { theme } = useStyles();
 
   const [deleteNode] = useFlowStore((s) => {
     return [s.editor.deleteNode];
-  });
-
-  const [loading, title, node] = useFlowStore((s) => {
-    const node = flowSelectors.getNodeByIdSafe<Record<string, any>>(id)(s);
-    const { meta, state } = node.data;
-    return [state?.loading, meta?.title, node];
-  }, isEqual);
-
+  }, shallow);
   const [runFlowNode, abortFlowNode] = useFlowStore((s) => {
     return [s.runFlowNode, s.abortFlowNode];
   }, shallow);
 
-  const runFunction = useMemo(() => SymbolNodeRunMap[node.type || 'string'], [node.type]);
+  const [loading] = useFlowStore((s) => {
+    const node = flowSelectors.getNodeByIdSafe<Record<string, any>>(id)(s);
+    const { state } = node.data;
+    return [state?.loading];
+  }, isEqual);
+
+  return (
+    <Flexbox gap={8} align="center" direction="horizontal">
+      {loading ? (
+        <IconAction
+          key={'abort'}
+          title={'停止'}
+          type={'danger'}
+          icon={
+            <div
+              style={{
+                width: 16,
+                height: 16,
+                borderRadius: 2,
+                background: theme.colorError,
+              }}
+            />
+          }
+          onClick={() => {
+            abortFlowNode(id);
+          }}
+        />
+      ) : (
+        hasRun && (
+          <IconAction
+            key={'run'}
+            title={'执行节点'}
+            loading={loading}
+            icon={<PlayCircleOutlined />}
+            onClick={() => {
+              runFlowNode(id);
+            }}
+          />
+        )
+      )}
+
+      <IconAction
+        icon={<DeleteOutlined />}
+        onClick={() => {
+          modal.confirm({
+            type: 'warning',
+            title: '确认删除节点吗？',
+            centered: true,
+            okButtonProps: { danger: true },
+            okText: '删除节点',
+            cancelText: '取消',
+            onOk: () => {
+              deleteNode(id);
+            },
+          });
+        }}
+      />
+    </Flexbox>
+  );
+};
+
+const DefaultRender = memo<BasicFlowNodeProps<Record<string, any>>>(({ selected, id }) => {
+  const { styles, cx } = useStyles();
+
+  const [loading, title, type] = useFlowStore((s) => {
+    const node = flowSelectors.getNodeByIdSafe<Record<string, any>>(id)(s);
+    const { meta, state } = node.data;
+    return [state?.loading, meta?.title, node.type];
+  }, shallow);
+
+  const runFunction = useMemo(() => !!SymbolNodeRunMap[type || 'string'], [type]);
 
   return (
     <Flexbox className={cx(styles.container, selected && styles.active)}>
       <TaskDefinition
         id={id}
         title={title}
-        headerExtra={
-          <Flexbox gap={8} align="center" direction="horizontal">
-            {loading ? (
-              <IconAction
-                key={'abort'}
-                title={'停止'}
-                type={'danger'}
-                icon={
-                  <div
-                    style={{
-                      width: 16,
-                      height: 16,
-                      borderRadius: 2,
-                      background: theme.colorError,
-                    }}
-                  />
-                }
-                onClick={() => {
-                  abortFlowNode(id);
-                }}
-              />
-            ) : (
-              <IconAction
-                key={'run'}
-                title={'执行节点'}
-                loading={loading}
-                icon={<PlayCircleOutlined />}
-                onClick={() => {
-                  runFlowNode(id);
-                }}
-              />
-            )}
-
-            <IconAction
-              icon={<DeleteOutlined />}
-              onClick={() => {
-                modal.confirm({
-                  type: 'warning',
-                  title: '确认删除节点吗？',
-                  centered: true,
-                  okButtonProps: { danger: true },
-                  okText: '删除节点',
-                  cancelText: '取消',
-                  onOk: () => {
-                    deleteNode(id);
-                  },
-                });
-              }}
-            />
-          </Flexbox>
-        }
+        headerExtra={<ActionList id={id} hasRun={runFunction} />}
         loading={loading}
         selected={selected}
         className={styles.node}

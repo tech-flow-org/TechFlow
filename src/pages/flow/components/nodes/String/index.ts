@@ -15,7 +15,7 @@ export const StringSymbol: SymbolMasterDefinition<StringNodeContent> = {
       type: 'input',
       title: '文本',
       valueContainer: false,
-      component: 'InputArea',
+      component: 'Input',
       handles: {
         target: true,
       },
