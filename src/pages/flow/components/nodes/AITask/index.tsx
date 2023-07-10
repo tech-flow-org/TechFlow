@@ -1,4 +1,3 @@
-import Markdown from '@/components/Markdown';
 import { createAITaskContent, createNode } from '@/helpers/flow';
 import { fetchLangChain } from '@/services/langChain';
 import { initAITaskContent } from '@/store/flow/initialState';
@@ -7,18 +6,13 @@ import { ChatAgent } from '@/types';
 import { AITaskContent, SymbolMasterDefinition } from '@/types/flow';
 import { LangChainParams } from '@/types/langchain';
 import { genChatMessages } from '@/utils/genChatMessages';
-import Preview from './Preview';
-import Render from './Render';
 
 export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
   id: 'aiTask',
   title: 'AI节点',
   avatar: '🤖',
   description: '使用大模型处理任务',
-  preview: Preview,
-  render: Render,
   defaultContent: initAITaskContent,
-
   schema: {
     model: {
       type: 'input',
@@ -46,7 +40,6 @@ export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
       valueContainer: false,
     },
   },
-
   onCreateNode: (node, activeData) => {
     if (activeData?.source === 'agent') {
       const agent = activeData as unknown as ChatAgent;
@@ -59,7 +52,6 @@ export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
         agent,
       );
     }
-
     return createNode(node, initAITaskContent, { title: 'AI 节点' });
   },
   run: async (node, vars, action) => {
@@ -74,13 +66,13 @@ export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
     };
     action.updateParams(request);
     let output = '';
-
     await fetchLangChain({
       params: request,
       onMessageHandle: (text) => {
         output += text;
-        action.flow.editor.updateNodeContent<AITaskContent>(action.node.id, 'output', output, {
-          recordHistory: false,
+        action.updateOutput({
+          output,
+          type: 'text',
         });
       },
       onLoadingChange: (loading) => {
@@ -93,8 +85,5 @@ export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
       type: 'text',
       output,
     };
-  },
-  outputRender: (output: string) => {
-    return <Markdown>{output}</Markdown>;
   },
 };

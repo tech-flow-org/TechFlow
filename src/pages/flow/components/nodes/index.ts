@@ -1,6 +1,8 @@
 import { SymbolMasterDefinition } from '@/types/flow';
+import { DefaultPreview } from '../DefaultPreview';
+import { DefaultRender } from '../DefaultRender';
 import { AITaskSymbol } from './AITask';
-import { OutputSymbol } from './NetWork';
+import { NetworkSymbol } from './NetWork';
 import { SDTaskSymbol } from './SD';
 import { StringSymbol } from './String';
 
@@ -8,15 +10,15 @@ export const symbolNodeList: SymbolMasterDefinition<any>[] = [
   StringSymbol,
   AITaskSymbol,
   SDTaskSymbol,
-  OutputSymbol,
+  NetworkSymbol,
 ];
 
 export const SymbolNodeMasterTypes = Object.fromEntries(
-  symbolNodeList.map((item) => [item.id, item.preview]).filter(Boolean),
+  symbolNodeList.map((item) => [item.id, item.preview || DefaultPreview]).filter(Boolean),
 );
 
 export const FlowNodeRenderType = Object.fromEntries(
-  symbolNodeList.map((item) => [item.id, item.render]).filter(Boolean),
+  symbolNodeList.map((item) => [item.id, item.render || DefaultRender]).filter(Boolean),
 );
 
 export const SymbolNodeRunMap = symbolNodeList.reduce((pre, current) => {

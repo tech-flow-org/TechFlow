@@ -24,6 +24,7 @@ const SymbolList = () => {
   });
 
   const SymbolMaster = SymbolNodeMasterTypes[draggingId as keyof typeof SymbolNodeMasterTypes];
+
   return (
     <Flexbox gap={4}>
       {symbolNodeList.map((i) => (
@@ -44,7 +45,7 @@ const SymbolList = () => {
       ))}
       {draggingId && SymbolMaster ? (
         <DragOverlay>
-          <SymbolMaster id={'id'} />
+          <SymbolMaster id={draggingId} />
         </DragOverlay>
       ) : null}
     </Flexbox>

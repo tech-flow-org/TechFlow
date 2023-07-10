@@ -1,12 +1,9 @@
-import { PlayCircleOutlined } from '@ant-design/icons';
 import { useDebounce } from 'ahooks';
 import { createStyles } from 'antd-style';
 import { BasicNode } from 'kitchen-flow-editor';
 import { ReactNode, memo, useEffect, useRef, useState } from 'react';
-import { Flexbox } from 'react-layout-kit';
 import { shallow } from 'zustand/shallow';
 
-import { IconAction } from '@/components/IconAction';
 import { InputSchemaRender } from '@/pages/flow/components/InputSchemaRender';
 import { flowSelectors, useFlowStore } from '@/store/flow';
 import { ConfigProvider } from 'antd';
@@ -56,12 +53,12 @@ interface TaskDefinitionProps {
 
 const TaskDefinition = memo<TaskDefinitionProps>(
   ({ loading, id, selected, headerExtra, title, className }) => {
-    const [collapsedKeys, runFlowNode, abortFlowNode] = useFlowStore((s) => {
+    const [collapsedKeys] = useFlowStore((s) => {
       const agent = flowSelectors.getNodeByIdSafe(id)(s);
       return [agent.data.state?.collapsedKeys, s.runFlowNode, s.abortFlowNode];
     }, shallow);
 
-    const { styles, theme, cx } = useStyles();
+    const { styles, cx } = useStyles();
 
     const [percent, setPercent] = useState(10);
 
@@ -106,38 +103,7 @@ const TaskDefinition = memo<TaskDefinitionProps>(
           title={title}
           active={selected}
           collapsedKeys={collapsedKeys}
-          extra={
-            <Flexbox horizontal gap={4}>
-              {loading ? (
-                <IconAction
-                  title={'停止'}
-                  type={'danger'}
-                  icon={
-                    <div
-                      style={{
-                        width: 16,
-                        height: 16,
-                        borderRadius: 2,
-                        background: theme.colorError,
-                      }}
-                    />
-                  }
-                  onClick={() => {
-                    abortFlowNode(id);
-                  }}
-                />
-              ) : null}
-              <IconAction
-                title={'执行节点'}
-                loading={loading}
-                icon={<PlayCircleOutlined />}
-                onClick={() => {
-                  runFlowNode(id);
-                }}
-              />
-              {headerExtra}
-            </Flexbox>
-          }
+          extra={headerExtra}
           className={cx(styles.container, className, showProgress && styles.progress)}
           style={{ '--task-loading-progress': `${percent}%` } as any}
         >

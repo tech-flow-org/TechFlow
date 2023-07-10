@@ -75,6 +75,7 @@ export const EditableMessage = memo<EditableMessageProps>(
           onChange?.(text);
           setTyping(false);
         }}
+        onCancel={() => setTyping(false)}
         className={classNames.input}
       />
     ) : (

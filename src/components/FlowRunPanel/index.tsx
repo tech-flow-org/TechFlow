@@ -1,4 +1,4 @@
-﻿import { SymbolNodeRenderMap } from '@/pages/flow/components/nodes';
+﻿import { OutputRender } from '@/pages/flow/components/DefaultRender/TaskResult';
 import { flowSelectors, useFlowStore } from '@/store/flow';
 import { Alert, Collapse, Descriptions, Steps } from 'antd';
 import { isEqual } from 'lodash-es';
@@ -109,12 +109,7 @@ export const FlowRunPanel: React.FC = memo(() => {
                         padding: 8,
                       }}
                     >
-                      {data.content.output
-                        ? SymbolNodeRenderMap[flowNode.type || 'string']?.(
-                            data.content.output,
-                            data,
-                          )
-                        : null}
+                      <OutputRender id={flowNode.id} type={flowNode.type || 'string'} />
                     </div>
                   </Descriptions.Item>
                 </Descriptions>

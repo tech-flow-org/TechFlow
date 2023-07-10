@@ -1,4 +1,5 @@
-﻿import { flowSelectors, useFlowStore } from '@/store/flow';
+﻿import Markdown from '@/components/Markdown';
+import { flowSelectors, useFlowStore } from '@/store/flow';
 import { Input, Segmented } from 'antd';
 import { NodeField, useFlowEditor } from 'kitchen-flow-editor';
 import { get, set } from 'rc-util';
@@ -7,10 +8,12 @@ import shallow from 'zustand/shallow';
 import { SymbolSchemaRenderMap } from '../nodes';
 import SystemRole from './SystemRole';
 import TaskPromptsInput from './TaskPromptsInput';
-import { TextVariableHandle } from './TextVariableHandle';
+import { TextAreaInput } from './TextAreaInput';
 
 export const InputSchemaRender: React.FC<{
   id: string;
+  type?: string;
+  readonly?: boolean;
 }> = (props) => {
   const editor = useFlowEditor();
   const [nodeData, node] = useFlowStore((s) => {
@@ -27,21 +30,29 @@ export const InputSchemaRender: React.FC<{
       editor.updateNodeContent<Record<string, any>>(id, valueKey.at(0) as string, newDataValue);
       return;
     }
-
     editor.updateNodeContent<Record<string, any>>(id, valueKey?.toString(), newValue);
   };
 
+  const nodeType = useMemo(() => props.type || node.type || 'string', [props.type, node.type]);
+
   const schema = useMemo(
-    () => Object.keys(SymbolSchemaRenderMap[node.type || 'string']),
-    [node.type],
+    () => Object.keys(SymbolSchemaRenderMap[nodeType]),
+    [node.type, props.type],
   );
 
   return schema.map((key) => {
-    const item = SymbolSchemaRenderMap[node.type || 'string'][key];
+    const item = SymbolSchemaRenderMap[nodeType][key];
     const component = item.component;
     const valueKey = item.valueKey || key;
     const value = get(nodeData, [valueKey].flat(1));
     const RenderComponent = () => {
+      // 如果是只读模式直接返回  markdown
+      if (props.readonly)
+        return value ? (
+          <Markdown key={valueKey.toString()}>{value}</Markdown>
+        ) : (
+          <span key={valueKey.toString()}>请输入</span>
+        );
       return (
         <>
           {component === 'Input' ? (
@@ -56,18 +67,14 @@ export const InputSchemaRender: React.FC<{
             />
           ) : null}
           {component === 'InputArea' ? (
-            <>
-              <Input.TextArea
-                value={value}
-                key={valueKey.toString()}
-                className={'nowheel nodrag'}
-                placeholder={'请输入' + item.title}
-                onChange={(e) => {
-                  setValue(valueKey, e.target.value);
-                }}
-              />
-              <TextVariableHandle handleId={valueKey.toString()} chatMessages={[value]} />
-            </>
+            <TextAreaInput
+              value={value}
+              key={valueKey.toString()}
+              placeholder={'请输入' + item.title}
+              onChange={(value) => {
+                setValue(valueKey, value);
+              }}
+            />
           ) : null}
           {component === 'Segmented' ? (
             <Segmented
@@ -110,14 +117,14 @@ export const InputSchemaRender: React.FC<{
         </>
       );
     };
-    if (item.hideContainer) return <RenderComponent />;
+    if (item.hideContainer && !props.readonly) return <RenderComponent />;
     return (
       <NodeField
         key={key}
         id={key}
         title={item.title}
         handles={item.handles}
-        valueContainer={item.valueContainer === false ? false : true}
+        valueContainer={item.valueContainer === false && !props.readonly ? false : true}
       >
         <RenderComponent />
       </NodeField>

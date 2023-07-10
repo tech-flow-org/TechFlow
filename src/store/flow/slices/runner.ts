@@ -157,6 +157,9 @@ export const runnerSlice: StateCreator<
 
     const nodeData = node.data.content as any as OutputNodeContent;
     try {
+      const run = SymbolNodeRunMap[node.type as 'aiTask'];
+
+      if (!run) return;
       editor.updateNodeState(node.id, 'loading', true, { recordHistory: false });
       const flowId = flowSelectors.currentFlow(get()).id;
       dispatchFlow({
@@ -170,7 +173,8 @@ export const runnerSlice: StateCreator<
           },
         },
       });
-      const data = await SymbolNodeRunMap[node.type as 'string']?.(nodeData, vars, {
+
+      const data = await run?.(nodeData, vars, {
         flow: get(),
         abortController,
         node,
@@ -179,6 +183,10 @@ export const runnerSlice: StateCreator<
         },
         updateParams: (params) => {
           editor.updateNodeContent<OutputNodeContent>(node.id, 'params', params);
+        },
+        updateOutput: (data: { output: string; type?: 'text' | 'img' | 'json' }) => {
+          editor.updateNodeContent<OutputNodeContent>(node.id, 'output', data.output);
+          editor.updateNodeContent<OutputNodeContent>(node.id, 'outputType', data.type);
         },
       });
 
@@ -194,6 +202,8 @@ export const runnerSlice: StateCreator<
         },
       });
       editor.updateNodeContent<OutputNodeContent>(node.id, 'output', data.output);
+      editor.updateNodeContent<OutputNodeContent>(node.id, 'outputType', data.type);
+      editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });
     } catch (error) {
       editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });
       editor.updateNodeContent<OutputNodeContent>(
@@ -213,7 +223,9 @@ export const runnerSlice: StateCreator<
     }
   },
   abortFlowNode: (nodeId) => {
+    const { editor } = get();
     const agent = flowSelectors.currentFlow(get());
+    editor.updateNodeState(nodeId, 'loading', false, { recordHistory: false });
     if (!agent) return;
 
     const task = getSafeFlowNodeById(agent, nodeId);

@@ -1,8 +1,5 @@
 import { SymbolMasterDefinition } from '@/types/flow';
 
-import Preview from './Preview';
-import Render from './Render';
-
 export interface StringNodeContent {
   text: string;
 }
@@ -23,16 +20,5 @@ export const StringSymbol: SymbolMasterDefinition<StringNodeContent> = {
         target: true,
       },
     },
-  },
-  preview: Preview,
-  render: Render,
-  run: async (node) => {
-    return {
-      type: 'text',
-      output: node.text,
-    };
-  },
-  outputRender: (output) => {
-    return output;
   },
 };

@@ -6,7 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Alert, Collapse, Descriptions, Steps } from 'antd';
 import { NodeField } from 'kitchen-flow-editor';
 import { useMemo } from 'react';
-import { SymbolNodeRenderMap } from '../nodes';
+import { OutputRender } from '../DefaultRender/TaskResult';
 import { useStyles } from './style';
 
 const Preview = () => {
@@ -140,10 +140,7 @@ const Preview = () => {
                             padding: 8,
                           }}
                         >
-                          {SymbolNodeRenderMap[flowNode.type || 'string']?.(
-                            data.content.output,
-                            data,
-                          )}
+                          <OutputRender id={flowNode.id} type={flowNode.type || 'string'} />
                         </div>
                       </Descriptions.Item>
                     </Descriptions>

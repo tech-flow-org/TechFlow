@@ -7,9 +7,25 @@ export interface OutputNodeContent {
   params?: Record<string, any>;
   data: string;
   url: string;
+  outputType?: 'text' | 'img' | 'json';
   variable?: string;
   output?: string;
 }
+
+type ActionType<Content> = {
+  // 当前任务流实例
+  flow: FlowStore;
+  // 更新当前 节点 的 loading 的状态
+  updateLoading: (loading: boolean) => void;
+  // 当前节点实例
+  node: IFlowBasicNode<Content>;
+  // 停止的 AbortController 实例
+  abortController?: AbortController;
+  // 更新当前节点的参数
+  updateParams: (params: Record<string, any>) => void;
+  // 更新当前节点的输出
+  updateOutput: (output: { output: string; type: OutputNodeContent['outputType'] }) => void;
+};
 
 export type OnCreateNode<T> = (
   node: { id: string; position: XYPosition; type: string },
@@ -21,8 +37,8 @@ export interface SymbolMasterDefinition<Content> {
   title: string;
   description: string;
   avatar: string;
-  preview: FC<any>;
-  render: FC<any>;
+  preview?: FC<any>;
+  render?: FC<any>;
   defaultContent: Content;
   schema: Record<
     string,
@@ -44,19 +60,13 @@ export interface SymbolMasterDefinition<Content> {
     }
   >;
   onCreateNode?: OnCreateNode<IFlowBasicNode<Content>>;
-  run: (
-    node: Content,
+  run?: (
+    content: Content,
     vars: Record<string, any>,
-    options: {
-      flow: FlowStore;
-      updateLoading: (loading: boolean) => void;
-      node: IFlowBasicNode<Content>;
-      abortController?: AbortController;
-      updateParams: (params: Record<string, any>) => void;
-    },
+    options: ActionType<Content>,
   ) => Promise<{
-    type: 'img' | 'text';
+    type: OutputNodeContent['outputType'];
     output: string;
   }>;
-  outputRender: (output: string, node: Content) => React.ReactNode;
+  outputRender?: (output: string, node: Content) => React.ReactNode;
 }
