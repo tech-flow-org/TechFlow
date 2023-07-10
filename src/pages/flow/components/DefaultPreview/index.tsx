@@ -9,7 +9,7 @@ const DefaultPreview = memo<{ id: string }>(({ id }) => {
   const nodeConfig = symbolNodeList.find((item) => item.id === id);
 
   return (
-    <BasicNode.Preview title={nodeConfig?.id}>
+    <BasicNode.Preview title={nodeConfig?.title}>
       <Flexbox gap={24}>
         <InputSchemaRender id={id} type={id} readonly />
       </Flexbox>

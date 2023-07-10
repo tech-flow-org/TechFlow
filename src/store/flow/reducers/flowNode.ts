@@ -67,7 +67,6 @@ export const flowNodesReducer = (state: Workflow, payload: FlowNodeDispatch): Wo
     case 'addNode':
       return produce(state, (draft) => {
         const { node } = payload;
-
         if (!draft.flattenNodes[node.id]) {
           draft.flattenNodes[node.id] = node;
         }

@@ -4,7 +4,7 @@ import { Input, Segmented } from 'antd';
 import { NodeField, useFlowEditor } from 'kitchen-flow-editor';
 import { get, set } from 'rc-util';
 import { useMemo } from 'react';
-import shallow from 'zustand/shallow';
+import { shallow } from 'zustand/shallow';
 import { SymbolSchemaRenderMap } from '../nodes';
 import SystemRole from './SystemRole';
 import TaskPromptsInput from './TaskPromptsInput';
@@ -23,6 +23,12 @@ export const InputSchemaRender: React.FC<{
 
   const id = props.id;
 
+  /**
+   * 设置值
+   * @param valueKey
+   * @param newValue
+   * @returns void
+   */
   const setValue = (valueKey: string | string[], newValue: any) => {
     if (Array.isArray(valueKey) && valueKey.length > 1) {
       const updateValue = set(nodeData, valueKey, newValue);

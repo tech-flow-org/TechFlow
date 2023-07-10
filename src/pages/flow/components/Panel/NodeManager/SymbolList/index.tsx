@@ -15,7 +15,6 @@ const SymbolList = () => {
   useDndMonitor({
     onDragStart: (event) => {
       if (event.active.data.current?.source !== 'symbol') return;
-
       setDraggingId(event.active.id as string);
     },
     onDragEnd: () => {

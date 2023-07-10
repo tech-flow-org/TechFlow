@@ -1,14 +1,19 @@
+import { createNode } from '@/helpers/flow';
+import { useFlowStore } from '@/store/flow';
 import { useDndMonitor } from '@dnd-kit/core';
 import { useTheme } from 'antd-style';
 import { IFlowBasicNode } from 'kitchen-flow-editor';
 import { PointerEvent, useState } from 'react';
 import { useReactFlow } from 'reactflow';
 import { v4 as uuid } from 'uuid';
-
-import { createNode } from '@/helpers/flow';
+import { shallow } from 'zustand/shallow';
 import { symbolNodeList } from '../nodes';
 
 export const useDropNodeOnCanvas = () => {
+  const [addNode] = useFlowStore((s) => {
+    return [s.editor.addNode];
+  }, shallow);
+
   const instance = useReactFlow();
 
   const [isOver, setOver] = useState(false);
@@ -40,7 +45,6 @@ export const useDropNodeOnCanvas = () => {
       const id = uuid();
       // 基于 type 查找对应的 Symbol 类型
       const symbolNode = symbolNodeList.find((item) => item.id === active.data.current?.type);
-
       if (symbolNode) {
         const node: IFlowBasicNode = symbolNode.onCreateNode
           ? //   如果有定义 onCreateNode ，则使用 onCreateNode 创建节点
@@ -55,9 +59,8 @@ export const useDropNodeOnCanvas = () => {
               avatar: symbolNode.avatar,
             });
 
-        instance.addNodes(node);
+        addNode(node);
       }
-
       setOver(false);
     },
   });

@@ -5,7 +5,6 @@ import isEqual from 'fast-deep-equal';
 import { BasicFlowNodeProps, memoEqual } from 'kitchen-flow-editor';
 import { memo, useMemo } from 'react';
 import { Flexbox } from 'react-layout-kit';
-import { useReactFlow } from 'reactflow';
 
 import { IconAction } from '@/components/IconAction';
 import { flowSelectors, useFlowStore } from '@/store/flow';
@@ -41,21 +40,18 @@ const DefaultRender = memo<BasicFlowNodeProps<Record<string, any>>>(({ selected,
   const { styles, theme, cx } = useStyles();
   const { modal } = App.useApp();
 
-  const reactflow = useReactFlow();
+  const [deleteNode] = useFlowStore((s) => {
+    return [s.editor.deleteNode];
+  });
 
-  const [loading, title] = useFlowStore((s) => {
-    const { meta, state } = flowSelectors.getNodeByIdSafe(id)(s).data;
-
-    return [state?.loading, meta?.title];
+  const [loading, title, node] = useFlowStore((s) => {
+    const node = flowSelectors.getNodeByIdSafe<Record<string, any>>(id)(s);
+    const { meta, state } = node.data;
+    return [state?.loading, meta?.title, node];
   }, isEqual);
 
   const [runFlowNode, abortFlowNode] = useFlowStore((s) => {
     return [s.runFlowNode, s.abortFlowNode];
-  }, shallow);
-
-  const [node] = useFlowStore((s) => {
-    const node = flowSelectors.getNodeByIdSafe<Record<string, any>>(id)(s);
-    return [node];
   }, shallow);
 
   const runFunction = useMemo(() => SymbolNodeRunMap[node.type || 'string'], [node.type]);
@@ -109,7 +105,7 @@ const DefaultRender = memo<BasicFlowNodeProps<Record<string, any>>>(({ selected,
                   okText: '删除节点',
                   cancelText: '取消',
                   onOk: () => {
-                    reactflow.deleteElements({ nodes: [{ id }] });
+                    deleteNode(id);
                   },
                 });
               }}

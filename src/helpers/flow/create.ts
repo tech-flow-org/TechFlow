@@ -17,7 +17,6 @@ export const createFlow = (
     state: {},
     createAt: Date.now(),
     updateAt: Date.now(),
-
     flattenNodes,
     flattenEdges: {},
     outputTemplate: '',
