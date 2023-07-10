@@ -50,6 +50,7 @@ const FlowView = () => {
         {(!flowId || !init) && <CanvasLoading />}
         {flowId && (
           <FlowEditor
+            contextMenuEnabled={false}
             ref={setNodeRef}
             nodeTypes={FlowNodeRenderType}
             flattenNodes={flow.flattenNodes}
