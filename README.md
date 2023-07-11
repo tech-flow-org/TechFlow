@@ -683,7 +683,3 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 ```
 
 可以进行任何意义上的 复制 和 修改，欢迎基于二次开发或提供 PR。
-
-## 常见问题解答（FAQ）
-
-列举一些常见问题和解答，帮助用户解决常见的疑惑或遇到的问题。
