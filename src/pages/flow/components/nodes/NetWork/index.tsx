@@ -1,7 +1,5 @@
-import { OutputNodeContent, SymbolMasterDefinition } from '@/types/flow';
-
-import Highlighter from '@/components/Highlighter';
 import { fetchNetworkServe } from '@/services/networkServe';
+import { OutputNodeContent, SymbolMasterDefinition } from '@/types/flow';
 import lodashGet from 'lodash.get';
 
 export const NetworkSymbol: SymbolMasterDefinition<OutputNodeContent> = {
@@ -27,24 +25,17 @@ export const NetworkSymbol: SymbolMasterDefinition<OutputNodeContent> = {
   },
   run: async (node, vars, { updateParams }) => {
     let data: Record<string, any> = {};
-    Object.keys(JSON.parse(node.data)).forEach((key) => {
+    Object.keys(JSON.parse(`{${node.data}}`)).forEach((key) => {
       data[key] = lodashGet(vars, key);
     });
-
     const params = { ...node, output: undefined, params: undefined, data: JSON.stringify(data) };
-
     updateParams(params);
-
     const res = (await fetchNetworkServe(params)) as unknown as {
       message: string;
     };
-
     return {
       type: 'json',
       output: JSON.stringify(res, null, 2),
     };
-  },
-  outputRender: (output: string) => {
-    return <Highlighter language="json">{output}</Highlighter>;
   },
 };

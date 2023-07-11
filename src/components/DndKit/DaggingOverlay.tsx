@@ -6,9 +6,7 @@ import { createPortal } from 'react-dom';
 const useStyles = createStyles(({ css, token }) => ({
   container: css`
     cursor: grabbing;
-
-    width: 800px;
-
+    width: ${token.aiTaskNodeWidth}px;
     background: ${token.colorBgElevated};
     border-radius: 8px;
     box-shadow: rgba(0, 0, 0, 0.2) 0 40px 40px -7px;

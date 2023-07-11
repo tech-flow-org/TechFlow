@@ -15,7 +15,7 @@ declare module 'antd-style' {
 
 export const getCustomToken: GetCustomToken<ChatToken> = ({ isDarkMode, token }) => {
   return {
-    contentWidth: 800,
+    contentWidth: 400,
     sidebarWidth: 56,
     chatContentWidth: 748,
     colorBorderDivider: isDarkMode ? '#000' : token.colorBorder,
