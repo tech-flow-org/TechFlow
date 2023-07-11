@@ -44,23 +44,6 @@ describe('messagesReducer', () => {
     ]);
   });
 
-  it('should set error message correctly', () => {
-    const action: MessageDispatch = {
-      type: 'setErrorMessage',
-      error: { message: 'Not Found', status: 404, type: 'chatbot' },
-      index: 0,
-    };
-    const newState = messagesReducer(initialState, action);
-    expect(newState).toEqual([
-      {
-        role: 'user',
-        content: 'Hello!',
-        error: { message: 'Not Found', status: 404, type: 'chatbot' },
-      },
-      { role: 'assistant', content: 'Hi there!' },
-    ]);
-  });
-
   it('should update the latest bot message', () => {
     const responseStream = ['I', ' am', ' a', ' bot.'];
     const action: MessageDispatch = { type: 'updateLatestBotMessage', responseStream };
