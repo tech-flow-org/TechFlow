@@ -1,16 +1,15 @@
 import { Moon, Sun } from '@/components/Header/ThemeIcon';
 import { IconAction } from '@/components/IconAction';
-import { SettingOutlined } from '@ant-design/icons';
-import { Avatar, Button, ConfigProvider, Popover, Space, Tooltip, Upload } from 'antd';
-import { memo, useEffect, useMemo } from 'react';
-import { Flexbox } from 'react-layout-kit';
-
 import Settings from '@/components/Settings';
 import { FlowIcon, MaskIcon, RunnerIcon } from '@/features/Sidebar/Icons';
 import { SidebarTabKey, useSettings } from '@/store/settings';
-import { createUploadImageHandler } from '@/utils/uploadFIle';
+import { SettingOutlined } from '@ant-design/icons';
+import { Avatar, Button, ConfigProvider, Dropdown, Popover, Space, Tooltip } from 'antd';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { memo, useEffect, useMemo } from 'react';
+import { Flexbox } from 'react-layout-kit';
 import { shallow } from 'zustand/shallow';
 import { useStyles } from './style';
 
@@ -28,6 +27,7 @@ export const Sidebar = memo(() => {
   const { styles, theme } = useStyles();
 
   const router = useRouter();
+  const session = useSession();
 
   const selectSidlerKey = useMemo(() => {
     return router.pathname.split('/').at(1);
@@ -42,26 +42,31 @@ export const Sidebar = memo(() => {
     useSettings.setState({ sidebarKey: selectSidlerKey as SidebarTabKey });
   }, [selectSidlerKey]);
 
-  const handleUploadAvatar = createUploadImageHandler((avatar) => {
-    useSettings.setState({ avatar });
-  });
+  useEffect(() => {
+    useSettings.setState({ avatar: session?.data?.user?.image || avatarImg });
+  }, [session?.data?.user?.image]);
+
+  const items = session?.data?.user
+    ? [{ label: '退出登录', key: 'signOut' }]
+    : [{ label: '使用 github 登录', key: 'signIn' }];
+
+  console.log('Sidebar: ', session);
 
   return (
     <ConfigProvider>
       <Flexbox distribution={'space-between'} align={'center'} className={styles.sidebar}>
         <Flexbox align={'center'} gap={24}>
-          <Upload itemRender={() => null} maxCount={1} beforeUpload={handleUploadAvatar}>
-            {!!avatarImg ? (
-              <Avatar
-                size={'large'}
-                src={avatarImg}
-                shape={'circle'}
-                style={{ cursor: 'pointer' }}
-              />
-            ) : (
-              <Avatar size={'large'} shape={'circle'} className={styles.user} />
-            )}
-          </Upload>
+          <Dropdown
+            menu={{
+              items,
+              onClick: ({ key }) => {
+                if (key === 'signOut') signOut();
+                if (key === 'signIn') signIn();
+              },
+            }}
+          >
+            <Avatar size={'large'} src={avatarImg} shape={'circle'} style={{ cursor: 'pointer' }} />
+          </Dropdown>
           <Flexbox align={'center'} gap={12}>
             {tabs.map((t) => {
               const active = t.key === selectSidlerKey;

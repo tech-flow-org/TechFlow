@@ -13,6 +13,7 @@ import { useHighlight } from '@/store/useHighlight';
 import { getAntdTheme } from '@/theme/antd';
 import { getCustomToken } from '@/theme/customToken';
 import { Compressor } from '@/utils/compass';
+import { SessionProvider } from 'next-auth/react';
 import { GlobalStyle, NOTIFICATION_PRIMARY, useStyles } from './style';
 
 export let message: MessageInstance;
@@ -49,40 +50,42 @@ export default ({ children }: PropsWithChildren) => {
   const { fontSize, contentWidth } = useSettings();
 
   return (
-    <ThemeProvider
-      themeMode={'auto'}
-      appearance={appearance}
-      theme={(appearance) => {
-        const defaultValue = getAntdTheme(appearance);
-        return {
-          ...defaultValue,
-          token: { ...defaultValue?.token, fontSize },
-        };
-      }}
-      getStaticInstance={(instances) => {
-        message = instances.message;
-        notification = {
-          ...instances.notification,
-          primaryInfo: (props) =>
-            instances.notification.info({
-              type: 'info',
-              placement: 'bottom',
-              className: NOTIFICATION_PRIMARY,
-              style: { width: 480 },
-              ...props,
-            }),
-        };
-      }}
-      customToken={(theme) => {
-        return {
-          ...getCustomToken(theme),
-          contentWidth,
-          chatContentWidth: contentWidth - 52,
-        };
-      }}
-    >
-      <GlobalStyle />
-      <Layout>{children}</Layout>
-    </ThemeProvider>
+    <SessionProvider>
+      <ThemeProvider
+        themeMode={'auto'}
+        appearance={appearance}
+        theme={(appearance) => {
+          const defaultValue = getAntdTheme(appearance);
+          return {
+            ...defaultValue,
+            token: { ...defaultValue?.token, fontSize },
+          };
+        }}
+        getStaticInstance={(instances) => {
+          message = instances.message;
+          notification = {
+            ...instances.notification,
+            primaryInfo: (props) =>
+              instances.notification.info({
+                type: 'info',
+                placement: 'bottom',
+                className: NOTIFICATION_PRIMARY,
+                style: { width: 480 },
+                ...props,
+              }),
+          };
+        }}
+        customToken={(theme) => {
+          return {
+            ...getCustomToken(theme),
+            contentWidth,
+            chatContentWidth: contentWidth - 52,
+          };
+        }}
+      >
+        <GlobalStyle />
+        <Layout>{children}</Layout>
+      </ThemeProvider>
+    </SessionProvider>
   );
 };
