@@ -1,4 +1,3 @@
-import { useDebounce } from 'ahooks';
 import { createStyles } from 'antd-style';
 import { BasicNode } from 'kitchen-flow-editor';
 import { ReactNode, memo, useEffect, useRef, useState } from 'react';
@@ -62,8 +61,6 @@ const TaskDefinition = memo<TaskDefinitionProps>(
 
     const [percent, setPercent] = useState(10);
 
-    const showProgress = useDebounce(loading, { wait: 1000 });
-
     useEffect(() => {
       let intervalId: NodeJS.Timer;
 
@@ -104,7 +101,7 @@ const TaskDefinition = memo<TaskDefinitionProps>(
           active={selected}
           collapsedKeys={collapsedKeys}
           extra={headerExtra}
-          className={cx(styles.container, className, showProgress && styles.progress)}
+          className={cx(styles.container, className, loading && styles.progress)}
           style={{ '--task-loading-progress': `${percent}%` } as any}
         >
           <InputSchemaRender id={id} />
