@@ -65,7 +65,7 @@ export OPENAI_PROXY_URL=https://my.openai.com
 AI 环境在本地有可能搭建成本太高，API_END_PORT_URL 可以将本地的服务映射到相应的服务端。
 
 ```shell
-export API_END_PORT_URL=https://drawing-board.antdigital.dev
+export API_END_PORT_URL=https://techflow.antdigital.dev
 ```
 
 ## 使用指南
