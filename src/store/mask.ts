@@ -54,7 +54,7 @@ export type Mask = {
   modelConfig?: Partial<ModelConfig>;
   lang: 'zh-CN';
   builtin: boolean;
-  syncGlobalConfig: boolean;
+  syncGlobalConfig?: boolean;
   content?: string;
 };
 
