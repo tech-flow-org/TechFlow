@@ -1,5 +1,5 @@
 ﻿CREATE TABLE mask (
-    userId varchar(128) primary key not null,
+    id varchar(128) primary key not null,
     name varchar(255),
     avatar varchar(255),
     context varchar(255),

@@ -6,14 +6,20 @@ import { UserAddOutlined } from '@ant-design/icons';
 import { Button, List, Modal } from 'antd';
 import Head from 'next/head';
 import router from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Flexbox } from 'react-layout-kit';
 
 const MaskLayout: React.FC<{
   children: React.ReactNode;
 }> = () => {
   const maskStore = useMaskStore();
-  const masks = maskStore.getAll();
+  const [masks, setMasks] = useState<Mask[]>([]);
+
+  useEffect(() => {
+    maskStore.getAll().then((queryList) => {
+      setMasks(queryList);
+    });
+  }, []);
 
   const [mask, setMask] = useState<Mask | null>();
 

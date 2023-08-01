@@ -13,10 +13,9 @@ const useStyles = createStyles(({ css }) => ({
   `,
 }));
 
-export const AgentDetail = async () => {
+export const AgentDetail = () => {
   const { styles } = useStyles();
   const maskStore = useMaskStore();
-  const id = (await maskStore.getAll()).length + 1;
 
   const [form] = Form.useForm();
   return (
@@ -31,6 +30,7 @@ export const AgentDetail = async () => {
         },
       }}
       onFinish={async (values) => {
+        const id = (await maskStore.getAll()).length + 1;
         maskStore.create({
           id,
           ...values,
@@ -42,7 +42,6 @@ export const AgentDetail = async () => {
             },
           ],
         });
-
         router.push('/mask');
       }}
     >
