@@ -7,6 +7,14 @@ export const authOptions = {
     GithubProvider({
       clientId: process.env.AUTH_GITHUB_ID || '',
       clientSecret: process.env.AUTH_GITHUB_SECRET || '',
+      profile(profile) {
+        return {
+          id: profile.login,
+          name: profile.name ?? profile.login,
+          email: profile.email,
+          image: profile.avatar_url,
+        };
+      },
     }),
   ],
 };
