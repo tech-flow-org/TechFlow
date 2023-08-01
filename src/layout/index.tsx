@@ -13,9 +13,9 @@ import { useHighlight } from '@/store/useHighlight';
 import { getAntdTheme } from '@/theme/antd';
 import { getCustomToken } from '@/theme/customToken';
 import { Compressor } from '@/utils/compass';
+import { Analytics } from '@vercel/analytics/react';
 import { SessionProvider } from 'next-auth/react';
 import { GlobalStyle, NOTIFICATION_PRIMARY, useStyles } from './style';
-
 export let message: MessageInstance;
 export let notification: NotificationInstance & { primaryInfo: NotificationInstance['info'] };
 
@@ -83,6 +83,7 @@ export default ({ children }: PropsWithChildren) => {
           };
         }}
       >
+        <Analytics />
         <GlobalStyle />
         <Layout>{children}</Layout>
       </ThemeProvider>
