@@ -38,7 +38,7 @@ const RunnerLayout: React.FC<{
     <FlowEditorProvider>
       <>
         <Head>
-          <title>{'节点运行 - TechFLow'}</title>
+          <title>{'节点运行 - TechFlow'}</title>
         </Head>
         <Flexbox id={'RunnerLayout'} horizontal width={'100%'} height={'100%'}>
           <Sidebar />

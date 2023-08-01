@@ -21,7 +21,7 @@ const persistOptions: PersistOptions<SessionStore, SessionPersist> = {
 export const useSessionStore = create<SessionStore>()(
   persist(
     devtools(createStore, {
-      name: 'TechFLow_SESSION',
+      name: 'TechFlow_SESSION',
     }),
     persistOptions,
   ),

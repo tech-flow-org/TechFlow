@@ -46,7 +46,7 @@ export const fetchSSE = async (fetchFn: () => Promise<Response>, options: FetchS
           status: JSON.parse(response.statusText).code,
         }
       : {
-          type: 'TechFLow',
+          type: 'TechFlow',
           message: codeMessage[response.status],
           status: response.status,
         };

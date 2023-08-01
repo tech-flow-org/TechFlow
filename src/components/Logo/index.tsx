@@ -20,7 +20,7 @@ const Logo: FC = () => {
       <LogoImage />
       <Flexbox gap={4}>
         <Title style={{ fontWeight: 'bold', lineHeight: 1, marginBottom: 0 }} level={4}>
-          <span className={styles.demo}>TechFLow</span>
+          <span className={styles.demo}>TechFlow</span>
         </Title>
       </Flexbox>
     </Flexbox>

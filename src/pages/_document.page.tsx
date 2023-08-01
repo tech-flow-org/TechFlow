@@ -35,10 +35,10 @@ class MyDocument extends Document {
           <meta name="description" content="基于智能助理的对话生产力工具" />
           <meta property="og:description" content="基于智能助理的对话生产力工具" />
           <meta property="twitter:image" content="/favicon.png" />
-          <meta property="og:title" content="TechFLow" />
+          <meta property="og:title" content="TechFlow" />
           <meta property="og:image" content="/favicon.png" />
           <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="TechFLow" />
+          <meta name="twitter:title" content="TechFlow" />
           <meta name="twitter:description" content="基于智能助理的对话生产力工具" />
           <link rel="manifest" href="/manifest.json" />
           <meta property="og:url" content="https://techflow.antdigital.dev/" />

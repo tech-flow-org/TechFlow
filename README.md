@@ -1,4 +1,4 @@
-# 🤖 TechFLow
+# 🤖 TechFlow
 
 <!-- ciRelease -->
 

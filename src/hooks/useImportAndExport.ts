@@ -40,7 +40,7 @@ export const useImportAndExport = () => {
     // 创建一个 <a> 元素，设置下载链接和文件名
     const a = document.createElement('a');
     a.href = url;
-    a.download = `TechFLow_Config_v3.0.json`;
+    a.download = `TechFlow_Config_v3.0.json`;
 
     // 触发 <a> 元素的点击事件，开始下载
     document.body.appendChild(a);

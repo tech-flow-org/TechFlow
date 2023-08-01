@@ -75,7 +75,7 @@ export const useChatStore = create<ChatStore>()(
     //   })) as any,
     //   storage: createHashStorage(),
     // }),
-    { name: 'TechFLow_CHAT' },
+    { name: 'TechFlow_CHAT' },
   ),
 );
 
