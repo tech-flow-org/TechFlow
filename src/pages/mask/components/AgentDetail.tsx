@@ -3,6 +3,7 @@ import { createStyles } from 'antd-style';
 
 import { ALL_MODELS, useMaskStore } from '@/store/mask';
 import { FooterToolbar, ProForm } from '@ant-design/pro-components';
+import { useSession } from 'next-auth/react';
 import router from 'next/router';
 import { AgentAvatar } from './AgentAvatar';
 
@@ -18,6 +19,7 @@ export const AgentDetail = () => {
   const maskStore = useMaskStore();
 
   const [form] = Form.useForm();
+  const session = useSession();
   return (
     <ProForm
       form={form}
@@ -30,18 +32,33 @@ export const AgentDetail = () => {
         },
       }}
       onFinish={async (values) => {
-        const id = (await maskStore.getAll()).length + 1;
-        maskStore.create({
-          id,
-          ...values,
-          context: [
-            {
-              role: 'system',
-              content: values.content,
-              date: '',
-            },
-          ],
-        });
+        const id = maskStore.getAll().length + 1;
+        if (!session.data?.user?.email) {
+          await maskStore.create({
+            id,
+            ...values,
+            context: [
+              {
+                role: 'system',
+                content: values.content,
+                date: '',
+              },
+            ],
+          });
+        }
+        if (session.data?.user?.email) {
+          await maskStore.createByServe({
+            id,
+            ...values,
+            context: [
+              {
+                role: 'system',
+                content: values.content,
+                date: '',
+              },
+            ],
+          });
+        }
         router.push('/mask');
       }}
     >

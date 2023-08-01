@@ -1,38 +1,27 @@
 ﻿import AgentAvatar from '@/components/AgentAvatar';
 import Markdown from '@/components/Markdown';
-import { Sidebar } from '@/features/Sidebar';
 import { Mask, useMaskStore } from '@/store/mask';
 import { UserAddOutlined } from '@ant-design/icons';
 import { Button, List, Modal } from 'antd';
-import Head from 'next/head';
 import router from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Flexbox } from 'react-layout-kit';
+import { MaskLayout } from './layout';
 
-const MaskLayout: React.FC<{
+const ListPage: React.FC<{
   children: React.ReactNode;
 }> = () => {
   const maskStore = useMaskStore();
-  const [masks, setMasks] = useState<Mask[]>([]);
-
-  useEffect(() => {
-    maskStore.getAll().then((queryList) => {
-      setMasks(queryList);
-    });
-  }, []);
+  const masks = maskStore.getAll();
 
   const [mask, setMask] = useState<Mask | null>();
 
   return (
-    <>
-      <Head>
-        <title>角色列表</title>
-      </Head>
+    <MaskLayout>
       <Flexbox id={'RunnerLayout'} horizontal width="100%" height={'100%'}>
-        <Sidebar />
         <div
           style={{
-            padding: '0 8px',
+            padding: '0 16px',
             width: '100%',
             height: '100vh',
             overflow: 'auto',
@@ -137,8 +126,8 @@ const MaskLayout: React.FC<{
           })}
         </div>
       </Modal>
-    </>
+    </MaskLayout>
   );
 };
 
-export default MaskLayout;
+export default ListPage;

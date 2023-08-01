@@ -51,10 +51,11 @@ export type Mask = {
   name: string;
   hideContext?: boolean;
   context: ChatMessage[];
-  syncGlobalConfig?: boolean;
-  modelConfig: ModelConfig;
+  modelConfig?: Partial<ModelConfig>;
   lang: 'zh-CN';
   builtin: boolean;
+  syncGlobalConfig: boolean;
+  content?: string;
 };
 
 export const DEFAULT_MASK_STATE = {
@@ -66,11 +67,13 @@ export type MaskState = typeof DEFAULT_MASK_STATE;
 
 type MaskStore = MaskState & {
   create: (mask?: Partial<Mask>) => Promise<Mask>;
+  createByServe: (mask?: Partial<Mask>) => Promise<Mask>;
   update: (id: number, updater: (mask: Mask) => void) => void;
   delete: (id: number) => void;
   search: (text: string) => Mask[];
   get: (id?: number) => Mask | null;
-  getAll: () => Promise<Mask[]>;
+  getAll: () => Mask[];
+  querySevereList: () => Promise<Mask[]>;
 };
 
 export const DEFAULT_MASK_ID = 1145141919810;
@@ -101,8 +104,20 @@ export const useMaskStore = create<MaskStore>()(
   persist(
     (set, get) => ({
       ...DEFAULT_MASK_STATE,
-
       create: async (mask) => {
+        set(() => ({ globalMaskId: get().globalMaskId + 1 }));
+        const id = get().globalMaskId;
+        const masks = get().masks;
+        masks[id] = {
+          ...createEmptyMask(),
+          ...mask,
+          id,
+          builtin: false,
+        };
+        set(() => ({ masks }));
+        return masks[id];
+      },
+      createByServe: async (mask) => {
         set(() => ({ globalMaskId: get().globalMaskId + 1 }));
         const id = get().globalMaskId;
         const masks = get().masks;
@@ -136,10 +151,10 @@ export const useMaskStore = create<MaskStore>()(
       },
       delete(id) {
         const masks = get().masks;
-        delete masks[id];
         deleteMask({
           params: masks[id],
         }).then(() => {
+          delete masks[id];
           set(() => ({ masks }));
         });
       },
@@ -147,11 +162,8 @@ export const useMaskStore = create<MaskStore>()(
       get(id) {
         return get().masks[id ?? 1145141919810];
       },
-      getAll: async () => {
-        const severList = await queryMaskList({
-          params: undefined,
-        });
-        const userMasks = Object.values(get().masks).sort((a, b) => b.id - a.id);
+      getAll: () => {
+        const userMasks = Object.values(get().masks).sort((a, b) => b?.id - a?.id);
         const buildinMasks = BUILTIN_MASKS.map(
           (m) =>
             ({
@@ -162,7 +174,18 @@ export const useMaskStore = create<MaskStore>()(
               },
             } as Mask),
         );
-        return userMasks.concat(buildinMasks).concat(severList);
+        return userMasks.concat(buildinMasks);
+      },
+      querySevereList: async () => {
+        const masks = get().masks;
+        const list = await queryMaskList({
+          params: undefined,
+        });
+        list.forEach((m) => {
+          masks[m.id] = m;
+        });
+        set(() => ({ masks }));
+        return get().getAll();
       },
       search() {
         return Object.values(get().masks);

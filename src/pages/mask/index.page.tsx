@@ -71,12 +71,7 @@ function useMaskGroup(masks: Mask[]) {
 function MaskPage() {
   const maskStore = useMaskStore();
 
-  const [masks, setMasks] = useState<Mask[]>([]);
-  useEffect(() => {
-    maskStore.getAll().then((queryList) => {
-      setMasks(queryList);
-    });
-  }, []);
+  const masks = maskStore.getAll();
   const groups = useMaskGroup(masks);
 
   const [mask, setMask] = useState<Mask | null>();

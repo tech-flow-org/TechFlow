@@ -39,7 +39,7 @@ export const updateMask = fetchServeFactory<Mask, Mask>(
 
 export const deleteMask = fetchServeFactory<Mask, Mask>(
   (params: Mask, signal?: AbortSignal | undefined) =>
-    fetch(URLS.mask, {
+    fetch(URLS.mask + '?id=' + params.id, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

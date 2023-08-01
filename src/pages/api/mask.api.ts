@@ -4,10 +4,16 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './auth/[...nextauth].api';
 
+type MaskDataBase = Partial<{
+  id?: string;
+  name?: string;
+  user_id?: string;
+  avatar: string;
+  context?: string;
+  model_config?: string;
+}>;
 interface Database {
-  mask: Mask & {
-    userId: string;
-  };
+  mask: MaskDataBase;
 }
 
 const db = createKysely<Database>();
@@ -22,48 +28,70 @@ export default async function handler(request: NextApiRequest, response: NextApi
     });
   }
   if (request.method === 'GET') {
-    const maskList = await db
-      .selectFrom('mask')
-      .where('userId', '=', session?.user?.email)
-      .execute();
+    try {
+      const maskList = await db
+        .selectFrom('mask')
+        .select(['id', 'name', 'avatar', 'context', 'model_config'])
+        .where('mask.user_id', '=', session?.user?.email)
+        .execute();
 
-    response.status(200).json({
-      success: true,
-      data: maskList,
-    });
+      response.status(200).json({
+        success: true,
+        data: maskList.map((mask) => ({
+          ...mask,
+          context: JSON.parse(mask.context || '[]'),
+          modelConfig: JSON.parse(mask.model_config || '{}'),
+        })),
+      });
+    } catch (error) {
+      return response.status(200).json({
+        success: false,
+        data: [],
+        error: 'serve error' + error,
+      });
+    }
   }
 
   if (request.method === 'POST') {
     const mask = request.body as Mask;
-    const result = await db
-      .insertInto('mask')
-      .values({
-        ...mask,
-        userId: session?.user?.email,
-      })
-      .execute();
+    const insertValue = {
+      id: mask.id?.toString() || '',
+      name: mask.name,
+      avatar: mask.avatar,
+      context: JSON.stringify(mask.context),
+      user_id: session?.user?.email,
+      model_config: JSON.stringify(mask.modelConfig),
+    };
+    await db.insertInto('mask').values(insertValue).execute();
 
     return response.status(200).json({
       success: true,
-      data: result,
+      data: insertValue,
     });
   }
 
   if (request.method === 'DELETE') {
-    const mask = request.body as Mask;
-    const result = await db.deleteFrom('mask').where('id', '=', mask.id).execute();
+    const mask = request.query as MaskDataBase;
+    await db
+      .deleteFrom('mask')
+      .where('id', '=', mask.id?.toString() || '')
+      .execute();
     return response.status(200).json({
       success: true,
-      data: result,
+      data: {},
     });
   }
 
   if (request.method === 'PUT') {
-    const mask = request.body as Mask;
-    const result = await db.updateTable('mask').set(mask).where('id', '=', mask.id).execute();
+    const mask = request.body as MaskDataBase;
+    const result = await db
+      .updateTable('mask')
+      .set(mask)
+      .where('id', '=', mask.id?.toString() || '')
+      .execute();
     return response.status(200).json({
       success: true,
-      data: result,
+      data: { result },
     });
   }
 

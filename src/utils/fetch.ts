@@ -173,7 +173,7 @@ export const fetchServeFactory =
       },
     }).catch(errorHandle);
 
-    return (await data?.json()) as U;
+    return (await data?.json()).data as U;
   };
 
 export const fetchPresetTaskResult = fetchAIFactory(fetchChatModel);

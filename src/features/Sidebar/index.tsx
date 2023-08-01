@@ -50,8 +50,6 @@ export const Sidebar = memo(() => {
     ? [{ label: '退出登录', key: 'signOut' }]
     : [{ label: '使用 github 登录', key: 'signIn' }];
 
-  console.log('Sidebar: ', session);
-
   return (
     <ConfigProvider>
       <Flexbox distribution={'space-between'} align={'center'} className={styles.sidebar}>

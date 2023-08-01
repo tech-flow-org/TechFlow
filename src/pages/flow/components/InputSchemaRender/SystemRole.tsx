@@ -1,13 +1,13 @@
 import { ArrowsAltOutlined, EditOutlined, SmileOutlined } from '@ant-design/icons';
 import { createStyles } from 'antd-style';
 import { NodeField, useFlowEditor } from 'kitchen-flow-editor';
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import { shallow } from 'zustand/shallow';
 
 import AgentAvatar from '@/components/AgentAvatar';
 import { EditableMessage } from '@/components/Chat';
 import { flowSelectors, useFlowStore } from '@/store/flow';
-import { Mask, useMaskStore } from '@/store/mask';
+import { useMaskStore } from '@/store/mask';
 import { AITaskContent } from '@/types/flow';
 import { List, Modal } from 'antd';
 import { VariableHandle } from './VariableHandle';
@@ -45,13 +45,7 @@ const SystemRole = memo(
 
     const maskStore = useMaskStore();
 
-    const [masks, setMasks] = useState<Mask[]>([]);
-
-    useEffect(() => {
-      maskStore.getAll().then((queryList) => {
-        setMasks(queryList);
-      });
-    }, []);
+    const masks = maskStore.getAll();
 
     const [open, setOpen] = useState(false);
 

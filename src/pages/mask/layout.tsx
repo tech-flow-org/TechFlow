@@ -1,10 +1,18 @@
 ﻿import { Sidebar } from '@/features/Sidebar';
+import { useMaskStore } from '@/store/mask';
 import Head from 'next/head';
+import { useEffect } from 'react';
 import { Flexbox } from 'react-layout-kit';
 
 export const MaskLayout: React.FC<{
   children: React.ReactNode;
 }> = (props) => {
+  const maskStore = useMaskStore();
+
+  useEffect(() => {
+    maskStore.querySevereList();
+  }, []);
+
   return (
     <>
       <Head>

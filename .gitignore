@@ -35,3 +35,4 @@ public/workbox-*.js
 yarn.lock
 tsconfig.tsbuildinfo
 .husky/prepare-commit-msg
+.vercel
