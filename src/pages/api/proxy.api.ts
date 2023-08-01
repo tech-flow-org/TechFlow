@@ -6,6 +6,7 @@ export const config = {
 
 export default async function handler(request: Request) {
   const payload = (await request.json()) as OutputNodeContent;
+
   try {
     const msg = await fetch(payload.url!, {
       method: 'POST',

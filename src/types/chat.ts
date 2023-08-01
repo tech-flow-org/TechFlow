@@ -14,10 +14,10 @@ export interface ChatMessageError {
   status: number;
   /**
    * 错误类型
-   * @enum ["DrawingBoard", "openai"]
+   * @enum ["TechFLow", "openai"]
    * @enumNames ["聊天机器人", "开放AI"]
    */
-  type: 'DrawingBoard' | 'openai';
+  type: 'TechFLow' | 'openai';
 }
 
 /**

@@ -158,7 +158,7 @@ const Runner: NextPage = () => {
   return (
     <RunnerLayout>
       <Head>
-        <title>{title ? `正在执行 ${title} - DrawingBoard` : '节点运行 - DrawingBoard'}</title>
+        <title>{title ? `正在执行 ${title} - TechFLow` : '节点运行 - TechFLow'}</title>
       </Head>
       <FlowStepForm flowId={id as string} />
     </RunnerLayout>
