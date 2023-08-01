@@ -9,7 +9,7 @@ const Flow: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Drawing Board</title>
+        <title>Tech FLow</title>
       </Head>
       <FlowLayout>
         <Center flex={1} horizontal>

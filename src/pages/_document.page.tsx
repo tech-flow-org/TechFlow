@@ -35,6 +35,7 @@ class MyDocument extends Document {
           <meta name="description" content="基于智能助理的对话生产力工具" />
           <meta property="og:description" content="基于智能助理的对话生产力工具" />
           <meta property="og:title" content="TechFLow" />
+          <meta property="og:image" content="/favicon.png" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="TechFLow" />
           <meta name="twitter:description" content="基于智能助理的对话生产力工具" />
