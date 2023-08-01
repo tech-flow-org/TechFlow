@@ -12,7 +12,7 @@ const withPWA = require('next-pwa')({
 const nextConfig = {
   reactStrictMode: true,
   // es 模块编译
-  transpilePackages: ['kitchen-flow-editor', '@ant-design/pro-editor', 'zustand', 'leva'],
+  transpilePackages: ['kitchen-flow-editor', '@ant-design/pro-editor', 'zustand', 'leva', 'ahooks'],
 
   async rewrites() {
     return [
