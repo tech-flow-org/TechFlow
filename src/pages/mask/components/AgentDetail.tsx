@@ -13,10 +13,10 @@ const useStyles = createStyles(({ css }) => ({
   `,
 }));
 
-export const AgentDetail = () => {
+export const AgentDetail = async () => {
   const { styles } = useStyles();
   const maskStore = useMaskStore();
-  const id = maskStore.getAll().length + 1;
+  const id = (await maskStore.getAll()).length + 1;
 
   const [form] = Form.useForm();
   return (

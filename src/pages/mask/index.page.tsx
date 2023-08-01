@@ -71,7 +71,12 @@ function useMaskGroup(masks: Mask[]) {
 function MaskPage() {
   const maskStore = useMaskStore();
 
-  const masks = maskStore.getAll();
+  const [masks, setMasks] = useState<Mask[]>([]);
+  useEffect(() => {
+    maskStore.getAll().then((queryList) => {
+      setMasks(queryList);
+    });
+  }, []);
   const groups = useMaskGroup(masks);
 
   const [mask, setMask] = useState<Mask | null>();
@@ -122,15 +127,18 @@ function MaskPage() {
         <div className={styles['masks']} ref={maskRef} id="app-body">
           {groups.map((masks, i) => (
             <div key={i} className={styles['mask-row']}>
-              {masks.map((mask, index) => (
-                <MaskItem
-                  key={index}
-                  mask={mask}
-                  onClick={() => {
-                    setMask(mask);
-                  }}
-                />
-              ))}
+              {masks.map(
+                (mask, index) =>
+                  mask && (
+                    <MaskItem
+                      key={index}
+                      mask={mask}
+                      onClick={() => {
+                        setMask(mask);
+                      }}
+                    />
+                  ),
+              )}
             </div>
           ))}
         </div>

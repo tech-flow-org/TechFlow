@@ -139,4 +139,41 @@ export const fetchAIFactory =
     return await data?.text();
   };
 
+export const fetchServeFactory =
+  <T, U>(fetcher: (params: T, signal?: AbortSignal) => Promise<Response>) =>
+  async ({
+    params,
+    onMessageHandle,
+    onError,
+    onLoadingChange,
+    abortController,
+  }: FetchAITaskResultParams<T>): Promise<U> => {
+    const errorHandle = (error: Error) => {
+      onLoadingChange?.(false);
+      if (abortController?.signal.aborted) {
+        notification.primaryInfo({
+          message: '已中断当前节点的执行任务',
+        });
+        return;
+      }
+
+      notification?.error({
+        message: `请求失败(${error.message})`,
+        placement: 'bottomRight',
+      });
+      onError?.(error);
+    };
+
+    onLoadingChange?.(true);
+
+    const data = await fetchSSE(() => fetcher(params, abortController?.signal), {
+      onMessageHandle,
+      onErrorHandle: (error) => {
+        errorHandle(new Error(error.message));
+      },
+    }).catch(errorHandle);
+
+    return (await data?.json()) as U;
+  };
+
 export const fetchPresetTaskResult = fetchAIFactory(fetchChatModel);
