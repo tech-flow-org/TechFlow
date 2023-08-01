@@ -5,7 +5,7 @@
 [ci-release-shield]: https://github.com/AI-flow-task/drawing-board/workflows/Release/badge.svg
 [ci-release-url]: https://github.com/AI-flow-task/drawing-board/actions/workflows/release.yml
 
-[https://drawing-board.antdigital.dev/](https://drawing-board.antdigital.dev/)
+[https://techflow.antdigital.dev](https://techflow.antdigital.dev)
 
 ## 产品概述
 
