@@ -2,6 +2,7 @@ import { SymbolMasterDefinition } from '@/types/flow';
 import { DefaultPreview } from '../DefaultPreview';
 import { DefaultRender } from '../DefaultRender';
 import { AITaskSymbol } from './AITask';
+import { DingDingBotSymbol } from './DingDingBot';
 import { NetworkSymbol } from './NetWork';
 import { SDTaskSymbol } from './SD';
 import { StringSymbol } from './String';
@@ -11,6 +12,7 @@ export const symbolNodeList: SymbolMasterDefinition<any>[] = [
   AITaskSymbol,
   SDTaskSymbol,
   NetworkSymbol,
+  DingDingBotSymbol,
 ];
 
 export const SymbolNodeMasterTypes = Object.fromEntries(

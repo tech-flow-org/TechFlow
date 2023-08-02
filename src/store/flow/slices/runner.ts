@@ -116,6 +116,7 @@ export const runnerSlice: StateCreator<
     if (!flow) return;
     const node = getFlowNodeById(flow, nodeId);
     const task = getNodeContentById(flow, nodeId);
+
     if (!task) {
       notification.primaryInfo({ message: '没有找到节点任务，请检查任务设置后重试' });
       return;
@@ -158,7 +159,6 @@ export const runnerSlice: StateCreator<
     const nodeData = node.data.content as any as OutputNodeContent;
     try {
       const run = SymbolNodeRunMap[node.type as 'aiTask'];
-
       if (!run) return;
       editor.updateNodeState(node.id, 'loading', true, { recordHistory: false });
       const flowId = flowSelectors.currentFlow(get()).id;
@@ -173,6 +173,7 @@ export const runnerSlice: StateCreator<
           },
         },
       });
+      console.log('run', run);
 
       const data = await run?.(nodeData, vars, {
         flow: get(),

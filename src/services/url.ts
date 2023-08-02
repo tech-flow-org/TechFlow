@@ -8,4 +8,5 @@ export const URLS = {
   sd: '/api/sd/text2img',
   mask: '/api/mask',
   network: '/api/network/proxy',
+  dingdingbot: '/api/dingding/send',
 };

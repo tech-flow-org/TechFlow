@@ -32,6 +32,10 @@ const nextConfig = {
         source: '/api/network/proxy',
         destination: `/api/proxy`,
       },
+      {
+        source: '/api/dingding/send',
+        destination: `/api/dingbot`,
+      },
     ];
   },
   pageExtensions: ['page.tsx', 'api.ts'],

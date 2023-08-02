@@ -12,6 +12,12 @@ export interface OutputNodeContent {
   output?: string;
 }
 
+export type DingDingBotNodeContent = {
+  title?: string;
+  data: string;
+  url: string;
+};
+
 type ActionType<Content> = {
   // 当前任务流实例
   flow: FlowStore;
