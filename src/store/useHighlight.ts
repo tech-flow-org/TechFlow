@@ -1,5 +1,6 @@
 import { getHighlighter, Highlighter, Theme } from 'shiki-es';
-import { create } from 'zustand';
+import { shallow } from 'zustand/shallow';
+import { createWithEqualityFn } from 'zustand/traditional';
 
 export interface ShikiSyntaxTheme {
   /**
@@ -56,29 +57,32 @@ interface Store {
   codeToHtml: (text: string, language: string, isDarkMode: boolean) => string;
 }
 
-export const useHighlight = create<Store>((set, get) => ({
-  highlighter: undefined,
-  initHighlighter: async () => {
-    if (!get().highlighter) {
-      const highlighter = await getHighlighter({
-        langs: languageMap as any,
-        themes: Object.values(THEME),
-      });
-      set({ highlighter });
-    }
-  },
+export const useHighlight = createWithEqualityFn<Store>(
+  (set, get) => ({
+    highlighter: undefined,
+    initHighlighter: async () => {
+      if (!get().highlighter) {
+        const highlighter = await getHighlighter({
+          langs: languageMap as any,
+          themes: Object.values(THEME),
+        });
+        set({ highlighter });
+      }
+    },
 
-  codeToHtml: (text, language, isDarkMode) => {
-    const { highlighter } = get();
-    if (!highlighter) return '';
+    codeToHtml: (text, language, isDarkMode) => {
+      const { highlighter } = get();
+      if (!highlighter) return '';
 
-    try {
-      return highlighter?.codeToHtml(text, {
-        lang: language,
-        theme: isDarkMode ? THEME.dark : THEME.light,
-      });
-    } catch (e) {
-      return text;
-    }
-  },
-}));
+      try {
+        return highlighter?.codeToHtml(text, {
+          lang: language,
+          theme: isDarkMode ? THEME.dark : THEME.light,
+        });
+      } catch (e) {
+        return text;
+      }
+    },
+  }),
+  shallow,
+);

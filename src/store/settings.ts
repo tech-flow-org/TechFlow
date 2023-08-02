@@ -1,8 +1,9 @@
 import { ConfigSettings } from '@/types/exportConfig';
 
 import { ThemeAppearance } from 'antd-style';
-import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { shallow } from 'zustand/shallow';
+import { createWithEqualityFn } from 'zustand/traditional';
 
 export type SidebarTabKey = 'chat' | 'flow' | 'runner';
 
@@ -17,7 +18,7 @@ interface SettingsStore {
   importSettings: (settings: ConfigSettings) => void;
 }
 
-export const useSettings = create<SettingsStore>()(
+export const useSettings = createWithEqualityFn<SettingsStore>()(
   persist<SettingsStore>(
     (set) => ({
       fontSize: 16,
@@ -33,4 +34,5 @@ export const useSettings = create<SettingsStore>()(
     }),
     { name: 'CHAT_SETTINGS', skipHydration: true },
   ),
+  shallow,
 );

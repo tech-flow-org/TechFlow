@@ -1,6 +1,7 @@
-import { create } from 'zustand';
 import { devtools, persist, PersistOptions } from 'zustand/middleware';
+import { createWithEqualityFn } from 'zustand/traditional';
 
+import { shallow } from 'zustand/shallow';
 import { createStore, SessionStore } from './store';
 
 type SessionPersist = Pick<SessionStore, 'agents' | 'chats' | 'displayMode'>;
@@ -18,13 +19,14 @@ const persistOptions: PersistOptions<SessionStore, SessionPersist> = {
   skipHydration: true,
 };
 
-export const useSessionStore = create<SessionStore>()(
+export const useSessionStore = createWithEqualityFn<SessionStore>()(
   persist(
     devtools(createStore, {
       name: 'TechFlow_SESSION',
     }),
     persistOptions,
   ),
+  shallow,
 );
 
 export * from './selectors';

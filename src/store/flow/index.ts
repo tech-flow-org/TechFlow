@@ -1,6 +1,7 @@
-import { create } from 'zustand';
 import { devtools, persist, PersistOptions } from 'zustand/middleware';
+import { createWithEqualityFn } from 'zustand/traditional';
 
+import { shallow } from 'zustand/shallow';
 import { createStore, FlowStore } from './action';
 
 type FlowPersist = Pick<
@@ -22,13 +23,14 @@ const persistOptions: PersistOptions<FlowStore, FlowPersist> = {
   skipHydration: true,
 };
 
-export const useFlowStore = create<FlowStore>()(
+export const useFlowStore = createWithEqualityFn<FlowStore>()(
   persist(
     devtools(createStore, {
       name: 'CHAT_FLOW',
     }),
     persistOptions,
   ),
+  shallow,
 );
 
 export type { FlowStore } from './action';

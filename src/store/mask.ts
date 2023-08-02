@@ -1,7 +1,8 @@
 import { createMask, deleteMask, queryMaskList, updateMask } from '@/services/mask';
 import { StoreKey } from '@/utils/constant';
-import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import shallow from 'zustand/shallow';
+import { createWithEqualityFn } from 'zustand/traditional';
 import { BUILTIN_MASKS } from './masks';
 
 export const ALL_MODELS = [
@@ -100,7 +101,7 @@ export const createEmptyMask = () =>
     builtin: false,
   } as Mask);
 
-export const useMaskStore = create<MaskStore>()(
+export const useMaskStore = createWithEqualityFn<MaskStore>()(
   persist(
     (set, get) => ({
       ...DEFAULT_MASK_STATE,
@@ -196,4 +197,5 @@ export const useMaskStore = create<MaskStore>()(
       version: 2,
     },
   ),
+  shallow,
 );

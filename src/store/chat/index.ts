@@ -1,12 +1,13 @@
 import { produce } from 'immer';
-import { create } from 'zustand';
 import { optionalDevtools } from 'zustand-utils';
+import { createWithEqualityFn } from 'zustand/traditional';
 import { StateCreator } from 'zustand/vanilla';
 
 import { initialAgent } from '@/store/session/initialState';
 import { ChatAgent, ChatContext, ChatMessage } from '@/types';
 import { Compressor } from '@/utils/compass';
 import { genChatMessages } from '@/utils/genChatMessages';
+import { shallow } from 'zustand/shallow';
 
 interface ChatState {
   agent: ChatAgent;
@@ -65,7 +66,7 @@ const createStore: StateCreator<ChatStore, [['zustand/devtools', never]]> = (set
   },
 });
 
-export const useChatStore = create<ChatStore>()(
+export const useChatStore = createWithEqualityFn<ChatStore>()(
   optionalDevtools(true)(
     createStore,
     // persist<ChatStore>(createStore, {
@@ -77,6 +78,7 @@ export const useChatStore = create<ChatStore>()(
     // }),
     { name: 'TechFlow_CHAT' },
   ),
+  shallow,
 );
 
 export const modelSel = (s: ChatStore) => s.agent.model;
