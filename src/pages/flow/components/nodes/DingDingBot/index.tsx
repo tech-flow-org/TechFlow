@@ -5,7 +5,7 @@ import lodashGet from 'lodash.get';
 export const DingDingBotSymbol: SymbolMasterDefinition<DingDingBotNodeContent> = {
   id: 'dingdingbot',
   title: '钉钉机器人',
-  avatar: 'https://techflow.antdigital.dev/dingding.png',
+  avatar: 'https://techflow.antdigital.dev/dingding.svg',
   description: '将接受到的结果以 md 格式发送给钉钉',
   defaultContent: {
     url: 'https://oapi.dingtalk.com/robot/send?access_token=xxxx',
