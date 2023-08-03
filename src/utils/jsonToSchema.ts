@@ -4,16 +4,16 @@ import merge from 'lodash.merge';
 import xor from 'lodash.xor';
 
 type OptionsType = {
-  required: boolean;
-  postProcessFnc: any;
-  strings: {
+  required?: boolean;
+  postProcessFnc?: any;
+  strings?: {
     detectFormat: boolean;
     preProcessFnc: (value: Record<string, any>, fn: any) => Record<string, any>;
   };
-  arrays: {
+  arrays?: {
     mode: string;
   };
-  objects: {
+  objects?: {
     preProcessFnc: (value: Record<string, any>, fn: any) => Record<string, any>;
     postProcessFnc: (Schema: any, value: Record<string, any>, fn: any) => Record<string, any>;
     additionalProperties: boolean;
@@ -320,8 +320,8 @@ class ToJsonSchema {
   }
 
   getObjectSchema(obj: Record<string, any>) {
-    if (this.options.objects.preProcessFnc) {
-      return this.options.objects.preProcessFnc(obj, this.getObjectSchemaDefault);
+    if (this.options?.objects?.preProcessFnc) {
+      return this.options?.objects.preProcessFnc(obj, this.getObjectSchemaDefault);
     }
     return this.getObjectSchemaDefault(obj);
   }
@@ -376,7 +376,7 @@ class ToJsonSchema {
     if (arr.length === 0) {
       return { type: 'array' };
     }
-    switch (this.options.arrays.mode) {
+    switch (this.options?.arrays?.mode) {
       case 'all':
         return this.getArraySchemaMerging(arr);
       case 'first':
@@ -386,14 +386,14 @@ class ToJsonSchema {
       case 'tuple':
         return this.getArraySchemaTuple(arr);
       default:
-        throw new Error(`Unknown array mode option '${this.options.arrays.mode}'`);
+        throw new Error(`Unknown array mode option '${this.options?.arrays?.mode}'`);
     }
   }
 
   getStringSchemaDefault(value: Record<string, any>) {
     const schema: Record<string, any> = { type: 'string' };
 
-    if (!this.options.strings.detectFormat) {
+    if (!this.options?.strings?.detectFormat) {
       return schema;
     }
 
@@ -406,7 +406,7 @@ class ToJsonSchema {
   }
 
   getStringSchema(value: Record<string, any>) {
-    if (this.options.strings.preProcessFnc) {
+    if (this.options?.strings?.preProcessFnc) {
       return this.options.strings.preProcessFnc(value, this.getStringSchemaDefault);
     }
     return this.getStringSchemaDefault(value);
@@ -422,7 +422,7 @@ class ToJsonSchema {
 
   objectPostProcessDefault(schema: any, obj: any) {
     if (
-      this.options.objects.additionalProperties === false &&
+      this.options.objects?.additionalProperties === false &&
       Object.getOwnPropertyNames(obj).length > 0
     ) {
       return merge({}, schema, { additionalProperties: false });
@@ -463,8 +463,8 @@ class ToJsonSchema {
     }
 
     if (type === 'object') {
-      if (this.options.objects.postProcessFnc) {
-        schema = this.options.objects.postProcessFnc(schema, value, this.objectPostProcessDefault);
+      if (this.options?.objects?.postProcessFnc) {
+        schema = this.options?.objects.postProcessFnc(schema, value, this.objectPostProcessDefault);
       } else {
         schema = this.objectPostProcessDefault(schema, value);
       }
