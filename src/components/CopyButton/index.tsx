@@ -1,6 +1,6 @@
 import { useCopied } from '@/hooks/useCopied';
 import { CheckOutlined, CopyOutlined } from '@ant-design/icons';
-import { Button, ConfigProvider, Tooltip, TooltipProps } from 'antd';
+import { Button, Tooltip, TooltipProps } from 'antd';
 import { useTheme } from 'antd-style';
 import { ButtonSize, ButtonType } from 'antd/es/button';
 import copy from 'copy-to-clipboard';
@@ -64,22 +64,20 @@ const CopyButton = ({
   );
 
   return (
-    <ConfigProvider theme={{ token: { colorBgContainer: theme.colorBgElevated } }}>
-      <Tooltip
-        placement={placement}
-        title={
-          copied ? (
-            <>
-              <CheckOutlined style={{ color: theme.colorSuccess }} /> 复制成功
-            </>
-          ) : (
-            '复制'
-          )
-        }
-      >
-        {children}
-      </Tooltip>
-    </ConfigProvider>
+    <Tooltip
+      placement={placement}
+      title={
+        copied ? (
+          <>
+            <CheckOutlined style={{ color: theme.colorSuccess }} /> 复制成功
+          </>
+        ) : (
+          '复制'
+        )
+      }
+    >
+      {children}
+    </Tooltip>
   );
 };
 

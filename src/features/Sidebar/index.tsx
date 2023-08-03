@@ -4,7 +4,7 @@ import Settings from '@/components/Settings';
 import { FlowIcon, MaskIcon, RunnerIcon, JSONIcon as SchemaIcon } from '@/features/Sidebar/Icons';
 import { SidebarTabKey, useSettings } from '@/store/settings';
 import { SettingOutlined } from '@ant-design/icons';
-import { Avatar, Button, ConfigProvider, Dropdown, Popover, Space, Tooltip } from 'antd';
+import { Avatar, Button, Dropdown, Popover, Space, Tooltip } from 'antd';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -52,61 +52,59 @@ export const Sidebar = memo(() => {
     : [{ label: '使用 github 登录', key: 'signIn' }];
 
   return (
-    <ConfigProvider>
-      <Flexbox distribution={'space-between'} align={'center'} className={styles.sidebar}>
-        <Flexbox align={'center'} gap={24}>
-          <Dropdown
-            menu={{
-              items,
-              onClick: ({ key }) => {
-                if (key === 'signOut') signOut();
-                if (key === 'signIn') signIn();
-              },
-            }}
-          >
-            <Avatar size={'large'} src={avatarImg} shape={'circle'} style={{ cursor: 'pointer' }} />
-          </Dropdown>
-          <Flexbox align={'center'} gap={12}>
-            {tabs.map((t) => {
-              const active = t.key === selectSidlerKey;
-              return (
-                <Link key={t.key} href={`/${t.key}`}>
-                  <Tooltip arrow={false} placement={'right'} title={t.title}>
-                    <Button
-                      size={'large'}
-                      type={active ? 'default' : 'text'}
-                      icon={
-                        <t.icon
-                          style={{
-                            fill: active ? theme.colorPrimary : theme.colorTextTertiary,
-                          }}
-                        />
-                      }
-                    />
-                  </Tooltip>
-                </Link>
-              );
-            })}
-          </Flexbox>
+    <Flexbox distribution={'space-between'} align={'center'} className={styles.sidebar}>
+      <Flexbox align={'center'} gap={24}>
+        <Dropdown
+          menu={{
+            items,
+            onClick: ({ key }) => {
+              if (key === 'signOut') signOut();
+              if (key === 'signIn') signIn();
+            },
+          }}
+        >
+          <Avatar size={'large'} src={avatarImg} shape={'circle'} style={{ cursor: 'pointer' }} />
+        </Dropdown>
+        <Flexbox align={'center'} gap={12}>
+          {tabs.map((t) => {
+            const active = t.key === selectSidlerKey;
+            return (
+              <Link key={t.key} href={`/${t.key}`}>
+                <Tooltip arrow={false} placement={'right'} title={t.title}>
+                  <Button
+                    size={'large'}
+                    type={active ? 'default' : 'text'}
+                    icon={
+                      <t.icon
+                        style={{
+                          fill: active ? theme.colorPrimary : theme.colorTextTertiary,
+                        }}
+                      />
+                    }
+                  />
+                </Tooltip>
+              </Link>
+            );
+          })}
         </Flexbox>
-        <Space direction="vertical" size={fontSize}>
-          <IconAction
-            icon={
-              appearance === 'dark' ? (
-                <Moon width="1.2em" height="1.2em" />
-              ) : (
-                <Sun width="1.2em" height="1.2em" />
-              )
-            }
-            onClick={() => {
-              useSettings.setState({ appearance: appearance === 'dark' ? 'light' : 'dark' });
-            }}
-          />
-          <Popover trigger={'click'} placement={'rightBottom'} content={<Settings />}>
-            <Button type={'text'} icon={<SettingOutlined />} />
-          </Popover>
-        </Space>
       </Flexbox>
-    </ConfigProvider>
+      <Space direction="vertical" size={fontSize}>
+        <IconAction
+          icon={
+            appearance === 'dark' ? (
+              <Moon width="1.2em" height="1.2em" />
+            ) : (
+              <Sun width="1.2em" height="1.2em" />
+            )
+          }
+          onClick={() => {
+            useSettings.setState({ appearance: appearance === 'dark' ? 'light' : 'dark' });
+          }}
+        />
+        <Popover trigger={'click'} placement={'rightBottom'} content={<Settings />}>
+          <Button type={'text'} icon={<SettingOutlined />} />
+        </Popover>
+      </Space>
+    </Flexbox>
   );
 });
