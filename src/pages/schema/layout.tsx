@@ -25,7 +25,24 @@ export const SchemaLayout: React.FC<{
       <Head>
         <title>{'节点编辑'}</title>
       </Head>
-      <Flexbox id={'RunnerLayout'} horizontal width={'100%'} height={'100%'}>
+      <Flexbox
+        id={'RunnerLayout'}
+        horizontal
+        width={'100%'}
+        height={'100%'}
+        onKeyDown={(e) => {
+          if (e.key === 's' && e.ctrlKey) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        }}
+        onKeyUp={(e) => {
+          if (e.key === 's' && e.ctrlKey) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        }}
+      >
         <Sidebar />
         <div className={styles.layout}>{props.children}</div>
       </Flexbox>

@@ -164,7 +164,7 @@ const helpers = {
     const schema1Keys = keys(schema1);
     const schema2Keys = keys(schema2);
     if (!isEqual(schema1Keys, schema2Keys)) {
-      if (schema1.type === 'array' && schema2.type === 'array') {
+      if (schema1?.type === 'array' && schema2.type === 'array') {
         // TODO optimize???
         if (isEqual(xor(schema1Keys, schema2Keys), ['items'])) {
           const schemaWithoutItems = schema1Keys.length > schema2Keys.length ? schema2 : schema1;
@@ -179,7 +179,7 @@ const helpers = {
           }
         }
       }
-      if (schema1.type !== 'object' || schema2.type !== 'object') {
+      if (schema1?.type !== 'object' || schema2.type !== 'object') {
         return null;
       }
     }
@@ -190,11 +190,11 @@ const helpers = {
       if (helpers.getType(schema1[key]) === 'object') {
         const x = helpers.mergeSchemaObjs(schema1[key], schema2[key]);
         if (!x) {
-          if (schema1.type === 'object' || schema2.type === 'object') {
+          if (schema1?.type === 'object' || schema2.type === 'object') {
             return { type: 'object' };
           }
           // special treatment for array items. If not mergeable, we can do without them
-          if (key !== 'items' || schema1.type !== 'array' || schema2.type !== 'array') {
+          if (key !== 'items' || schema1?.type !== 'array' || schema2.type !== 'array') {
             return null;
           }
         } else {

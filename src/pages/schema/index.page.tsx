@@ -1,7 +1,15 @@
 ﻿import { jsonToSchema } from '@/utils/jsonToSchema';
-import { ModalForm, ProFormTextArea } from '@ant-design/pro-components';
+import {
+  ModalForm,
+  ProForm,
+  ProFormDigit,
+  ProFormSelect,
+  ProFormSwitch,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
 import { Editor } from '@monaco-editor/react';
-import { Button, Space, message } from 'antd';
+import { Button, Modal, Space, message } from 'antd';
 import { useTheme } from 'antd-style';
 import type { NextPage } from 'next';
 import { memo, useState } from 'react';
@@ -14,14 +22,134 @@ const defaultJson = {
   hr_scale: 2,
   prompt: '{input}',
   enable_hr: true,
-  negative_prompt:
-    'EasyNegative, NSFW, 2faces, 4eyes, 3arms, 4arms, 3legs, 4legs, hand, foot, naked, penis, pussy, sex, porn, 1gril, 1boy, human, logo, text, watermark ',
+  negative_prompt: [
+    'EasyNegative',
+    'NSFW',
+    '2faces',
+    '4eyes',
+    '3arms',
+    '4arms',
+    '3legs',
+    '4legs',
+    'hand',
+    'foot',
+    'naked',
+    'penis',
+    'pussy',
+    'sex',
+    'porn',
+    '1gril',
+    '1boy',
+    'human',
+    'logo',
+    'text',
+    'watermark',
+  ],
+};
+
+const PropertiesRender: React.FC<{
+  properties: Record<string, any>;
+}> = (props) => {
+  const properties = props.properties;
+  const keys = Object.keys(properties);
+
+  return (
+    <ProForm
+      onFinish={async (values) => {
+        Modal.success({
+          title: '生成的数据',
+          content: (
+            <pre>
+              <code>{JSON.stringify(values, null, 2)}</code>
+            </pre>
+          ),
+        });
+      }}
+    >
+      {keys.map((key) => {
+        const property = properties[key];
+        if (property.type === 'array' || property?.items?.enum) {
+          return (
+            <ProFormSelect
+              width="md"
+              label={property.title || key}
+              name={key}
+              key={key}
+              fieldProps={{
+                options: property?.items?.enum || [],
+              }}
+            />
+          );
+        }
+        if (property.type === 'string') {
+          return <ProFormText width="md" label={property.title || key} name={key} key={key} />;
+        }
+        if (property.type === 'integer') {
+          return <ProFormDigit width="md" label={property.title || key} name={key} key={key} />;
+        }
+        if (property.type === 'boolean') {
+          return <ProFormSwitch width="md" label={property.title || key} name={key} key={key} />;
+        }
+        return <ProFormText width="md" label={property.title || key} name={key} key={key} />;
+      })}
+    </ProForm>
+  );
 };
 
 const Schema: NextPage = () => {
-  const [jsonSchema, setJsonSchema] = useState<Record<string, any>>(() =>
-    jsonToSchema(defaultJson, { required: false }),
-  );
+  const [jsonSchema, setJsonSchema] = useState<Record<string, any>>(() => ({
+    type: 'object',
+    properties: {
+      model: {
+        title: '模型',
+        type: 'string',
+      },
+      width: {
+        type: 'integer',
+      },
+      height: {
+        type: 'integer',
+      },
+      hr_scale: {
+        type: 'integer',
+      },
+      prompt: {
+        type: 'string',
+      },
+      enable_hr: {
+        type: 'boolean',
+      },
+      negative_prompt: {
+        type: 'array',
+        items: {
+          type: 'string',
+          enum: [
+            'EasyNegative',
+            'NSFW',
+            '2faces',
+            '4eyes',
+            '3arms',
+            '4arms',
+            '3legs',
+            '4legs',
+            'hand',
+            'foot',
+            'naked',
+            'penis',
+            'pussy',
+            'sex',
+            'porn',
+            '1gril',
+            '1boy',
+            'human',
+            'logo',
+            'text',
+            'watermark',
+          ],
+        },
+      },
+    },
+  }));
   const theme = useTheme();
 
   return (
@@ -80,11 +208,13 @@ const Schema: NextPage = () => {
           display: 'flex',
           height: '100%',
           width: '100%',
+          maxHeight: 'calc(100vh - 54px)',
         }}
       >
         <div
           style={{
             flex: 1,
+            overflow: 'auto',
           }}
         >
           <Editor
@@ -107,8 +237,12 @@ const Schema: NextPage = () => {
         <div
           style={{
             flex: 1,
+            padding: '12px 24px',
+            overflow: 'auto',
           }}
-        ></div>
+        >
+          <PropertiesRender properties={jsonSchema.properties} />
+        </div>
       </div>
     </SchemaLayout>
   );
