@@ -20,6 +20,6 @@ export const getCustomToken: GetCustomToken<ChatToken> = ({ isDarkMode, token })
     chatContentWidth: 748,
     colorBorderDivider: isDarkMode ? '#000' : token.colorBorder,
     colorBgLayoutSecondary: isDarkMode ? 'hsl(240,11%,12%)' : '#f1f1f1',
-    aiTaskNodeWidth: 804,
+    aiTaskNodeWidth: 480,
   };
 };

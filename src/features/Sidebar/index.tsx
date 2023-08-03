@@ -1,7 +1,7 @@
 import { Moon, Sun } from '@/components/Header/ThemeIcon';
 import { IconAction } from '@/components/IconAction';
 import Settings from '@/components/Settings';
-import { FlowIcon, MaskIcon, RunnerIcon } from '@/features/Sidebar/Icons';
+import { FlowIcon, MaskIcon, RunnerIcon, JSONIcon as SchemaIcon } from '@/features/Sidebar/Icons';
 import { SidebarTabKey, useSettings } from '@/store/settings';
 import { SettingOutlined } from '@ant-design/icons';
 import { Avatar, Button, ConfigProvider, Dropdown, Popover, Space, Tooltip } from 'antd';
@@ -21,6 +21,7 @@ const tabs = [
     icon: MaskIcon,
   },
   { key: 'runner', title: '任务流执行', icon: RunnerIcon },
+  { key: 'schema', title: '定制节点', icon: SchemaIcon },
 ];
 
 export const Sidebar = memo(() => {
