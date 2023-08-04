@@ -26,9 +26,6 @@ export const useStyles = createStyles(({ css, token }) => ({
 }));
 
 export const GlobalStyle = createGlobalStyle`
-  .ant-btn {
-    box-shadow: none;
-  }
 
   #__next {
     height: 100%;
@@ -41,17 +38,6 @@ export const GlobalStyle = createGlobalStyle`
   li {
     display: block;
   }
-
-  .ant-btn-default:not(:disabled):not(.ant-btn-dangerous) {
-    border-color: transparent;
-
-    &:hover {
-      color: ${(p) => p.theme.colorText};
-      background: ${({ theme }) => (theme.isDarkMode ? theme.colorFill : theme.colorFillTertiary)};
-      border-color: transparent;
-    }
-  }
-
   .ant-popover {
     z-index: 1100;
   }
