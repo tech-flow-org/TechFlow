@@ -1,7 +1,24 @@
 ﻿import { CloseCircleFilled } from '@ant-design/icons';
 import { ProFormUploadDragger, ProFormUploadDraggerProps } from '@ant-design/pro-components';
 import { Typography } from 'antd';
+import { GlobalWorkerOptions, getDocument, version } from 'pdfjs-dist';
+
 import { useState } from 'react';
+
+GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.js`;
+
+const pdfToText = async (data: ArrayBuffer) => {
+  const pdf = await getDocument(data).promise;
+  return pdf.getPage(1).then(function (page: any) {
+    return page.getTextContent().then(function (textContent: any) {
+      return textContent.items
+        .map(function (item: any) {
+          return item.str;
+        })
+        .join(' ');
+    });
+  });
+};
 
 export const UploadDragger = (
   props: ProFormUploadDraggerProps & {
@@ -29,8 +46,8 @@ export const UploadDragger = (
         <CloseCircleFilled
           style={{
             position: 'absolute',
-            top: 12,
-            right: 12,
+            top: 24,
+            right: 8,
             fontSize: 16,
           }}
           onClick={() => props.onChange?.('')}
@@ -55,12 +72,21 @@ export const UploadDragger = (
         }
         if (file.file.name.endsWith('.pdf')) {
           setFileType('pdf');
+          const reader = new FileReader();
+          reader.readAsArrayBuffer(file.file.originFileObj as File);
+          reader.onloadend = async (e) => {
+            const result = e.target?.result as ArrayBuffer;
+            if (result) {
+              const text = await pdfToText(new Uint8Array(result) as ArrayBuffer);
+              props.onChange?.(text);
+            }
+          };
           return;
         }
         const reader = new FileReader();
         reader.readAsText(file.file.originFileObj as File);
         reader.onloadend = (e) => {
-          props.onChange?.(e.target?.result as string);
+          props.onChange?.((e.target?.result as string).slice(0, 4096));
         };
       }}
     />
