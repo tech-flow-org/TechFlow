@@ -18,6 +18,11 @@ export type DingDingBotNodeContent = {
   url: string;
 };
 
+export type FileReadNodeContent = {
+  file: string;
+  type: 'pdf' | 'txt' | 'csv';
+};
+
 type ActionType<Content> = {
   // 当前任务流实例
   flow: FlowStore;
@@ -54,7 +59,13 @@ export interface SymbolMasterDefinition<Content> {
       valueContainer?: boolean;
       hideContainer?: boolean;
       valueKey?: string[];
-      component?: 'Input' | 'Segmented' | 'InputArea' | 'SystemRole' | 'TaskPromptsInput';
+      component?:
+        | 'Input'
+        | 'Segmented'
+        | 'InputArea'
+        | 'SystemRole'
+        | 'TaskPromptsInput'
+        | 'Upload';
       options?: {
         label: string;
         value: string;

@@ -65,4 +65,5 @@ const nextConfig = {
   reactProductionProfiling: true,
 };
 
+//@ts-ignore
 module.exports = withPWA(nextConfig);

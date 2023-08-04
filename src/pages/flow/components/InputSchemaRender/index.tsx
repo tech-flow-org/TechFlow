@@ -1,4 +1,5 @@
 ﻿import Markdown from '@/components/Markdown';
+import { UploadDragger } from '@/components/UploadDragger';
 import { flowSelectors, useFlowStore } from '@/store/flow';
 import { Input, Segmented } from 'antd';
 import { NodeField, useFlowEditor } from 'kitchen-flow-editor';
@@ -86,6 +87,19 @@ const RenderComponent = memo(
       return (
         <TaskPromptsInput
           valueKey={valueKey.toString()}
+          id={id}
+          key={valueKey.toString()}
+          title={title}
+          value={value}
+          onChange={(e) => {
+            onChange(valueKey, e);
+          }}
+        />
+      );
+    }
+    if (component === 'Upload') {
+      return (
+        <UploadDragger
           id={id}
           key={valueKey.toString()}
           title={title}
