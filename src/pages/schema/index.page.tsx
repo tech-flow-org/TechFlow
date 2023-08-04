@@ -15,6 +15,11 @@ import type { NextPage } from 'next';
 import { memo, useState } from 'react';
 import { SchemaLayout } from './layout';
 
+const JSON_SCHEMA = {
+  $id: 'https://example.com/address.schema.json',
+  $schema: 'https://json-schema.org/draft/2020-12/schema',
+};
+
 const defaultJson = {
   model: 'chilloutmix_NiPrunedFp32Fix',
   width: 512,
@@ -99,6 +104,7 @@ const PropertiesRender: React.FC<{
 const Schema: NextPage = () => {
   const [jsonSchema, setJsonSchema] = useState<Record<string, any>>(() => ({
     type: 'object',
+    ...JSON_SCHEMA,
     properties: {
       model: {
         title: '模型',
@@ -177,7 +183,7 @@ const Schema: NextPage = () => {
             onFinish={async (values) => {
               try {
                 setJsonSchema(
-                  jsonToSchema(JSON.parse(values.json), {
+                  jsonToSchema(JSON.parse({ ...values.json, ...JSON_SCHEMA }), {
                     required: false,
                   }),
                 );
