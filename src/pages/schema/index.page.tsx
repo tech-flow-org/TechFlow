@@ -16,7 +16,6 @@ import { memo, useState } from 'react';
 import { SchemaLayout } from './layout';
 
 const JSON_SCHEMA = {
-  $id: 'https://example.com/address.schema.json',
   $schema: 'https://json-schema.org/draft/2020-12/schema',
 };
 
