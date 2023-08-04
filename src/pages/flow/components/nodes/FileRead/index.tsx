@@ -37,10 +37,10 @@ export const FileReadSymbol: SymbolMasterDefinition<FileReadNodeContent> = {
       title: '上传文件',
     },
   },
-  run: async () => {
+  run: async (node) => {
     return {
       type: 'text',
-      output: '文件读取成功',
+      output: node.file,
     };
   },
 };
