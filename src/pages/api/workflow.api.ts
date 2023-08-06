@@ -1,8 +1,7 @@
-﻿import { Mask } from '@/store/mask';
-import { NextApiRequest, NextApiResponse } from 'next';
+﻿import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './auth/[...nextauth].api';
-import { MaskDataBase, dataBase } from './db';
+import { WorkFlowDataBase, dataBase } from './db';
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   const session = await getServerSession(request, response, authOptions);
@@ -15,19 +14,15 @@ export default async function handler(request: NextApiRequest, response: NextApi
   }
   if (request.method === 'GET') {
     try {
-      const maskList = await dataBase
-        .selectFrom('mask')
-        .select(['id', 'name', 'avatar', 'context', 'model_config'])
-        .where('mask.user_id', '=', session?.user?.email)
+      const workflowList = await dataBase
+        .selectFrom('workflow')
+        .select(['id', 'workflow'])
+        .where('workflow.user_id', '=', session?.user?.email)
         .execute();
 
       response.status(200).json({
         success: true,
-        data: maskList.map((mask) => ({
-          ...mask,
-          context: JSON.parse(mask.context || '[]'),
-          modelConfig: JSON.parse(mask.model_config || '{}'),
-        })),
+        data: workflowList,
       });
     } catch (error) {
       return response.status(200).json({
@@ -39,28 +34,20 @@ export default async function handler(request: NextApiRequest, response: NextApi
   }
 
   if (request.method === 'POST') {
-    const mask = request.body as Mask;
-    const insertValue = {
-      id: mask.id?.toString() || '',
-      name: mask.name,
-      avatar: mask.avatar,
-      context: JSON.stringify(mask.context),
-      user_id: session?.user?.email,
-      model_config: JSON.stringify(mask.modelConfig),
-    };
-    await dataBase.insertInto('mask').values(insertValue).execute();
-
+    const workflow = request.body as WorkFlowDataBase;
+    workflow.user_id = session?.user?.email;
+    await dataBase.insertInto('workflow').values(workflow).execute();
     return response.status(200).json({
       success: true,
-      data: insertValue,
+      data: workflow,
     });
   }
 
   if (request.method === 'DELETE') {
-    const mask = request.query as MaskDataBase;
+    const workflow = request.query as WorkFlowDataBase;
     await dataBase
-      .deleteFrom('mask')
-      .where('id', '=', mask.id?.toString() || '')
+      .deleteFrom('workflow')
+      .where('id', '=', workflow.id?.toString() || '')
       .execute();
     return response.status(200).json({
       success: true,
@@ -69,11 +56,11 @@ export default async function handler(request: NextApiRequest, response: NextApi
   }
 
   if (request.method === 'PUT') {
-    const mask = request.body as MaskDataBase;
+    const workflow = request.body as WorkFlowDataBase;
     const result = await dataBase
-      .updateTable('mask')
-      .set(mask)
-      .where('id', '=', mask.id?.toString() || '')
+      .updateTable('workflow')
+      .set(workflow)
+      .where('id', '=', workflow.id?.toString() || '')
       .execute();
     return response.status(200).json({
       success: true,

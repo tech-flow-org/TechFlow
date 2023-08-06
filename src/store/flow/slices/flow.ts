@@ -6,6 +6,7 @@ import { FlowStore, flowSelectors } from '@/store/flow';
 import { ChatAgent } from '@/types';
 
 import { createFlow, createTextTaskNode } from '@/helpers/flow';
+import { createWorkFlowDataBase, queryWorkFlowDataBaseList } from '@/services/workflow';
 import { Workflow } from '@/types/flow';
 import { message } from 'antd';
 import yaml from 'js-yaml';
@@ -25,6 +26,8 @@ export interface FlowCRUDSlice {
    * @returns
    */
   exportWorkflow: () => void;
+  queryFlowListForServer: () => Promise<void>;
+  saveFlowToServer: () => void;
 }
 
 export const flowCrudSlice: StateCreator<
@@ -80,6 +83,7 @@ export const flowCrudSlice: StateCreator<
     });
   },
   importFlow: (id: string, flow: string) => {
+    console.log(yaml.load(flow));
     get().dispatchFlow({
       type: 'updateFlow',
       id,
@@ -150,5 +154,61 @@ export const flowCrudSlice: StateCreator<
       message.error('导出失败');
     }
     hideLoading();
+  },
+  // 从服务器查询所有的任务流
+  queryFlowListForServer: async () => {
+    queryWorkFlowDataBaseList({
+      params: undefined,
+    }).then((res) => {
+      res.forEach((item) => {
+        const id = item.id;
+        if (!id || !item.workflow) return;
+        const flow = yaml.load(item.workflow) as Workflow;
+        if (get().flows[id]) {
+          get().dispatchFlow({
+            type: 'updateFlow',
+            id,
+            flow: flow as Workflow,
+          });
+          return;
+        }
+        get().dispatchFlow({
+          type: 'addFlow',
+          flow: createFlow(id, flow.meta, {}),
+        });
+        get().dispatchFlow({
+          type: 'updateFlow',
+          id,
+          flow: flow as Workflow,
+        });
+      });
+    });
+  },
+
+  saveFlowToServer: async () => {
+    const data = flowSelectors.currentFlow(get());
+    const workflow = yaml.dump(data, {
+      indent: 2,
+      replacer: (key, value) => {
+        if (key === 'output') {
+          return undefined;
+        }
+        return value;
+      },
+    });
+
+    const hideLoading = message.loading('正在保存...', 0);
+    try {
+      await createWorkFlowDataBase({
+        params: {
+          id: data.id,
+          workflow,
+        },
+      });
+    } catch (error) {
+      message.error('保存失败');
+    } finally {
+      hideLoading();
+    }
   },
 });

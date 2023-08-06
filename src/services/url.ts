@@ -7,6 +7,7 @@ export const URLS = {
   chain: '/api/chain' + prefix,
   sd: '/api/sd/text2img',
   mask: '/api/mask',
+  workflow: '/api/workflow',
   network: '/api/network/proxy',
   dingdingbot: '/api/dingding/send',
 };

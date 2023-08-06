@@ -2,6 +2,7 @@ import {
   ClearOutlined,
   DownloadOutlined,
   PlayCircleOutlined,
+  SaveOutlined,
   SettingOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
@@ -23,12 +24,22 @@ import { ControlInput } from '@/components/ControlInput';
 import { UploadDragger } from '@/components/UploadDragger';
 import { hasFlowRunner } from '@/helpers/flow';
 import { flowSelectors, useFlowStore } from '@/store/flow';
+import { useSession } from 'next-auth/react';
 
 const Header = memo(() => {
-  const [openImportFlowModal, closeImportFlowModal, exportWorkflow, importFlow] = useFlowStore(
-    (s) => [s.openImportFlowModal, s.closeImportFlowModal, s.exportWorkflow, s.importFlow],
-    shallow,
-  );
+  const [openImportFlowModal, closeImportFlowModal, exportWorkflow, importFlow, saveFlowToServer] =
+    useFlowStore(
+      (s) => [
+        s.openImportFlowModal,
+        s.closeImportFlowModal,
+        s.exportWorkflow,
+        s.importFlow,
+        s.saveFlowToServer,
+      ],
+      shallow,
+    );
+
+  const session = useSession();
 
   const formRef = useRef<FormInstance>();
 
@@ -87,8 +98,18 @@ const Header = memo(() => {
         />
       </Flexbox>
       <Flexbox direction="horizontal" gap={8}>
+        {session.data?.user ? (
+          <Button
+            icon={<SaveOutlined />}
+            type="primary"
+            onClick={() => {
+              saveFlowToServer();
+            }}
+          >
+            保存
+          </Button>
+        ) : null}
         <Button
-          type={'primary'}
           disabled={isTaskEmpty}
           loading={runningTask}
           onClick={runFlow}
@@ -96,6 +117,7 @@ const Header = memo(() => {
         >
           {runningTask ? '运行中' : '运行'}
         </Button>
+
         {runningTask ? (
           <Button
             danger
@@ -106,7 +128,6 @@ const Header = memo(() => {
             结束运行
           </Button>
         ) : null}
-
         <Dropdown
           menu={{
             items: [
@@ -139,6 +160,7 @@ const Header = memo(() => {
           </Button>
         </Dropdown>
       </Flexbox>
+
       <ModalForm
         onOpenChange={(open) => {
           if (!open) {

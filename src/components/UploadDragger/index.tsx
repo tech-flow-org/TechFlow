@@ -57,11 +57,11 @@ export const UploadDragger = (
   }
   return (
     <ProFormUploadDragger
-      accept=".txt,.pdf,.csv,.ymal,.json"
+      accept=".txt,.pdf,.csv,.yml,.json"
       {...props}
       value={[]}
       onChange={(file) => {
-        if (file.file.name.endsWith('.txt') || file.file.name.endsWith('.ymal')) {
+        if (file.file.name.endsWith('.txt') || file.file.name.endsWith('.yml')) {
           setFileType('txt');
         }
         if (file.file.name.endsWith('.json')) {
@@ -86,7 +86,7 @@ export const UploadDragger = (
         const reader = new FileReader();
         reader.readAsText(file.file.originFileObj as File);
         reader.onloadend = (e) => {
-          props.onChange?.((e.target?.result as string).slice(0, 4096));
+          props.onChange?.(e.target?.result as string);
         };
       }}
     />

@@ -8,3 +8,10 @@
     user_id varchar(255),
     created_at TIMESTAMP DEFAULT NOW()
 );
+
+CREATE TABLE workflow (
+    id varchar(128) primary key not null,
+    workflow text,
+    user_id varchar(255),
+    created_at TIMESTAMP DEFAULT NOW()
+);
