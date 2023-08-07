@@ -31,6 +31,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
         error: 'serve error' + error,
       });
     }
+    return;
   }
 
   if (request.method === 'POST') {
@@ -41,6 +42,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
       success: true,
       data: workflow,
     });
+    return;
   }
 
   if (request.method === 'DELETE') {
@@ -53,6 +55,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
       success: true,
       data: {},
     });
+    return;
   }
 
   if (request.method === 'PUT') {
@@ -66,6 +69,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
       success: true,
       data: { result },
     });
+    return;
   }
 
   return response.status(200).json({

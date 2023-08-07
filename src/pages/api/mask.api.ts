@@ -36,6 +36,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
         error: 'serve error' + error,
       });
     }
+    return;
   }
 
   if (request.method === 'POST') {
@@ -50,10 +51,11 @@ export default async function handler(request: NextApiRequest, response: NextApi
     };
     await dataBase.insertInto('mask').values(insertValue).execute();
 
-    return response.status(200).json({
+    response.status(200).json({
       success: true,
       data: insertValue,
     });
+    return;
   }
 
   if (request.method === 'DELETE') {
@@ -62,10 +64,11 @@ export default async function handler(request: NextApiRequest, response: NextApi
       .deleteFrom('mask')
       .where('id', '=', mask.id?.toString() || '')
       .execute();
-    return response.status(200).json({
+    response.status(200).json({
       success: true,
       data: {},
     });
+    return;
   }
 
   if (request.method === 'PUT') {
@@ -75,10 +78,11 @@ export default async function handler(request: NextApiRequest, response: NextApi
       .set(mask)
       .where('id', '=', mask.id?.toString() || '')
       .execute();
-    return response.status(200).json({
+    response.status(200).json({
       success: true,
       data: { result },
     });
+    return;
   }
 
   return response.status(200).json({
