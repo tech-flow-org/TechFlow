@@ -17,6 +17,9 @@ dependencies:
   '@ant-design/pro-editor':
     specifier: ^0.7.2
     version: 0.7.2(@types/lodash.merge@4.6.7)(@types/react-dom@18.2.7)(@types/react@18.2.18)(antd-style@3.4.3)(antd@5.8.2)(rc-field-form@1.36.2)(react-dom@18.2.0)(react@18.2.0)
+  '@ant-design/pro-flow-editor':
+    specifier: latest
+    version: 0.4.2(@types/lodash.merge@4.6.7)(@types/react-dom@18.2.7)(@types/react@18.2.18)(antd@5.8.2)(rc-field-form@1.36.2)(react-dom@18.2.0)(react@18.2.0)
   '@dnd-kit/core':
     specifier: ^6.0.8
     version: 6.0.8(react-dom@18.2.0)(react@18.2.0)
@@ -104,15 +107,12 @@ dependencies:
   js-yaml:
     specifier: ^4.1.0
     version: 4.1.0
-  kitchen-flow-editor:
-    specifier: latest
-    version: 0.3.3(@types/lodash.merge@4.6.7)(@types/react-dom@18.2.7)(@types/react@18.2.18)(antd@5.8.2)(rc-field-form@1.36.2)(react-dom@18.2.0)(react@18.2.0)
   kysely:
     specifier: ^0.26.1
     version: 0.26.1
   langchain:
     specifier: latest
-    version: 0.0.123
+    version: 0.0.124
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
@@ -142,7 +142,7 @@ dependencies:
     version: 4.5.0
   lucide-react:
     specifier: latest
-    version: 0.264.0(react@18.2.0)
+    version: 0.265.0(react@18.2.0)
   mask:
     specifier: ^0.2.2
     version: 0.2.2
@@ -573,9 +573,9 @@ packages:
       umi-request: 1.4.0
       use-merge-value: 1.2.0(react@18.2.0)
       yjs: 13.6.7
-      zustand: 4.4.0(@types/react@18.2.18)(immer@9.0.21)(react@18.2.0)
+      zustand: 4.4.1(@types/react@18.2.18)(immer@9.0.21)(react@18.2.0)
       zustand-middleware-yjs: 1.3.1(@types/react@18.2.18)(immer@9.0.21)(react@18.2.0)
-      zustand-utils: 1.3.0(react@18.2.0)(zustand@4.4.0)
+      zustand-utils: 1.3.1(react@18.2.0)(zustand@4.4.1)
     transitivePeerDependencies:
       - '@types/lodash.merge'
       - '@types/react'
@@ -678,6 +678,42 @@ packages:
       swr: 2.2.0(react@18.2.0)
     transitivePeerDependencies:
       - react-dom
+    dev: false
+
+  /@ant-design/pro-flow-editor@0.4.2(@types/lodash.merge@4.6.7)(@types/react-dom@18.2.7)(@types/react@18.2.18)(antd@5.8.2)(rc-field-form@1.36.2)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-3/vSwqIRaCGy6lsefFEkyiji2+124RagA5ItGJPjHA0htgtgZoaVNRvAs9VcHf4H578yswF37+7+1cwIXviQCQ==}
+    peerDependencies:
+      antd: ^5
+      react: '>=18'
+      react-dom: '>=18'
+    dependencies:
+      '@ant-design/icons': 5.1.4(react-dom@18.2.0)(react@18.2.0)
+      '@ant-design/pro-editor': 0.10.0(@types/lodash.merge@4.6.7)(@types/react-dom@18.2.7)(@types/react@18.2.18)(antd-style@3.4.3)(antd@5.8.2)(rc-field-form@1.36.2)(react-dom@18.2.0)(react@18.2.0)
+      '@babel/runtime': 7.22.6
+      '@floating-ui/react': 0.24.8(react-dom@18.2.0)(react@18.2.0)
+      ahooks: 3.7.8(react@18.2.0)
+      antd: 5.8.2(react-dom@18.2.0)(react@18.2.0)
+      antd-style: 3.4.3(@types/react@18.2.18)(antd@5.8.2)(react-dom@18.2.0)(react@18.2.0)
+      fast-deep-equal: 3.1.3
+      immer: 10.0.2
+      lodash-es: 4.17.21
+      lucide-react: 0.265.0(react@18.2.0)
+      nanoid: 4.0.2
+      polished: 4.2.2
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-hotkeys-hook: 4.4.1(react-dom@18.2.0)(react@18.2.0)
+      react-layout-kit: 1.7.0(react@18.2.0)
+      reactflow: 11.7.4(@types/react@18.2.18)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)
+      use-merge-value: 1.2.0(react@18.2.0)
+      yjs: 13.6.7
+      zustand: 4.4.1(@types/react@18.2.18)(immer@10.0.2)(react@18.2.0)
+      zustand-utils: 1.3.1(react@18.2.0)(zustand@4.4.1)
+    transitivePeerDependencies:
+      - '@types/lodash.merge'
+      - '@types/react'
+      - '@types/react-dom'
+      - rc-field-form
     dev: false
 
   /@ant-design/pro-form@2.17.2(@types/lodash.merge@4.6.7)(antd@5.8.2)(rc-field-form@1.36.2)(react-dom@18.2.0)(react@18.2.0):
@@ -9742,42 +9778,6 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  /kitchen-flow-editor@0.3.3(@types/lodash.merge@4.6.7)(@types/react-dom@18.2.7)(@types/react@18.2.18)(antd@5.8.2)(rc-field-form@1.36.2)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-1Ad6wkFEnDNUJ73RzMapOexRbwZKxKYkJqJ5Ft6Q3zrcVFOFp5itGvklTri73L/fru3zVOoVkHTAoG4j9M2qBA==}
-    peerDependencies:
-      antd: ^5
-      react: '>=18'
-      react-dom: '>=18'
-    dependencies:
-      '@ant-design/icons': 5.1.4(react-dom@18.2.0)(react@18.2.0)
-      '@ant-design/pro-editor': 0.10.0(@types/lodash.merge@4.6.7)(@types/react-dom@18.2.7)(@types/react@18.2.18)(antd-style@3.4.3)(antd@5.8.2)(rc-field-form@1.36.2)(react-dom@18.2.0)(react@18.2.0)
-      '@babel/runtime': 7.22.6
-      '@floating-ui/react': 0.24.8(react-dom@18.2.0)(react@18.2.0)
-      ahooks: 3.7.8(react@18.2.0)
-      antd: 5.8.2(react-dom@18.2.0)(react@18.2.0)
-      antd-style: 3.4.3(@types/react@18.2.18)(antd@5.8.2)(react-dom@18.2.0)(react@18.2.0)
-      fast-deep-equal: 3.1.3
-      immer: 10.0.2
-      lodash-es: 4.17.21
-      lucide-react: 0.264.0(react@18.2.0)
-      nanoid: 4.0.2
-      polished: 4.2.2
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      react-hotkeys-hook: 4.4.1(react-dom@18.2.0)(react@18.2.0)
-      react-layout-kit: 1.7.0(react@18.2.0)
-      reactflow: 11.7.4(@types/react@18.2.18)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)
-      use-merge-value: 1.2.0(react@18.2.0)
-      yjs: 13.6.7
-      zustand: 4.4.0(@types/react@18.2.18)(immer@10.0.2)(react@18.2.0)
-      zustand-utils: 1.3.0(react@18.2.0)(zustand@4.4.0)
-    transitivePeerDependencies:
-      - '@types/lodash.merge'
-      - '@types/react'
-      - '@types/react-dom'
-      - rc-field-form
-    dev: false
-
   /kleur@4.1.5:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
@@ -9792,8 +9792,8 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: false
 
-  /langchain@0.0.123:
-    resolution: {integrity: sha512-dMncy/yttMqch11tQUNdygQJlqlKampl8BULFWqZGG1uopzXC1ljqohWpdeLkwAYdKZ7uKcpdaYEXMvhxZsIJQ==}
+  /langchain@0.0.124:
+    resolution: {integrity: sha512-TabvP1G47qe8UJKhgx+r2ezNwB9w6t247gl5EYli5rJ46cCQncAA9Ubtk5KGT9iu1wDOcT2Zx7r6Mm5PM/jeQA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.310.0
@@ -10358,8 +10358,8 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /lucide-react@0.264.0(react@18.2.0):
-    resolution: {integrity: sha512-BmQTimZDhAy2vH9aCeQa+TLrkWwWd8FP5GRMoK3hKEvO1eS/llGXe4RxrZGSTdOjhw1JuDLpvtS8VmNCKxhL5A==}
+  /lucide-react@0.265.0(react@18.2.0):
+    resolution: {integrity: sha512-znyvziBEUQ7CKR31GiU4viomQbJrpDLG5ac+FajwiZIavC3YbPFLkzQx3dCXT4JWJx/pB34EwmtiZ0ElGZX0PA==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
@@ -15521,7 +15521,18 @@ packages:
     dependencies:
       '@babel/runtime': 7.22.6
       react: 18.2.0
-      zustand: 4.4.0(@types/react@18.2.18)(immer@9.0.21)(react@18.2.0)
+      zustand: 4.4.0(@types/react@18.2.18)(immer@10.0.2)(react@18.2.0)
+    dev: false
+
+  /zustand-utils@1.3.1(react@18.2.0)(zustand@4.4.1):
+    resolution: {integrity: sha512-YBfWpWEwZN0ZxtMg5zJeywTuNAaN+xVCTAjYC0SFsWx7hwfdHQGFbkA3ruTRBLez5S9y9ZwqnmFeDCHzRmLLMg==}
+    peerDependencies:
+      react: '>=16.8'
+      zustand: '>=4.4.1'
+    dependencies:
+      '@babel/runtime': 7.22.6
+      react: 18.2.0
+      zustand: 4.4.1(@types/react@18.2.18)(immer@10.0.2)(react@18.2.0)
     dev: false
 
   /zustand@3.7.2(react@18.2.0):
@@ -15559,6 +15570,48 @@ packages:
 
   /zustand@4.4.0(@types/react@18.2.18)(immer@9.0.21)(react@18.2.0):
     resolution: {integrity: sha512-2dq6wq4dSxbiPTamGar0NlIG/av0wpyWZJGeQYtUOLegIUvhM2Bf86ekPlmgpUtS5uR7HyetSiktYrGsdsyZgQ==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@types/react': '>=16.8'
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      '@types/react': 18.2.18
+      immer: 9.0.21
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+
+  /zustand@4.4.1(@types/react@18.2.18)(immer@10.0.2)(react@18.2.0):
+    resolution: {integrity: sha512-QCPfstAS4EBiTQzlaGP1gmorkh/UL1Leaj2tdj+zZCZ/9bm0WS7sI2wnfD5lpOszFqWJ1DcPnGoY8RDL61uokw==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@types/react': '>=16.8'
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      '@types/react': 18.2.18
+      immer: 10.0.2
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+
+  /zustand@4.4.1(@types/react@18.2.18)(immer@9.0.21)(react@18.2.0):
+    resolution: {integrity: sha512-QCPfstAS4EBiTQzlaGP1gmorkh/UL1Leaj2tdj+zZCZ/9bm0WS7sI2wnfD5lpOszFqWJ1DcPnGoY8RDL61uokw==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
       '@types/react': '>=16.8'

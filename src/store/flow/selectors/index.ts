@@ -9,7 +9,7 @@ import {
 } from '@/helpers/flow';
 import { FlowStore } from '@/store/flow';
 import { AITaskContent } from '@/types/flow';
-import { IFlowBasicNode } from 'kitchen-flow-editor';
+import { IFlowBasicNode } from '@ant-design/pro-flow-editor';
 
 export const flowSelectors = {
   currentFlow: (s: FlowStore) => s.flows[s.activeId || ''],

@@ -1,5 +1,5 @@
 import { DeleteOutlined, PlayCircleOutlined } from '@ant-design/icons';
-import { NodeField, useFlowEditor } from 'kitchen-flow-editor';
+import { NodeField, useFlowEditor } from '@ant-design/pro-flow-editor';
 import { memo, useMemo } from 'react';
 import { shallow } from 'zustand/shallow';
 

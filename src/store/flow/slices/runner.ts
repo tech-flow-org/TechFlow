@@ -9,7 +9,7 @@ import { FlattenNodes, OutputNodeContent } from '@/types/flow';
 import { genChatMessages } from '@/utils/genChatMessages';
 
 import { SymbolNodeRunMap } from '@/pages/flow/components/nodes';
-import { FlattenEdges } from 'kitchen-flow-editor';
+import { FlattenEdges } from '@ant-design/pro-flow-editor';
 import { FlowStore } from '../action';
 import { flowSelectors } from '../selectors';
 

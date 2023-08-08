@@ -1,5 +1,5 @@
 import { ModelConfig } from '@/store/mask';
-import { IFlowBasicNodeData } from 'kitchen-flow-editor';
+import { IFlowBasicNodeData } from '@ant-design/pro-flow-editor';
 import { Node } from 'reactflow';
 import type { ChatExample } from '../../agent';
 

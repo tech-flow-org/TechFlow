@@ -1,8 +1,8 @@
 ﻿import Markdown from '@/components/Markdown';
 import { UploadDragger } from '@/components/UploadDragger';
 import { flowSelectors, useFlowStore } from '@/store/flow';
+import { NodeField, useFlowEditor } from '@ant-design/pro-flow-editor';
 import { Input, Segmented } from 'antd';
-import { NodeField, useFlowEditor } from 'kitchen-flow-editor';
 import { get, set } from 'rc-util';
 import { memo, useCallback, useMemo } from 'react';
 import { shallow } from 'zustand/shallow';

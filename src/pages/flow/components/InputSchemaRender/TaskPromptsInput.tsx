@@ -4,10 +4,10 @@ import {
   MessageOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
+import { NodeField, useFlowEditor } from '@ant-design/pro-flow-editor';
 import { Segmented } from 'antd';
 import { createStyles } from 'antd-style';
 import isEqual from 'fast-deep-equal';
-import { NodeField, useFlowEditor } from 'kitchen-flow-editor';
 import { memo, useCallback, useState } from 'react';
 import { Flexbox } from 'react-layout-kit';
 

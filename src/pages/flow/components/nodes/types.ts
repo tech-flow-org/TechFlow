@@ -1,5 +1,5 @@
 import { AITaskContent, OutputNodeContent } from '@/types/flow';
-import { BasicFlowNodeProps } from 'kitchen-flow-editor';
+import { BasicFlowNodeProps } from '@ant-design/pro-flow-editor';
 
 export type AITaskNodeProps = BasicFlowNodeProps<AITaskContent>;
 

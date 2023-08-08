@@ -1,8 +1,8 @@
 ﻿import { DeleteOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { BasicFlowNodeProps, memoEqual } from '@ant-design/pro-flow-editor';
 import { App } from 'antd';
 import { createStyles } from 'antd-style';
 import isEqual from 'fast-deep-equal';
-import { BasicFlowNodeProps, memoEqual } from 'kitchen-flow-editor';
 import { memo, useMemo } from 'react';
 import { Flexbox } from 'react-layout-kit';
 

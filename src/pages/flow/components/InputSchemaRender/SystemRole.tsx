@@ -1,6 +1,6 @@
 import { ArrowsAltOutlined, EditOutlined, SmileOutlined } from '@ant-design/icons';
+import { NodeField, useFlowEditor } from '@ant-design/pro-flow-editor';
 import { createStyles } from 'antd-style';
-import { NodeField, useFlowEditor } from 'kitchen-flow-editor';
 import { memo, useState } from 'react';
 import { shallow } from 'zustand/shallow';
 

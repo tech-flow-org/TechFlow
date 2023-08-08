@@ -4,7 +4,7 @@ import { Node } from 'reactflow';
 import { initAITaskContent } from '@/store/flow/initialState';
 import { AITaskContent, FlowAITaskNode, Workflow } from '@/types/flow';
 import { MetaData } from '@/types/meta';
-import { IFlowBasicNode } from 'kitchen-flow-editor';
+import { IFlowBasicNode } from '@ant-design/pro-flow-editor';
 
 export const createFlow = (
   id: string,

@@ -1,4 +1,4 @@
-﻿import { BasicNode } from 'kitchen-flow-editor';
+﻿import { BasicNode } from '@ant-design/pro-flow-editor';
 import { memo } from 'react';
 import { Flexbox } from 'react-layout-kit';
 

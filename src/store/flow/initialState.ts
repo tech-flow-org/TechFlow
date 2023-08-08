@@ -1,5 +1,5 @@
 import { AITaskContent, FlowAITaskNode, Workflow, WorkflowMap } from '@/types/flow';
-import { FlowEditorInstance } from 'kitchen-flow-editor';
+import { FlowEditorInstance } from '@ant-design/pro-flow-editor';
 
 export type FlowDisplayMode = 'ouput' | 'nodes';
 

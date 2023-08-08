@@ -7,7 +7,7 @@ import {
   WorkflowMeta,
 } from '@/types/flow';
 import { StringTemplate } from '@/utils/StringTemplate';
-import { IFlowBasicNode } from 'kitchen-flow-editor';
+import { IFlowBasicNode } from '@ant-design/pro-flow-editor';
 
 export const getFlowMeta = (flow: Workflow): WorkflowMeta => {
   const { id, createAt, updateAt, meta } = flow;

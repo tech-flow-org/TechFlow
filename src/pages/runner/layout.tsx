@@ -4,8 +4,8 @@ import { memo, useEffect } from 'react';
 import { Sidebar } from '@/features/Sidebar';
 import { Menu } from '@/layout/FlowLayout/Menu';
 import { useSettings } from '@/store';
+import { FlowEditorProvider } from '@ant-design/pro-flow-editor';
 import { createStyles } from 'antd-style';
-import { FlowEditorProvider } from 'kitchen-flow-editor';
 import React from 'react';
 import { Flexbox } from 'react-layout-kit';
 

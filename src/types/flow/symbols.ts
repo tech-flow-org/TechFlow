@@ -1,5 +1,5 @@
 import { FlowStore } from '@/store/flow/action';
-import { IFlowBasicNode } from 'kitchen-flow-editor';
+import { IFlowBasicNode } from '@ant-design/pro-flow-editor';
 import { FC } from 'react';
 import { XYPosition } from 'reactflow';
 

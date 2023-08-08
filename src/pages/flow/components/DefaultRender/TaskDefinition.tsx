@@ -1,5 +1,5 @@
+import { BasicNode } from '@ant-design/pro-flow-editor';
 import { createStyles } from 'antd-style';
-import { BasicNode } from 'kitchen-flow-editor';
 import { ReactNode, memo, useEffect, useRef, useState } from 'react';
 import { shallow } from 'zustand/shallow';
 

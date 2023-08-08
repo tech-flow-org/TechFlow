@@ -1,7 +1,7 @@
 import { Viewport } from 'reactflow';
 
 import { MetaData } from '@/types/meta';
-import { FlattenEdges, IFlowBasicNode } from 'kitchen-flow-editor';
+import { FlattenEdges, IFlowBasicNode } from '@ant-design/pro-flow-editor';
 
 export type FlattenNodes = Record<string, IFlowBasicNode>;
 

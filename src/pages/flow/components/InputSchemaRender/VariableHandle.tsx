@@ -1,9 +1,9 @@
 import { getInputVariablesFromMessages } from '@/helpers/prompt';
 import { ChatMessage } from '@/types';
+import { useNodeFieldStyles } from '@ant-design/pro-flow-editor';
 import { Tooltip } from 'antd';
 import { createStyles } from 'antd-style';
 import isEqual from 'fast-deep-equal';
-import { useNodeFieldStyles } from 'kitchen-flow-editor';
 import { memo } from 'react';
 import { Flexbox } from 'react-layout-kit';
 import { Handle, Position } from 'reactflow';

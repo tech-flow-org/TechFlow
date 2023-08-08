@@ -1,6 +1,6 @@
+import { CanvasLoading, FlowEditor } from '@ant-design/pro-flow-editor';
 import { useDroppable } from '@dnd-kit/core';
 import { createStyles } from 'antd-style';
-import { CanvasLoading, FlowEditor } from 'kitchen-flow-editor';
 import { memo, useState } from 'react';
 import { Flexbox } from 'react-layout-kit';
 import { shallow } from 'zustand/shallow';

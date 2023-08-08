@@ -1,4 +1,4 @@
-import { FlattenEdges, FlattenNodes } from 'kitchen-flow-editor';
+import { FlattenEdges, FlattenNodes } from '@ant-design/pro-flow-editor';
 
 import lodashGet from 'lodash.get';
 

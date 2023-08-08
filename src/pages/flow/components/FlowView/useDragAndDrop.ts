@@ -1,8 +1,8 @@
 import { createNode } from '@/helpers/flow';
 import { useFlowStore } from '@/store/flow';
+import { IFlowBasicNode } from '@ant-design/pro-flow-editor';
 import { useDndMonitor } from '@dnd-kit/core';
 import { useTheme } from 'antd-style';
-import { IFlowBasicNode } from 'kitchen-flow-editor';
 import { PointerEvent, useState } from 'react';
 import { useReactFlow } from 'reactflow';
 import { v4 as uuid } from 'uuid';

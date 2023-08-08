@@ -5,8 +5,8 @@ import { flowSelectors, useFlowStore } from '@/store/flow';
 
 import { DraggablePanel } from '@/components/DraggablePanel';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
+import { NodeField } from '@ant-design/pro-flow-editor';
 import { useTheme } from 'antd-style';
-import { NodeField } from 'kitchen-flow-editor';
 import { shallow } from 'zustand/shallow';
 import Preview from './Preview';
 
