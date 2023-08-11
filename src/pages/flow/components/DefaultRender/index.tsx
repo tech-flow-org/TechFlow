@@ -19,7 +19,7 @@ const useStyles = createStyles(({ css, token }) => ({
     width: ${token.aiTaskNodeWidth}px;
     background: ${token.colorBgLayout};
     border: 2px solid ${token.colorBorder};
-    border-radius: 14px;
+    border-radius: 8px;
   `,
   active: css`
     border-color: ${token.colorPrimary};
