@@ -84,6 +84,8 @@ export interface SymbolMasterDefinition<Content> {
   ) => Promise<{
     type: OutputNodeContent['outputType'];
     output: string;
+    code?: string;
+    message?: string
   }>;
   outputRender?: (output: string, node: Content) => React.ReactNode;
 }

@@ -12,6 +12,7 @@ import { SymbolNodeRunMap } from '@/pages/flow/components/nodes';
 import { FlattenEdges } from '@ant-design/pro-flow-editor';
 import { FlowStore } from '../action';
 import { flowSelectors } from '../selectors';
+import { message } from 'antd';
 
 export interface FlowRunnerSlice {
   runFlowNode: (nodeId: string) => Promise<void>;
@@ -202,6 +203,11 @@ export const runnerSlice: StateCreator<
           },
         },
       });
+      if (data.code) {
+        message.error(`[${data.code}] ${data.message}`);
+        editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });
+        return;
+      }
       editor.updateNodeContent<OutputNodeContent>(node.id, 'output', data.output);
       editor.updateNodeContent<OutputNodeContent>(node.id, 'outputType', data.type);
       editor.updateNodeState(node.id, 'loading', false, { recordHistory: false });

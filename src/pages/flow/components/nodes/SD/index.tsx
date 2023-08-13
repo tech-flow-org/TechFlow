@@ -102,7 +102,17 @@ export const SDTaskSymbol: SymbolMasterDefinition<SDTaskType> = {
     updateParams(params);
     const data = (await fetchSDServe(params)) as {
       images: string[];
+      code: string;
+      message: string;
     };
+    if (!data.images) {
+      return {
+        type: 'text',
+        output: '',
+        message: data.message,
+        code: data.code
+      };
+    }
     return {
       type: 'img',
       output: 'data:image/png;base64,' + data.images.at(0),
