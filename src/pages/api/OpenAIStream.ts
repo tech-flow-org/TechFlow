@@ -1,6 +1,6 @@
 import { ChatMessage } from '@/types';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
-import { AIChatMessage, HumanChatMessage, SystemChatMessage } from 'langchain/schema';
+import { AIMessage, HumanMessage, SystemMessage } from 'langchain/schema';
 
 const isDev = process.env.NODE_ENV === 'development';
 const OPENAI_PROXY_URL = process.env.OPENAI_PROXY_URL;
@@ -60,12 +60,12 @@ export function OpenAIStream(payload: OpenAIStreamPayload) {
     switch (m.role) {
       default:
       case 'user':
-        return new HumanChatMessage(m.content);
+        return new HumanMessage(m.content);
       case 'system':
-        return new SystemChatMessage(m.content);
+        return new SystemMessage(m.content);
 
       case 'assistant':
-        return new AIChatMessage(m.content);
+        return new AIMessage(m.content);
     }
   });
 
