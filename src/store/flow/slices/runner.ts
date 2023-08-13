@@ -137,6 +137,7 @@ export const runnerSlice: StateCreator<
     links.forEach(({ sourceHandle, source, targetHandle }) => {
       // 找到上游数据源
       const sourceNode = getFlowNodeById(flow, source);
+      if (!sourceNode) return;
       const sourceData =
         !sourceHandle || sourceHandle === 'this'
           ? sourceNode?.data?.content
