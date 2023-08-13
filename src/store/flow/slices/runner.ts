@@ -138,10 +138,11 @@ export const runnerSlice: StateCreator<
     links.forEach(({ sourceHandle, source, targetHandle }) => {
       // 找到上游数据源
       const sourceNode = getFlowNodeById(flow, source);
+      if (!sourceNode) return;
       const sourceData =
         !sourceHandle || sourceHandle === 'this'
-          ? sourceNode?.data?.content
-          : lodashGet(sourceNode.data.content, sourceHandle);
+          ? sourceNode.data?.content
+          : lodashGet(sourceNode.data?.content, sourceHandle);
 
       // TODO:看下这块逻辑有没有更好的实现方案
       const [, template] = (targetHandle || '').split(',');
