@@ -82,7 +82,7 @@
     "mask": "^0.2.2",
     "monaco-editor": "^0.40.0",
     "monaco-editor-webpack-plugin": "^7.1.0",
-    "next": "^13.4.13",
+    "next": "^13.4.7",
     "next-auth": "^4.23.0",
     "pdfjs-dist": "^3.9.179",
     "polished": "^4.2.2",
