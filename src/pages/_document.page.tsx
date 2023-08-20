@@ -32,14 +32,14 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <link type="image/png" sizes="96x96" rel="icon" href="/favicon.png" />
-          <meta name="description" content="基于智能助理的对话生产力工具" />
-          <meta property="og:description" content="基于智能助理的对话生产力工具" />
+          <meta name="description" content="💡 通过拖拽来构建自己的 AI 工作流。" />
+          <meta property="og:description" content="💡 通过拖拽来构建自己的 AI 工作流。" />
           <meta property="twitter:image" content="/favicon.png" />
           <meta property="og:title" content="TechFlow" />
           <meta property="og:image" content="/favicon.png" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="TechFlow" />
-          <meta name="twitter:description" content="基于智能助理的对话生产力工具" />
+          <meta name="twitter:description" content="💡 通过拖拽来构建自己的 AI 工作流。" />
           <link rel="manifest" href="/manifest.json" />
           <meta property="og:url" content="https://techflow.antdigital.dev/" />
           <link rel="apple-touch-icon" href="/favicon.png"></link>
