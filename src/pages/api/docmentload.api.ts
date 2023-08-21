@@ -24,7 +24,7 @@ export default async function handler(request: Request) {
   let documents = [];
 
   const embeddings = new OpenAIEmbeddings({
-    timeout: 1000, // 1s timeout
+    timeout: 100000, // 1s timeout
     openAIApiKey: process.env.OPENAI_API_KEY,
   });
 
