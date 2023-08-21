@@ -16,7 +16,7 @@ type OpenAIEmbeddingsPayload = {
 export default async function handler(request: Request) {
   const payload = (await request.json()) as OpenAIEmbeddingsPayload;
   const embeddings = new OpenAIEmbeddings({
-    timeout: 1000, // 1s timeout
+    timeout: 10000, // 1s timeout
     openAIApiKey: process.env.OPENAI_API_KEY,
   });
 
