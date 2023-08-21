@@ -15,11 +15,13 @@ export default async function handler(request: Request) {
 
   const splitter = new TokenTextSplitter({
     encodingName: 'gpt2',
-    chunkSize: 1000,
+    chunkSize: 100,
     chunkOverlap: 0,
   });
 
-  const output = await splitter.createDocuments(payload.document?.split('\n'));
+  const output = await splitter.createDocuments(
+    payload.document?.split('\n').filter((item) => item !== ''),
+  );
 
   let documents = [];
 
