@@ -5,7 +5,6 @@ import { shallow } from 'zustand/shallow';
 
 import { InputSchemaRender } from '@/pages/flow/components/InputSchemaRender';
 import { flowSelectors, useFlowStore } from '@/store/flow';
-import { ConfigProvider } from 'antd';
 
 const useStyles = createStyles(({ css, token, prefixCls, isDarkMode }) => ({
   container: css`
@@ -89,11 +88,7 @@ const TaskDefinition = memo<TaskDefinitionProps>(
     const htmlRef = useRef<HTMLDivElement>(null);
 
     return (
-      <ConfigProvider
-        getPopupContainer={() => {
-          return htmlRef.current || document.body;
-        }}
-      >
+      <>
         <div ref={htmlRef} />
         <BasicNode
           id={id}
@@ -106,7 +101,7 @@ const TaskDefinition = memo<TaskDefinitionProps>(
         >
           <InputSchemaRender id={id} />
         </BasicNode>
-      </ConfigProvider>
+      </>
     );
   },
 );
