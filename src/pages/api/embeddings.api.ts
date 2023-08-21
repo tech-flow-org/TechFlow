@@ -15,7 +15,7 @@ export default async function handler(request: Request) {
 
   const splitter = new TokenTextSplitter({
     encodingName: 'gpt2',
-    chunkSize: 100,
+    chunkSize: 1000,
     chunkOverlap: 0,
   });
 
