@@ -1,32 +1,45 @@
-﻿import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
+﻿import { OPENAI_SERVICE_ERROR_CODE } from '@/const/fetch';
+import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
+import { TokenTextSplitter } from 'langchain/text_splitter';
 
-import { OPENAI_SERVICE_ERROR_CODE } from '@/const/fetch';
-
-if (!process.env.OPENAI_API_KEY) {
-  throw new Error('Missing env var from OpenAI');
-}
 export const config = {
   runtime: 'edge',
 };
 
-type OpenAIEmbeddingsPayload = {
-  query: string;
+export type DocumentsLoadPayload = {
+  document: string;
 };
 
 export default async function handler(request: Request) {
-  const payload = (await request.json()) as OpenAIEmbeddingsPayload;
+  const payload = (await request.json()) as DocumentsLoadPayload;
+
+  const splitter = new TokenTextSplitter({
+    encodingName: 'gpt2',
+    chunkSize: 1000,
+    chunkOverlap: 0,
+  });
+
+  const output = await splitter.createDocuments([payload.document]);
+
+  let documents = [];
+
   const embeddings = new OpenAIEmbeddings({
-    timeout: 10000, // 1s timeout
+    timeout: 100000, // 1s timeout
     openAIApiKey: process.env.OPENAI_API_KEY,
   });
 
-  const res = await embeddings.embedQuery(payload.query);
+  for await (const document of output) {
+    documents.push({
+      ...document,
+      embeddings: await embeddings.embedQuery(document.pageContent),
+    });
+  }
 
   try {
     return new Response(
       JSON.stringify({
         success: true,
-        data: { output: res },
+        data: { output: documents },
       }),
     );
   } catch (e) {

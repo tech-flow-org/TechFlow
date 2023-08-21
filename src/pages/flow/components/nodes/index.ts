@@ -3,6 +3,7 @@ import { DefaultPreview } from '../DefaultPreview';
 import { DefaultRender } from '../DefaultRender';
 import { AITaskSymbol } from './AITask';
 import { DingDingBotSymbol } from './DingDingBot';
+import { EmbeddingsSymbol } from './Embeddings';
 import { FileReadSymbol } from './FileRead';
 import { NetworkSymbol } from './NetWork';
 import { SDTaskSymbol } from './SD';
@@ -14,6 +15,7 @@ export const symbolNodeList: SymbolMasterDefinition<any>[] = [
   SDTaskSymbol,
   NetworkSymbol,
   DingDingBotSymbol,
+  EmbeddingsSymbol,
   FileReadSymbol,
 ];
 

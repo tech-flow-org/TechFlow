@@ -8,6 +8,7 @@ export const URLS = {
   sd: '/api/sd/text2img',
   mask: '/api/mask',
   workflow: '/api/workflow',
+  embeddings: '/api/embeddings' + prefix,
   network: '/api/network/proxy',
   dingdingbot: '/api/dingding/send',
 };

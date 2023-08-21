@@ -10,9 +10,9 @@ import { genChatMessages } from '@/utils/genChatMessages';
 
 import { SymbolNodeRunMap } from '@/pages/flow/components/nodes';
 import { FlattenEdges } from '@ant-design/pro-flow-editor';
+import { message } from 'antd';
 import { FlowStore } from '../action';
 import { flowSelectors } from '../selectors';
-import { message } from 'antd';
 
 export interface FlowRunnerSlice {
   runFlowNode: (nodeId: string) => Promise<void>;
@@ -175,7 +175,6 @@ export const runnerSlice: StateCreator<
           },
         },
       });
-      console.log('run', run);
 
       const data = await run?.(nodeData, vars, {
         flow: get(),

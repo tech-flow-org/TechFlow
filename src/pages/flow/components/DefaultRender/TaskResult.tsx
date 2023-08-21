@@ -110,7 +110,14 @@ const TaskResult = memo<TaskResultProps>(({ id }) => {
           </Button>
         </Empty>
       ) : (
-        <OutputRender id={id} type={nodeType || 'string'} />
+        <div
+          style={{
+            maxHeight: 200,
+            overflow: 'auto',
+          }}
+        >
+          <OutputRender id={id} type={nodeType || 'string'} />
+        </div>
       )}
     </NodeField>
   );

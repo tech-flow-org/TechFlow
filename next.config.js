@@ -36,6 +36,10 @@ const nextConfig = {
         destination: `${API_END_PORT_URL}/api/chain`,
       },
       {
+        source: '/api/embeddings-dev',
+        destination: `${API_END_PORT_URL}/api/embeddings`,
+      },
+      {
         source: '/api/sd/text2img',
         destination: `/api/sdserve`,
       },

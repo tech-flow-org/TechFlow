@@ -10,6 +10,7 @@ import { SymbolSchemaRenderMap } from '../nodes';
 import SystemRole from './SystemRole';
 import TaskPromptsInput from './TaskPromptsInput';
 import { TextAreaInput } from './TextAreaInput';
+import { VarShow } from './Var';
 
 const RenderComponent = memo(
   ({
@@ -29,6 +30,7 @@ const RenderComponent = memo(
     options?: any[];
     onChange: (key: string | string[], value: any) => void;
   }) => {
+    if (component === 'Var') return <VarShow id={id} key={valueKey.toString()} value={value} />;
     if (component === 'Input') {
       return (
         <Input

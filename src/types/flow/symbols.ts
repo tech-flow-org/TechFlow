@@ -61,6 +61,8 @@ export interface SymbolMasterDefinition<Content> {
       valueKey?: string[];
       component?:
         | 'Input'
+        | 'Var'
+        | 'VarList'
         | 'Segmented'
         | 'InputArea'
         | 'SystemRole'
@@ -85,7 +87,7 @@ export interface SymbolMasterDefinition<Content> {
     type: OutputNodeContent['outputType'];
     output: string;
     code?: string;
-    message?: string
+    message?: string;
   }>;
   outputRender?: (output: string, node: Content) => React.ReactNode;
 }
