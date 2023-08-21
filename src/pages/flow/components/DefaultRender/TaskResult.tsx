@@ -111,6 +111,9 @@ const TaskResult = memo<TaskResultProps>(({ id }) => {
         </Empty>
       ) : (
         <div
+          onWheel={(e) => {
+            e.stopPropagation();
+          }}
           style={{
             maxHeight: 200,
             overflow: 'auto',

@@ -8,6 +8,7 @@ import { FileReadSymbol } from './FileRead';
 import { NetworkSymbol } from './NetWork';
 import { SDTaskSymbol } from './SD';
 import { StringSymbol } from './String';
+import { VoyQuerySymbol } from './VoyQuery';
 
 export const symbolNodeList: SymbolMasterDefinition<any>[] = [
   StringSymbol,
@@ -17,6 +18,7 @@ export const symbolNodeList: SymbolMasterDefinition<any>[] = [
   DingDingBotSymbol,
   EmbeddingsSymbol,
   FileReadSymbol,
+  VoyQuerySymbol,
 ];
 
 export const SymbolNodeMasterTypes = Object.fromEntries(

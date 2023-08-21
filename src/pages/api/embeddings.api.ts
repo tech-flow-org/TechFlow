@@ -19,7 +19,7 @@ export default async function handler(request: Request) {
     chunkOverlap: 0,
   });
 
-  const output = await splitter.createDocuments([payload.document]);
+  const output = await splitter.createDocuments(payload.document?.split('\n'));
 
   let documents = [];
 

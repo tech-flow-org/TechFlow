@@ -18,9 +18,6 @@ export const EmbeddingsSymbol: SymbolMasterDefinition<EmbeddingsNodeContent> = {
       title: '文档内容',
       valueContainer: false,
       component: 'Var',
-      handles: {
-        target: true,
-      },
     },
   },
   run: async (_, vars, { updateLoading, updateParams }) => {
@@ -29,8 +26,8 @@ export const EmbeddingsSymbol: SymbolMasterDefinition<EmbeddingsNodeContent> = {
     updateParams(vars);
     updateLoading(false);
     return {
-      output: res,
-      type: 'text',
+      output: JSON.stringify(res.data.output, null, 2),
+      type: 'json',
     };
   },
 };
