@@ -1,14 +1,10 @@
+'use client';
 import { SymbolMasterDefinition } from '@/types/flow';
 
 export interface EmbeddingsNodeContent {
   document: string;
   query: string;
 }
-
-const { Voy } = await import('voy-search');
-const index = new Voy({
-  embeddings: [],
-});
 
 export const VoyQuerySymbol: SymbolMasterDefinition<EmbeddingsNodeContent> = {
   id: '一个基于 WASM 的在线向量数据库',
@@ -33,7 +29,11 @@ export const VoyQuerySymbol: SymbolMasterDefinition<EmbeddingsNodeContent> = {
   run: async (_, vars, { updateLoading, updateParams }) => {
     updateLoading(true);
     const document = JSON.parse(vars.document);
-    index.clear();
+    const { Voy } = await import('voy-search');
+    const index = new Voy({
+      embeddings: [],
+    });
+
     const resource = {
       embeddings: document.map(
         (
@@ -54,11 +54,9 @@ export const VoyQuerySymbol: SymbolMasterDefinition<EmbeddingsNodeContent> = {
     };
     index.add(resource);
     const query = JSON.parse(vars.query);
-
     const result = index.search(query.at(0).embeddings, 2);
     updateParams(vars);
     updateLoading(false);
-
     index.clear();
     return {
       output: JSON.stringify(
