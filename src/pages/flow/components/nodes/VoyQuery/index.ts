@@ -1,10 +1,12 @@
-'use client';
 import { SymbolMasterDefinition } from '@/types/flow';
+import type { Voy } from 'voy-search';
 
 export interface EmbeddingsNodeContent {
   document: string;
   query: string;
 }
+
+let database: null | Voy = null;
 
 export const VoyQuerySymbol: SymbolMasterDefinition<EmbeddingsNodeContent> = {
   id: '一个基于 WASM 的在线向量数据库',
@@ -30,9 +32,13 @@ export const VoyQuerySymbol: SymbolMasterDefinition<EmbeddingsNodeContent> = {
     updateLoading(true);
     const document = JSON.parse(vars.document);
     const { Voy } = await import('voy-search');
-    const index = new Voy({
-      embeddings: [],
-    });
+    if (!database) {
+      database = new Voy({
+        embeddings: [],
+      });
+    } else {
+      database.clear();
+    }
 
     const resource = {
       embeddings: document.map(
@@ -52,12 +58,11 @@ export const VoyQuerySymbol: SymbolMasterDefinition<EmbeddingsNodeContent> = {
         },
       ),
     };
-    index.add(resource);
+    database.add(resource);
     const query = JSON.parse(vars.query);
-    const result = index.search(query.at(0).embeddings, 2);
+    const result = database.search(query.at(0).embeddings, 2);
     updateParams(vars);
     updateLoading(false);
-    index.clear();
     return {
       output: JSON.stringify(
         result.neighbors.map((value) => {
