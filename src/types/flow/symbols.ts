@@ -47,6 +47,7 @@ export interface SymbolMasterDefinition<Content> {
   id: string;
   title: string;
   description: string;
+  group: string;
   avatar: string;
   preview?: FC<any>;
   render?: FC<any>;

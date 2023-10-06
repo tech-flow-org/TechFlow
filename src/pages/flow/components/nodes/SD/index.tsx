@@ -13,6 +13,7 @@ const sizeToWidthAndHeight = (size: 'landing' | 'avatar' | '4:3') => {
 export const SDTaskSymbol: SymbolMasterDefinition<SDTaskType> = {
   id: 'sdTask',
   title: '文生图节点',
+  group: 'AI 节点',
   avatar: '🧑‍🎨',
   description: '使用 SD 绘图',
   schema: {
@@ -110,7 +111,7 @@ export const SDTaskSymbol: SymbolMasterDefinition<SDTaskType> = {
         type: 'text',
         output: '',
         message: data.message,
-        code: data.code
+        code: data.code,
       };
     }
     return {

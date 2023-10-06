@@ -6,6 +6,7 @@ export const NetworkSymbol: SymbolMasterDefinition<OutputNodeContent> = {
   id: 'network',
   title: '网络节点',
   avatar: '🔗',
+  group: '输出节点',
   description: '将接受到的结果输出到服务器',
   defaultContent: {
     url: 'http://127.0.0.1:8001/api/data',

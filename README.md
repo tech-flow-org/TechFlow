@@ -458,7 +458,7 @@ render 方法决定了组件在画布上的展示效果，它是最重要的一�
 ```typescript
 export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
   id: 'aiTask',
-  title: 'AI节点',
+  title: 'AI 节点',
   avatar: '🤖',
   description: '使用大模型处理任务',
   defaultContent: initAITaskContent,
@@ -543,7 +543,7 @@ export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
 ```typescript
 export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
   id: 'aiTask',
-  title: 'AI节点',
+  title: 'AI 节点',
   avatar: '🤖',
   description: '使用大模型处理任务',
   defaultContent: initAITaskContent,

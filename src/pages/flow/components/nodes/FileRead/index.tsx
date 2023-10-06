@@ -4,6 +4,7 @@ export const FileReadSymbol: SymbolMasterDefinition<FileReadNodeContent> = {
   id: 'file_read',
   title: '文件读取',
   avatar: '🗂️',
+  group: '输入节点',
   description: '读取并扫描文件内容',
   defaultContent: {
     file: '',

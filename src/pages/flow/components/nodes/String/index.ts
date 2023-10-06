@@ -6,6 +6,7 @@ export interface StringNodeContent {
 
 export const StringSymbol: SymbolMasterDefinition<StringNodeContent> = {
   id: 'string',
+  group: '输入节点',
   title: '文本',
   description: '纯文本输入节点',
   avatar: '📝',

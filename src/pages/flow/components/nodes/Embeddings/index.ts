@@ -9,6 +9,7 @@ export interface EmbeddingsNodeContent {
 export const EmbeddingsSymbol: SymbolMasterDefinition<EmbeddingsNodeContent> = {
   id: 'embeddings',
   title: '向量化',
+  group: '数据节点',
   description: '将文本向量化，用于后续的处理',
   avatar: '▶',
   defaultContent: { document: '{document}' },

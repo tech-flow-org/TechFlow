@@ -11,6 +11,7 @@ let database: null | Voy = null;
 export const VoyQuerySymbol: SymbolMasterDefinition<EmbeddingsNodeContent> = {
   id: '一个基于 WASM 的在线向量数据库',
   title: '向量数据库',
+  group: '数据节点',
   description: '将向量文档存入数据库，并进行查询',
   avatar: '📚',
   defaultContent: { document: '{document}', query: '{query}' },

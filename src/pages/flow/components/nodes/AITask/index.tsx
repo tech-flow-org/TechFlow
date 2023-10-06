@@ -9,7 +9,8 @@ import { genChatMessages } from '@/utils/genChatMessages';
 
 export const AITaskSymbol: SymbolMasterDefinition<AITaskContent> = {
   id: 'aiTask',
-  title: 'AI节点',
+  title: '大模型节点',
+  group: 'AI 节点',
   avatar: '🤖',
   description: '使用大模型处理任务',
   defaultContent: initAITaskContent,
