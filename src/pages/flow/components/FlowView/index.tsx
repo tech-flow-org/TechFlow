@@ -53,10 +53,9 @@ const FlowView = () => {
             style={
               runningTask
                 ? {
-                    cursor: 'not-allowed',
                     height: '100%',
-                    pointerEvents: 'none',
                     flex: 1,
+                    position: 'relative',
                   }
                 : {
                     height: '100%',
@@ -64,6 +63,19 @@ const FlowView = () => {
                   }
             }
           >
+            {runningTask ? (
+              <div
+                style={{
+                  position: 'absolute',
+                  cursor: 'not-allowed',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  zIndex: 999,
+                }}
+              />
+            ) : null}
             <FlowEditor
               contextMenuEnabled={false}
               ref={setNodeRef}
