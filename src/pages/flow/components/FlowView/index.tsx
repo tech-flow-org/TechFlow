@@ -51,6 +51,7 @@ const FlowView = () => {
 
   useEffect(() => {
     if (currentTaskId) {
+      // @ts-expect-error
       editor.reactflow?.fitView({
         nodes: [
           {
