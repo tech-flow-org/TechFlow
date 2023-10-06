@@ -30,10 +30,10 @@ const useStyles = createStyles(({ css, token }) => ({
 }));
 
 const FlowView = () => {
-  const [flow, dispatchFlow] = useFlowStore(
-    (s) => [flowSelectors.currentFlowSafe(s), s.dispatchFlow],
-    shallow,
-  );
+  const [flow, runningTask, dispatchFlow] = useFlowStore((s) => {
+    const flow = flowSelectors.currentFlowSafe(s);
+    return [flowSelectors.currentFlowSafe(s), flow.state.runningTask, s.dispatchFlow];
+  }, shallow);
   const { styles, cx } = useStyles();
 
   const [init, setInitEd] = useState(false);
@@ -49,36 +49,52 @@ const FlowView = () => {
       <>
         {(!flowId || !init) && <CanvasLoading />}
         {flowId && (
-          <FlowEditor
-            contextMenuEnabled={false}
-            ref={setNodeRef}
-            nodeTypes={FlowNodeRenderType}
-            flattenNodes={flow.flattenNodes}
-            onNodesInit={(editor) => {
-              setInitEd(true);
-              useFlowStore.setState({ editor });
-            }}
-            onFlattenNodesChange={(flattenNodes) => {
-              dispatchFlow({ type: 'updateFlow', id: flowId, flow: { flattenNodes } });
-            }}
-            flattenEdges={flow.flattenEdges}
-            onFlattenEdgesChange={(flattenEdges) => {
-              dispatchFlow({
-                type: 'updateFlow',
-                id: flowId,
-                flow: { flattenEdges },
-              });
-            }}
-            defaultViewport={flow.state.viewport}
-            onViewPortChange={(viewport) => {
-              dispatchFlow({
-                type: 'updateFlowState',
-                id: flowId,
-                state: { viewport },
-                updateDate: false,
-              });
-            }}
-          />
+          <div
+            style={
+              runningTask
+                ? {
+                    cursor: 'not-allowed',
+                    height: '100%',
+                    pointerEvents: 'none',
+                    flex: 1,
+                  }
+                : {
+                    height: '100%',
+                    flex: 1,
+                  }
+            }
+          >
+            <FlowEditor
+              contextMenuEnabled={false}
+              ref={setNodeRef}
+              nodeTypes={FlowNodeRenderType}
+              flattenNodes={flow.flattenNodes}
+              onNodesInit={(editor) => {
+                setInitEd(true);
+                useFlowStore.setState({ editor });
+              }}
+              onFlattenNodesChange={(flattenNodes) => {
+                dispatchFlow({ type: 'updateFlow', id: flowId, flow: { flattenNodes } });
+              }}
+              flattenEdges={flow.flattenEdges}
+              onFlattenEdgesChange={(flattenEdges) => {
+                dispatchFlow({
+                  type: 'updateFlow',
+                  id: flowId,
+                  flow: { flattenEdges },
+                });
+              }}
+              defaultViewport={flow.state.viewport}
+              onViewPortChange={(viewport) => {
+                dispatchFlow({
+                  type: 'updateFlowState',
+                  id: flowId,
+                  state: { viewport },
+                  updateDate: false,
+                });
+              }}
+            />
+          </div>
         )}
       </>
     </Flexbox>

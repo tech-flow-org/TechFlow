@@ -5,21 +5,23 @@ import { flowSelectors, useFlowStore } from '@/store/flow';
 import { LoadingOutlined } from '@ant-design/icons';
 import { NodeField } from '@ant-design/pro-flow-editor';
 import { Alert, Collapse, Descriptions, Steps } from 'antd';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { OutputRender } from '../DefaultRender/TaskResult';
 import { useStyles } from './style';
 
 const Preview = () => {
-  const [flattenNodes, loading, currentTask, taskList, runningTask] = useFlowStore((s) => {
-    const flow = flowSelectors.currentFlowSafe(s);
-    return [
-      flow.flattenNodes,
-      flow.state.runningTask,
-      flow.state.currentTask,
-      flow.state.taskList,
-      flow.state.runningTask,
-    ];
-  }, isEqual);
+  const [flattenNodes, loading, currentTaskTitle, currentTaskId, taskList, runningTask] =
+    useFlowStore((s) => {
+      const flow = flowSelectors.currentFlowSafe(s);
+      return [
+        flow.flattenNodes,
+        flow.state.runningTask,
+        flow.state.currentTask?.data?.meta?.title,
+        flow.state.currentTask?.id,
+        flow.state.taskList,
+        flow.state.runningTask,
+      ];
+    }, isEqual);
 
   // 当前任务在任务列表中的索引
   const currentTaskIndex = useMemo(() => {
@@ -31,11 +33,20 @@ const Preview = () => {
         })
         .filter((n) => n)
         .filter((n) => n?.type !== 'string')
-        ?.findIndex((node) => node.id === currentTask?.id || '') || 0
+        ?.findIndex((node) => node.id === currentTaskId || '') || 0
     );
-  }, [taskList?.join('-'), currentTask?.id]);
+  }, [taskList?.join('-'), currentTaskId]);
 
   const { styles } = useStyles();
+
+  const [activeKey, setActiveKey] = useState<string[]>([]);
+
+  useEffect(() => {
+    // 默认打开最后一个标签页面
+    if (!loading && currentTaskId) {
+      setActiveKey([taskList?.at(-1) || '']);
+    }
+  }, [loading, currentTaskId]);
 
   return (
     <NodeField
@@ -63,12 +74,8 @@ const Preview = () => {
             gap: 8,
           }}
         >
-          {currentTask && runningTask ? (
-            <Alert
-              banner
-              type="info"
-              message={<>正在执行任务：{currentTask?.data.meta.title} ...</>}
-            ></Alert>
+          {currentTaskTitle && runningTask ? (
+            <Alert banner type="info" message={<>正在执行任务：{currentTaskTitle} ...</>}></Alert>
           ) : null}
           <Steps
             style={{
@@ -102,9 +109,12 @@ const Preview = () => {
               })}
           />
           <Collapse
+            onChange={(key) => {
+              setActiveKey(key as string[]);
+            }}
             accordion
             bordered={false}
-            activeKey={loading ? [currentTask?.id || taskList?.at(-1) || ''] : undefined}
+            activeKey={loading ? [currentTaskId || taskList?.at(-1) || ''] : activeKey}
             size="small"
             items={taskList
               ?.map((key) => {
