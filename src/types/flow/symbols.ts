@@ -1,4 +1,3 @@
-import { FlowStore } from '@/store/flow/action';
 import { IFlowBasicNode } from '@ant-design/pro-flow-editor';
 import { FC } from 'react';
 import { XYPosition } from 'reactflow';
@@ -24,8 +23,6 @@ export type FileReadNodeContent = {
 };
 
 type ActionType<Content> = {
-  // 当前任务流实例
-  flow: FlowStore;
   // 更新当前 节点 的 loading 的状态
   updateLoading: (loading: boolean) => void;
   // 当前节点实例

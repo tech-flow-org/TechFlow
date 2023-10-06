@@ -111,7 +111,7 @@ export const runnerSlice: StateCreator<
   [['zustand/devtools', never]],
   [],
   FlowRunnerSlice
-> = (set, get) => ({
+> = (_, get) => ({
   runFlowNode: async (nodeId) => {
     const flow = flowSelectors.currentFlow(get());
     if (!flow) return;
@@ -177,7 +177,6 @@ export const runnerSlice: StateCreator<
       });
 
       const data = await run?.(nodeData, vars, {
-        flow: get(),
         abortController,
         node,
         updateLoading: (loading) => {

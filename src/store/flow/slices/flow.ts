@@ -83,7 +83,6 @@ export const flowCrudSlice: StateCreator<
     });
   },
   importFlow: (id: string, flow: string) => {
-    console.log(yaml.load(flow));
     get().dispatchFlow({
       type: 'updateFlow',
       id,
@@ -92,7 +91,6 @@ export const flowCrudSlice: StateCreator<
   },
   createFlowBaseOnAgent: (agent) => {
     const flowId = uuid();
-
     const meta = {
       title: agent.title + '的任务流',
       avatar: agent.avatar,

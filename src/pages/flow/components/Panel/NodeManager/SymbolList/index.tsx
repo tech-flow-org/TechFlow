@@ -7,7 +7,7 @@ import CardListItem from '@/components/CardListItem';
 import { Draggable, DragOverlay } from '@/components/DndKit';
 import { Typography } from 'antd';
 import { useTheme } from 'antd-style';
-import { symbolNodeList, SymbolNodeMasterTypes } from '../../../nodes';
+import { SYMBOL_NODE_LIST, SymbolNodeMasterTypes } from '../../../nodes';
 
 const SymbolList = () => {
   const theme = useTheme();
@@ -25,14 +25,14 @@ const SymbolList = () => {
 
   const SymbolMaster = SymbolNodeMasterTypes[draggingId as keyof typeof SymbolNodeMasterTypes];
 
-  const groupList = symbolNodeList.reduce((pre, current) => {
+  const groupList = SYMBOL_NODE_LIST.reduce((pre, current) => {
     const group = current.group || '默认节点';
     if (!pre[group]) {
       pre[group] = [];
     }
     pre[group].push(current);
     return pre;
-  }, {} as Record<string, typeof symbolNodeList>);
+  }, {} as Record<string, typeof SYMBOL_NODE_LIST>);
 
   return (
     <Flexbox gap={4}>

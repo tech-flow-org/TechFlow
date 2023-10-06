@@ -7,7 +7,7 @@ import { PointerEvent, useState } from 'react';
 import { useReactFlow } from 'reactflow';
 import { v4 as uuid } from 'uuid';
 import { shallow } from 'zustand/shallow';
-import { symbolNodeList } from '../nodes';
+import { SYMBOL_NODE_LIST } from '../nodes';
 
 export const useDropNodeOnCanvas = () => {
   const [addNode] = useFlowStore((s) => {
@@ -44,7 +44,7 @@ export const useDropNodeOnCanvas = () => {
 
       const id = uuid();
       // 基于 type 查找对应的 Symbol 类型
-      const symbolNode = symbolNodeList.find((item) => item.id === active.data.current?.type);
+      const symbolNode = SYMBOL_NODE_LIST.find((item) => item.id === active.data.current?.type);
       if (symbolNode) {
         const node: IFlowBasicNode = symbolNode.onCreateNode
           ? //   如果有定义 onCreateNode ，则使用 onCreateNode 创建节点

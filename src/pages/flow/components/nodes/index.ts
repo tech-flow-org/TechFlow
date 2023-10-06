@@ -10,7 +10,7 @@ import { SDTaskSymbol } from './SD';
 import { StringSymbol } from './String';
 import { VoyQuerySymbol } from './VoyQuery';
 
-export const symbolNodeList: SymbolMasterDefinition<any>[] = [
+export const SYMBOL_NODE_LIST = [
   StringSymbol,
   AITaskSymbol,
   SDTaskSymbol,
@@ -22,24 +22,24 @@ export const symbolNodeList: SymbolMasterDefinition<any>[] = [
 ];
 
 export const SymbolNodeMasterTypes = Object.fromEntries(
-  symbolNodeList.map((item) => [item.id, item.preview || DefaultPreview]).filter(Boolean),
+  SYMBOL_NODE_LIST.map((item) => [item.id, item.preview || DefaultPreview]).filter(Boolean),
 );
 
 export const FlowNodeRenderType = Object.fromEntries(
-  symbolNodeList.map((item) => [item.id, item.render || DefaultRender]).filter(Boolean),
+  SYMBOL_NODE_LIST.map((item) => [item.id, item.render || DefaultRender]).filter(Boolean),
 );
 
-export const SymbolNodeRunMap = symbolNodeList.reduce((pre, current) => {
+export const SymbolNodeRunMap = SYMBOL_NODE_LIST.reduce((pre, current) => {
   pre[current.id] = current.run;
   return pre;
 }, {} as Record<string, SymbolMasterDefinition<any>['run']>);
 
-export const SymbolNodeRenderMap = symbolNodeList.reduce((pre, current) => {
+export const SymbolNodeRenderMap = SYMBOL_NODE_LIST.reduce((pre, current) => {
   pre[current.id] = current.outputRender;
   return pre;
 }, {} as Record<string, SymbolMasterDefinition<any>['outputRender']>);
 
-export const SymbolSchemaRenderMap = symbolNodeList.reduce((pre, current) => {
+export const SymbolSchemaRenderMap = SYMBOL_NODE_LIST.reduce((pre, current) => {
   pre[current.id] = current.schema;
   return pre;
 }, {} as Record<string, SymbolMasterDefinition<any>['schema']>);
