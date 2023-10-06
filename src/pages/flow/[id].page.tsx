@@ -38,6 +38,7 @@ const Flow: NextPage = () => {
   const { id } = router.query;
   const terminalHeight = useFlowStore((s) => s.terminalHeight);
   const { styles } = useStyles(terminalHeight);
+
   useEffect(() => {
     if (typeof id === 'string') {
       useFlowStore.setState({ activeId: id });

@@ -1,7 +1,7 @@
-import { CanvasLoading, FlowEditor } from '@ant-design/pro-flow-editor';
+import { CanvasLoading, FlowEditor, useFlowEditor } from '@ant-design/pro-flow-editor';
 import { useDroppable } from '@dnd-kit/core';
 import { createStyles } from 'antd-style';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Flexbox } from 'react-layout-kit';
 import { shallow } from 'zustand/shallow';
 
@@ -30,16 +30,36 @@ const useStyles = createStyles(({ css, token }) => ({
 }));
 
 const FlowView = () => {
-  const [flow, runningTask, dispatchFlow] = useFlowStore((s) => {
+  const [flow, runningTask, currentTaskId, dispatchFlow] = useFlowStore((s) => {
     const flow = flowSelectors.currentFlowSafe(s);
-    return [flowSelectors.currentFlowSafe(s), flow.state.runningTask, s.dispatchFlow];
+    return [
+      flowSelectors.currentFlowSafe(s),
+      flow.state.runningTask,
+      flow.state.currentTask?.id,
+      s.dispatchFlow,
+    ];
   }, shallow);
+
   const { styles, cx } = useStyles();
 
   const [init, setInitEd] = useState(false);
   const flowId = flow?.id;
 
   const { setNodeRef } = useDroppable({ id: 'agent-flow' });
+
+  const editor = useFlowEditor();
+
+  useEffect(() => {
+    if (currentTaskId) {
+      editor.reactflow?.fitView({
+        nodes: [
+          {
+            id: currentTaskId,
+          },
+        ],
+      });
+    }
+  }, [currentTaskId]);
 
   const isOver = useDropNodeOnCanvas();
 
