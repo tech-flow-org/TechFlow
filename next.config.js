@@ -51,6 +51,10 @@ const nextConfig = {
         source: '/api/dingding/send',
         destination: `/api/dingbot`,
       },
+      {
+        source: '/api/dingding/zhiban',
+        destination: `/api/zhiban`,
+      },
     ];
   },
   pageExtensions: ['page.tsx', 'api.ts'],
