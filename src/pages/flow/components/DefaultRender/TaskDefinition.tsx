@@ -69,7 +69,7 @@ const TaskDefinition = memo<TaskDefinitionProps>(
             const nextProgress = prevProgress + 1;
 
             if (nextProgress >= 90) {
-              clearInterval(intervalId);
+              clearInterval(intervalId as any);
             }
 
             return nextProgress;
@@ -82,7 +82,7 @@ const TaskDefinition = memo<TaskDefinitionProps>(
         }, 1000);
       }
 
-      return () => clearInterval(intervalId);
+      return () => clearInterval(intervalId as any);
     }, [loading]);
 
     const htmlRef = useRef<HTMLDivElement>(null);
