@@ -161,6 +161,9 @@ const sendMarkdown = () => {
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   const payload = (await request.body) as DingTalk;
+
+  console.log('payload', JSON.stringify(payload, null, 2));
+
   if (lastMeetingDate === undefined || preSident === undefined || mettingUserList === undefined) {
     return response.send(
       JSON.stringify({
@@ -187,7 +190,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
   });
 
   markDown.setTitle('周会值班').add(chatData.choices[0]?.message?.content);
-
+  console.log('content', chatData.choices[0]?.message?.content);
   robot.send(markDown);
   return response.send(
     JSON.stringify({
