@@ -88,10 +88,6 @@ function convertToChinaNum(num: number) {
   result = result.replace(/^一十/g, '十');
   return result;
 }
-const robot = new Robot({
-  accessToken: process.env.DINGDINGACCESSTOKEN,
-  secret: process.env.DINGDINGSECRET,
-});
 
 const lastMeetingDate = process.env.DINGDINGLASTMEETINGDATE;
 const preSident = process.env.DINGDINGPRESIDENT;
@@ -123,7 +119,7 @@ function getNextMeetingDate(
   };
 }
 
-const sendMarkdown = () => {
+const getMarkdown = () => {
   if (lastMeetingDate === undefined || preSident === undefined || mettingUserList === undefined) {
     return '';
   }
@@ -159,6 +155,11 @@ const sendMarkdown = () => {
     `;
 };
 
+const robot = new Robot({
+  accessToken: process.env.DINGDINGACCESSTOKEN,
+  secret: process.env.DINGDINGSECRET,
+});
+
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   const payload = (await request.body) as DingTalk;
 
@@ -171,7 +172,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
       }),
     );
   }
-  const content = sendMarkdown();
+  const content = getMarkdown();
   const markDown = new Robot.Markdown();
 
   const chatData = await openai.chat.completions.create({
@@ -189,7 +190,9 @@ export default async function handler(request: NextApiRequest, response: NextApi
     temperature: 0.9,
   });
 
-  markDown.setTitle('周会值班').add(chatData.choices[0]?.message?.content);
+  markDown
+    .setTitle('周会值班')
+    .add(`hi @${payload.senderNick},${chatData.choices[0]?.message?.content}`);
   console.log('content', chatData.choices[0]?.message?.content);
   robot.send(markDown);
   return response.send(
