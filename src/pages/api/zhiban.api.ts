@@ -121,7 +121,7 @@ function getNextMeetingDate(
 
 const getMarkdown = () => {
   if (lastMeetingDate === undefined || preSident === undefined || mettingUserList === undefined) {
-    return '';
+    return {};
   }
   const now = dayjs().format('YYYY-MM-DD');
   const nextMeetingDate = getNextMeetingDate(
@@ -129,30 +129,53 @@ const getMarkdown = () => {
     lastMeetingDate,
     mettingUserList.indexOf(preSident),
   );
-  return `
-#### 周会值班
-
-🔊  今天是 ${now} 星期${convertToChinaNum(dayjs().day())} 
-  下次周会日期： ${nextMeetingDate.nextMeetingDate}
-  
-  主持人： @${nextMeetingDate.nextMeetingUser} 注意订会议室和收集议题哦~
-  
-  ------
-
-  值班表：
-  ${[...mettingUserList]
-    .splice(mettingUserList.indexOf(nextMeetingDate.nextMeetingUser) + 1, mettingUserList.length)
-    .concat(
-      [...mettingUserList].splice(0, mettingUserList.indexOf(nextMeetingDate.nextMeetingUser) + 1),
-    )
-    .map(
-      (item, index) =>
-        `- @${item} ${dayjs(nextMeetingDate.nextMeetingDate)
-          .add(14 * (index + 1), 'day')
-          .format('YYYY-MM-DD')}`,
-    )
-    .join('\n')}   
-    `;
+  return {
+    text: `
+    #### 周会值班
+    
+    🔊  今天是 ${now} 星期${convertToChinaNum(dayjs().day())} 
+      下次周会日期： ${nextMeetingDate.nextMeetingDate}
+      
+      主持人： @${nextMeetingDate.nextMeetingUser} 注意订会议室和收集议题哦~
+      
+      ------
+    
+      值班表：
+      ${[...mettingUserList]
+        .splice(
+          mettingUserList.indexOf(nextMeetingDate.nextMeetingUser) + 1,
+          mettingUserList.length,
+        )
+        .concat(
+          [...mettingUserList].splice(
+            0,
+            mettingUserList.indexOf(nextMeetingDate.nextMeetingUser) + 1,
+          ),
+        )
+        .map(
+          (item, index) =>
+            `- @${item} ${dayjs(nextMeetingDate.nextMeetingDate)
+              .add(14 * (index + 1), 'day')
+              .format('YYYY-MM-DD')}`,
+        )
+        .join('\n')}   
+        `,
+    list: [...mettingUserList]
+      .splice(mettingUserList.indexOf(nextMeetingDate.nextMeetingUser) + 1, mettingUserList.length)
+      .concat(
+        [...mettingUserList].splice(
+          0,
+          mettingUserList.indexOf(nextMeetingDate.nextMeetingUser) + 1,
+        ),
+      )
+      .map(
+        (item, index) =>
+          `- @${item} ${dayjs(nextMeetingDate.nextMeetingDate)
+            .add(14 * (index + 1), 'day')
+            .format('YYYY-MM-DD')}`,
+      )
+      .join('\n'),
+  };
 };
 
 const robot = new Robot({
@@ -181,7 +204,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
       {
         role: 'user',
         content: `根据以下的资料，整合回答这个问题 """${payload.text.content}"""
-  值班表:"""${content}"""
+  值班表:"""${content.text}"""
 请回答一个符合机器人口吻的回复。
           `,
       },
@@ -190,11 +213,14 @@ export default async function handler(request: NextApiRequest, response: NextApi
     temperature: 0.9,
   });
 
-  markDown
-    .setTitle('周会值班')
-    .add(`hi @${payload.senderNick},${chatData.choices[0]?.message?.content}`);
-  console.log('content', chatData.choices[0]?.message?.content);
-  robot.send(markDown);
+  markDown.setTitle('周会值班')
+    .add(`hi @${payload.senderNick},${chatData.choices[0]?.message?.content}
+    -----------
+    
+    ${content.list}`);
+
+  await robot.send(markDown);
+
   return response.send(
     JSON.stringify({
       message: chatData.choices[0]?.message?.content,
