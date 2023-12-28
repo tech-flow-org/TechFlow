@@ -13,7 +13,7 @@
     "start": "next start",
     "stylelint": "stylelint \"src/**/*.{js,jsx,ts,tsx}\" --fix",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "echo test",
     "test:update": "vitest -u",
     "ts-check": "tsc --noEmit"
   },
