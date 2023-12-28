@@ -33,7 +33,7 @@ export default async function handler(request: NextApiRequest, res: NextApiRespo
         return issues.map((issue) => {
           return {
             title: issue.title,
-            id: issue.id,
+            id: issue.number,
             body: issue.body,
           };
         });
@@ -43,11 +43,12 @@ export default async function handler(request: NextApiRequest, res: NextApiRespo
   }
 
   if (request.method === 'POST') {
-    const { owner, repo, issue_number, body } = request.body;
+    const { owner, repo, id, body } = JSON.parse(request.body);
+
     const data = await octokit.rest.issues.createComment({
       repo,
       owner,
-      issue_number,
+      issue_number: id,
       body,
     });
     return res.send(data);

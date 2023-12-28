@@ -14,7 +14,7 @@ const qdrantClient = new QdrantClient({
 });
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
-  const payload = (await request.body) as {
+  const payload = JSON.parse(request.body) as {
     body: string;
     title: string;
   };
@@ -50,10 +50,8 @@ ${searchResult.map((item) => `- ${item?.payload?.text}`).join('\n')})}`,
     temperature: 0.9,
   });
 
-  return response.send(
-    JSON.stringify({
-      message: chatData.choices[0]?.message?.content,
-      success: true,
-    }),
-  );
+  response.send({
+    message: chatData.choices[0]?.message?.content,
+    success: true,
+  });
 }
