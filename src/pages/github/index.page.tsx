@@ -1,4 +1,4 @@
-﻿import { RobotOutlined } from '@ant-design/icons';
+﻿import { LoadingOutlined, RobotOutlined } from '@ant-design/icons';
 import {
   ModalForm,
   PageContainer,
@@ -20,6 +20,7 @@ const GitHubIssue: NextPage = () => {
     | undefined
   >();
   const formRef = useRef<FormInstance>();
+  const [loading, setLoading] = useState(false);
   const [repo, setRepo] = useState<'ant-design' | 'pro-components'>('pro-components');
   return (
     <PageContainer
@@ -102,6 +103,7 @@ const GitHubIssue: NextPage = () => {
                     gap: 4,
                   }}
                   onClick={() => {
+                    setLoading(true);
                     fetch('/api/docantd', {
                       method: 'POST',
                       body: JSON.stringify({
@@ -117,10 +119,14 @@ const GitHubIssue: NextPage = () => {
                         formRef.current?.setFieldsValue({
                           body: res.message,
                         });
+                        setLoading(false);
+                      })
+                      .finally(() => {
+                        setLoading(false);
                       });
                   }}
                 >
-                  <RobotOutlined />
+                  {loading ? <LoadingOutlined /> : <RobotOutlined />}
                   机器人解答
                 </a>
               </div>
