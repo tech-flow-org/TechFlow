@@ -10,6 +10,8 @@ import { FormInstance, Segmented, message } from 'antd';
 import type { NextPage } from 'next';
 import { memo, useRef, useState } from 'react';
 
+const utf8Decoder = new TextDecoder('utf-8');
+
 const GitHubIssue: NextPage = () => {
   const [row, setRow] = useState<
     | {
@@ -113,17 +115,23 @@ const GitHubIssue: NextPage = () => {
                         owner: 'ant-design',
                         repo,
                       }),
-                    })
-                      .then((res) => res.json())
-                      .then((res) => {
-                        formRef.current?.setFieldsValue({
-                          body: res.message,
+                    }).then((response) => {
+                      const reader = response?.body?.getReader();
+                      let responseText = '';
+                      return reader
+                        ?.read()
+                        .then(async function process({ done, value: chunk }): Promise<any> {
+                          if (done) {
+                            setLoading(false);
+                            return;
+                          }
+                          responseText = responseText + utf8Decoder.decode(chunk, { stream: true });
+                          formRef.current?.setFieldsValue({
+                            body: responseText,
+                          });
+                          return reader.read().then(process);
                         });
-                        setLoading(false);
-                      })
-                      .finally(() => {
-                        setLoading(false);
-                      });
+                    });
                   }}
                 >
                   {loading ? <LoadingOutlined /> : <RobotOutlined />}
