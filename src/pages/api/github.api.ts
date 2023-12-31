@@ -55,7 +55,7 @@ export default async function handler(request: NextApiRequest, res: NextApiRespo
         error: 'Not logged in',
       });
     }
-    if (session?.user?.name !== 'chenshuai2144') {
+    if (session?.user?.name !== '陈帅') {
       return res.status(200).json({
         success: false,
         data: [],
