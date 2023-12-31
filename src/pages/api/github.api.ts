@@ -38,7 +38,7 @@ export default async function handler(request: NextApiRequest, res: NextApiRespo
             id: issue.number,
             body: issue.body,
             updateTime: issue.updated_at,
-            label: issue.labels.map((label) => (typeof label === 'string' ? label : label.name)),
+            labels: issue.labels.map((label) => (typeof label === 'string' ? label : label.name)),
           };
         });
       });
