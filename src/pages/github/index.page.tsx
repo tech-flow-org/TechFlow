@@ -7,6 +7,7 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import { FormInstance, Segmented, message } from 'antd';
+import { Dayjs } from 'dayjs';
 import type { NextPage } from 'next';
 import { memo, useRef, useState } from 'react';
 
@@ -41,6 +42,10 @@ const GitHubIssue: NextPage = () => {
             {
               label: 'ProComponents',
               value: 'pro-components',
+            },
+            {
+              label: 'Ant Design Pro',
+              value: 'ant-design-pro',
             },
           ]}
         />
@@ -150,6 +155,7 @@ const GitHubIssue: NextPage = () => {
           id: string;
           title: string;
           body: string;
+          labels: string[];
         }>
           params={{
             repo,
@@ -178,6 +184,23 @@ const GitHubIssue: NextPage = () => {
               dataIndex: 'title',
               key: 'title',
               ellipsis: true,
+            },
+            {
+              title: '标签',
+              dataIndex: 'labels',
+              key: 'labels',
+              render: (dom, row) => {
+                return row.labels.map((label) => {
+                  return <a key={label}>{label}</a>;
+                });
+              },
+            },
+            {
+              title: '更新时间',
+              dataIndex: 'updateTime',
+              key: 'updateTime',
+              valueType: 'dateTime',
+              renderText: (text) => new Dayjs(text),
             },
             {
               width: 200,
