@@ -2,7 +2,7 @@
 import {
   ModalForm,
   PageContainer,
-  ProFormText,
+  ProFormItem,
   ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
@@ -87,7 +87,15 @@ const GitHubIssue: NextPage = () => {
             });
           }}
         >
-          <ProFormText label="issueId" name="id" readonly />
+          <ProFormItem label="🆔">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href={`https://github.com/ant-design/${repo}/issues/` + row?.id}
+            >
+              {row?.id}
+            </a>
+          </ProFormItem>
           <ProFormTextArea
             label="问题"
             name="title"
