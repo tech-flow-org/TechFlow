@@ -7,7 +7,7 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import { FormInstance, Segmented, message } from 'antd';
-import { Dayjs } from 'dayjs';
+import Dayjs from 'dayjs';
 import type { NextPage } from 'next';
 import { memo, useRef, useState } from 'react';
 
