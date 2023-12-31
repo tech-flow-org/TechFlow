@@ -7,7 +7,7 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import { FormInstance, Segmented, message } from 'antd';
-import Dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import type { NextPage } from 'next';
 import { memo, useRef, useState } from 'react';
 
@@ -208,7 +208,7 @@ const GitHubIssue: NextPage = () => {
               dataIndex: 'updateTime',
               key: 'updateTime',
               valueType: 'dateTime',
-              renderText: (text) => (text ? new Dayjs(text) : undefined),
+              renderText: (text) => (text ? dayjs(text) : undefined),
             },
             {
               width: 200,
