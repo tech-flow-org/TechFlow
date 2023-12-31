@@ -6,7 +6,7 @@ import {
   ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
-import { FormInstance, Segmented, message } from 'antd';
+import { FormInstance, Segmented, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import type { NextPage } from 'next';
 import { memo, useRef, useState } from 'react';
@@ -198,9 +198,13 @@ const GitHubIssue: NextPage = () => {
               dataIndex: 'labels',
               key: 'labels',
               render: (dom, row) => {
-                return row.labels.map((label) => {
-                  return <a key={label}>{label}</a>;
-                });
+                return (
+                  <Space>
+                    {row.labels.map((label) => {
+                      return <a key={label}>{label}</a>;
+                    })}
+                  </Space>
+                );
               },
             },
             {
