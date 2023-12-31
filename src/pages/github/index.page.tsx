@@ -208,7 +208,7 @@ const GitHubIssue: NextPage = () => {
               dataIndex: 'updateTime',
               key: 'updateTime',
               valueType: 'dateTime',
-              renderText: (text) => new Dayjs(text),
+              renderText: (text) => (text ? new Dayjs(text) : undefined),
             },
             {
               width: 200,
