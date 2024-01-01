@@ -78,12 +78,16 @@ const GitHubIssue: NextPage = () => {
               method: 'POST',
               body: JSON.stringify({
                 ...values,
+                id: row?.id,
                 owner: 'ant-design',
                 repo,
               }),
-            }).then(() => {
-              message.success('提交成功');
-              return true;
+            }).then((msg) => {
+              if (msg) {
+                message.success('提交成功');
+                return true;
+              }
+              message.error('提交失败');
             });
           }}
         >
@@ -93,7 +97,7 @@ const GitHubIssue: NextPage = () => {
               rel="noreferrer"
               href={`https://github.com/ant-design/${repo}/issues/` + row?.id}
             >
-              {row?.id}
+              #{row?.id}
             </a>
           </ProFormItem>
           <ProFormTextArea
@@ -182,7 +186,7 @@ const GitHubIssue: NextPage = () => {
                     rel="noreferrer"
                     href={`https://github.com/ant-design/${repo}/issues/` + row.id}
                   >
-                    {row.id}
+                    #{row.id}
                   </a>
                 );
               },

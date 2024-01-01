@@ -70,6 +70,9 @@ export default async function handler(request: NextApiRequest, res: NextApiRespo
       issue_number: id,
       body,
     });
-    return res.send(data);
+    return res.send({
+      success: true,
+      data,
+    });
   }
 }
