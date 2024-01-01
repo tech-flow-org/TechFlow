@@ -51,7 +51,7 @@ export default async function handler(request: Request) {
             },
             {
               role: 'user',
-              content: `基于以下片段，回答 ${payload.title} 的问题
+              content: `基于以下片段，简明扼要的回复 ${payload.title + payload.body} 的问题
   ${searchResult.map((item) => `- ${item?.payload?.text}`).join('\n')})}`,
             },
           ],
