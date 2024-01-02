@@ -47,7 +47,8 @@ export default async function handler(request: Request) {
           messages: [
             {
               role: 'system',
-              content: ` 你是一个专业的前端答疑专家，你需要基于前端知识来做出让初学者都能听懂的回答`,
+              content: ` 你是一个专业的前端答疑专家，你需要基于前端知识来做出让初学者都能听懂的回答，
+              并且保证技术都是先进的，比如样式修改要用 DesginToken，react  要用 hooks，不推荐使用 dva 和  redux`,
             },
             {
               role: 'user',
