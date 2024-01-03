@@ -75,7 +75,7 @@ export default async function handler(request: Request) {
         });
 
         for await (const part of chatData) {
-          controller.enqueue(controller.enqueue(part.choices[0]?.delta?.content || ''));
+          controller.enqueue(encoder.encode(part.choices[0]?.delta?.content || ''));
         }
       },
     }),
