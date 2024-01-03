@@ -15,7 +15,7 @@ const qdrantClient = new QdrantClient({
 export const config = {
   runtime: 'edge',
 };
-
+const utf8Decoder = new TextDecoder('utf-8');
 export default async function handler(request: Request) {
   const payload = (await request.json()) as {
     body: string;
@@ -71,11 +71,14 @@ export default async function handler(request: Request) {
         });
 
         for await (const part of chatData) {
-          controller.enqueue(`> 值得注意是的百分之二十的问题都可以用重装依赖来解决，所以你可以尝试一下：
- 删除 'node_modules' 文件夹 -> 删除 'package-lock.json'或 'pnpm-lock.yaml' 文件 -> 运行 'pnpm install' 或  'npm install' 命令
+          controller.enqueue(
+            encoder.encode(
+              `> 值得注意是的百分之二十的问题都可以用重装依赖来解决，所以你可以尝试一下：
+删除 'node_modules' 文件夹 -> 删除 'package-lock.json'或 'pnpm-lock.yaml' 文件 -> 运行 'pnpm install' 或  'npm install' 命令
 
-
-${encoder.encode(part.choices[0]?.delta?.content || '')}`);
+${part.choices[0]?.delta?.content}` || '',
+            ),
+          );
         }
       },
     }),
