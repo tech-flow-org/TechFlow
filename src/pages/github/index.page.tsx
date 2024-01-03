@@ -122,6 +122,7 @@ const GitHubIssue: NextPage = () => {
                     gap: 4,
                   }}
                   onClick={() => {
+                    if (loading === true) return;
                     setLoading(true);
                     fetch('/api/docantd', {
                       method: 'POST',
@@ -132,23 +133,28 @@ const GitHubIssue: NextPage = () => {
                         owner: 'ant-design',
                         repo,
                       }),
-                    }).then((response) => {
-                      const reader = response?.body?.getReader();
-                      let responseText = '';
-                      return reader
-                        ?.read()
-                        .then(async function process({ done, value: chunk }): Promise<any> {
-                          if (done) {
-                            setLoading(false);
-                            return;
-                          }
-                          responseText = responseText + utf8Decoder.decode(chunk, { stream: true });
-                          formRef.current?.setFieldsValue({
-                            body: responseText,
+                    })
+                      .then((response) => {
+                        const reader = response?.body?.getReader();
+                        let responseText = '';
+                        return reader
+                          ?.read()
+                          .then(async function process({ done, value: chunk }): Promise<any> {
+                            if (done) {
+                              setLoading(false);
+                              return;
+                            }
+                            responseText =
+                              responseText + utf8Decoder.decode(chunk, { stream: true });
+                            formRef.current?.setFieldsValue({
+                              body: responseText,
+                            });
+                            return reader.read().then(process);
                           });
-                          return reader.read().then(process);
-                        });
-                    });
+                      })
+                      .finally(() => {
+                        setLoading(false);
+                      });
                   }}
                 >
                   {loading ? <LoadingOutlined /> : <RobotOutlined />}
