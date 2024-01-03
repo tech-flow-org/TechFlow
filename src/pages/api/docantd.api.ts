@@ -55,10 +55,7 @@ export default async function handler(request: Request) {
   - 前端性能优化
   - React  技术
   - Umi  和  antd
-请注意，我们需要你对前端技术有一定的了解，并且能够在短时间内给出一个解决方案，并且保证技术都是先进的，比如:
-  - 样式修改要用 Design Token 而不是使用 less
-  - react  要用 hooks
-  - 不推荐使用 redux
+请注意，我们需要你对前端技术有一定的了解，并且能够在短时间内给出一个解决方案，并且保证技术都是先进的
   `,
             },
             {
@@ -77,7 +74,7 @@ export default async function handler(request: Request) {
           controller.enqueue(`> 值得注意是的百分之二十的问题都可以用重装依赖来解决，所以你可以尝试一下：
  删除 'node_modules' 文件夹 -> 删除 'package-lock.json'或 'pnpm-lock.yaml' 文件 -> 运行 'pnpm install' 或  'npm install' 命令
 
- 
+
 ${encoder.encode(part.choices[0]?.delta?.content || '')}`);
         }
       },
