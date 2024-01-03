@@ -15,7 +15,6 @@ const qdrantClient = new QdrantClient({
 export const config = {
   runtime: 'edge',
 };
-const utf8Decoder = new TextDecoder('utf-8');
 export default async function handler(request: Request) {
   const payload = (await request.json()) as {
     body: string;
