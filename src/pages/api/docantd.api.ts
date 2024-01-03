@@ -43,7 +43,10 @@ export default async function handler(request: Request) {
         controller.enqueue(
           encoder.encode(
             `> 值得注意是的百分之二十的问题都可以用重装依赖来解决，所以你可以尝试一下：
-删除 'node_modules' 文件夹 -> 删除 'package-lock.json'或 'pnpm-lock.yaml' 文件 -> 运行 'pnpm install' 或  'npm install' 命令`,
+删除 'node_modules' 文件夹 -> 删除 'package-lock.json'或 'pnpm-lock.yaml' 文件 -> 运行 'pnpm install' 或  'npm install' 命令
+
+
+`,
           ),
         );
         const chatData = await openai.chat.completions.create({
