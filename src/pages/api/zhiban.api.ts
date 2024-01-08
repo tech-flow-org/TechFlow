@@ -203,8 +203,8 @@ export default async function handler(request: NextApiRequest, response: NextApi
     messages: [
       {
         role: 'user',
-        content: `根据以下的资料，整合回答这个问题 """${payload.text.content}"""
-  值班表:"""${content.text}"""
+        content: `根据以下资料回答关注值班的问题，告诉 """${payload.text.content}"""
+  值班表:"""${content.text}"""，并且输出最近的值班表
 请回答一个符合机器人口吻的回复。
           `,
       },
