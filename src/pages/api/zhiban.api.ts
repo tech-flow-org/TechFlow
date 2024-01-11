@@ -93,6 +93,11 @@ const lastMeetingDate = process.env.DINGDINGLASTMEETINGDATE;
 const preSident = process.env.DINGDINGPRESIDENT;
 const mettingUserList = process.env.DINGDINGMETTINGUSERLIST?.split(',') || [];
 
+const waitTime = (ms: number) =>
+  new Promise((resolve) => {
+    self.setTimeout(resolve, ms);
+  });
+
 function getNextMeetingDate(
   currentDate: string | number | Date,
   lastMeetingDate: string | number | Date,
@@ -204,8 +209,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
       {
         role: 'user',
         content: `根据以下资料回答关注值班的问题，告诉 """${payload.text.content}"""
-  值班表:"""${content.text}"""，并且输出最近的值班表
-请回答一个符合机器人口吻的回复。
+  值班表:"""${content.text}"""，并且输出值班时间。比如：2024-01-26 @紫画
           `,
       },
     ],
@@ -215,12 +219,16 @@ export default async function handler(request: NextApiRequest, response: NextApi
 
   markDown.setTitle('周会值班')
     .add(`hi @${payload.senderNick},${chatData.choices[0]?.message?.content}
-    
-    -----------
-    
-    ${content.list}`);
+
+-----------
+
+请注意预定会议室和手机分享资料哦~
+
+${content.list}`);
 
   await robot.send(markDown);
+
+  await waitTime(100);
 
   return response.send(
     JSON.stringify({
