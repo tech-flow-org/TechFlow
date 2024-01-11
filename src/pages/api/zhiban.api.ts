@@ -232,7 +232,13 @@ ${content.list}`);
 
   return response.send(
     JSON.stringify({
-      message: chatData.choices[0]?.message?.content,
+      message: `hi @${payload.senderNick},${chatData.choices[0]?.message?.content}
+
+      -----------
+      
+      请注意预定会议室和手机分享资料哦~
+      
+      ${content.list}`,
       success: true,
     }),
   );
