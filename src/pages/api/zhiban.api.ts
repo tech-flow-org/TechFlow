@@ -95,7 +95,7 @@ const mettingUserList = process.env.DINGDINGMETTINGUSERLIST?.split(',') || [];
 
 const waitTime = (ms: number) =>
   new Promise((resolve) => {
-    self.setTimeout(resolve, ms);
+    setTimeout(resolve, ms);
   });
 
 function getNextMeetingDate(
