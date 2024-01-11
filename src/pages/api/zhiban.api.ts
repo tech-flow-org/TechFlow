@@ -208,7 +208,9 @@ export default async function handler(request: NextApiRequest, response: NextApi
     messages: [
       {
         role: 'user',
-        content: `根据以下资料回答关注值班的问题，告诉 """${payload.text.content}"""
+        content: `根据以下资料回答关注值班的问题，告诉 """${
+          payload?.text?.content || '下次值班是谁？'
+        }"""
   值班表:"""${content.text}"""，并且输出值班时间。比如：2024-01-26 @紫画
           `,
       },
@@ -238,7 +240,7 @@ ${content.list}`);
       
       请注意预定会议室和手机分享资料哦~
       
-      ${content.list}`,
+      ${content.list?.slice(0, 3)}`,
       success: true,
     }),
   );
