@@ -226,7 +226,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
 
 请注意预定会议室和手机分享资料哦~
 
-${content.list}`);
+${content.list?.slice(0, 3)}`);
 
   await robot.send(markDown);
 
