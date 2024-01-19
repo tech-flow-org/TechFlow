@@ -159,6 +159,7 @@ const getMarkdown = () => {
               .add(14 * (index + 1), 'day')
               .format('YYYY-MM-DD')}`,
         )
+        .slice(0, 3)
         .join('\n')}   
         `,
     list: [...mettingUserList]
@@ -212,13 +213,7 @@ ${content.list?.slice(0, 3)}`);
 
   return response.send(
     JSON.stringify({
-      message: `hi @${payload.senderNick},${content.text}
-
-      -----------
-      
-      请注意预定会议室和手机分享资料哦~
-      
-      ${content.list?.slice(0, 3).join('\n')}`,
+      message: `hi @${payload.senderNick},${content.text}`,
       success: true,
     }),
   );
