@@ -179,10 +179,10 @@ const getMarkdown = () => {
   };
 };
 
-// const robot = new Robot({
-//   accessToken: process.env.DINGDINGACCESSTOKEN,
-//   secret: process.env.DINGDINGSECRET,
-// });
+const robot = new Robot({
+  accessToken: process.env.DINGDINGACCESSTOKEN,
+  secret: process.env.DINGDINGSECRET,
+});
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   const payload = (await request.body) as DingTalk;
@@ -199,15 +199,9 @@ export default async function handler(request: NextApiRequest, response: NextApi
   const content = getMarkdown();
   const markDown = new Robot.Markdown();
 
-  markDown.setTitle('周会值班').add(`hi @${payload.senderNick},${content.text}
+  markDown.setTitle('周会值班').add(`hi @${payload.senderNick},${content.text}`);
 
------------
-
-请注意预定会议室和手机分享资料哦~
-
-${content.list?.slice(0, 3)}`);
-
-  // await robot.send(markDown);
+  await robot.send(markDown);
 
   await waitTime(100);
 
