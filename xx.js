@@ -210,7 +210,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
         content: `根据以下资料回答关注值班的问题，回答 """${
           payload?.text?.content || '下次值班是谁？'
         }"""
-  值班表:"""${content.text}"""，并且输出值班时间。
+  值班表:"""${content.text}"""，并且输出值班时间。比如：2024-01-26 @紫画
           `,
       },
     ],
