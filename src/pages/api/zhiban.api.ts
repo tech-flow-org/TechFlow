@@ -202,25 +202,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
   const content = getMarkdown();
   const markDown = new Robot.Markdown();
 
-  const chatData = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo-16k',
-    messages: [
-      {
-        role: 'user',
-        content: `根据以下资料回答关注值班的问题，回答 """${
-          payload?.text?.content || '下次值班是谁？'
-        }"""
-  值班表:"""${content.text}"""，并且输出值班时间。
-          `,
-      },
-    ],
-    stream: false,
-    temperature: 0.9,
-  });
-
-  markDown.setTitle('周会值班').add(`hi @${payload.senderNick},${
-    chatData.choices[0]?.message?.content
-  }
+  markDown.setTitle('周会值班').add(`hi @${payload.senderNick},${content.text}
 
 -----------
 
@@ -234,7 +216,7 @@ ${content.list?.slice(0, 3)}`);
 
   return response.send(
     JSON.stringify({
-      message: `hi @${payload.senderNick},${chatData.choices[0]?.message?.content}
+      message: `hi @${payload.senderNick},${content.text}
 
       -----------
       
