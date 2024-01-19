@@ -178,10 +178,10 @@ const getMarkdown = () => {
   };
 };
 
-const robot = new Robot({
-  accessToken: process.env.DINGDINGACCESSTOKEN,
-  secret: process.env.DINGDINGSECRET,
-});
+// const robot = new Robot({
+//   accessToken: process.env.DINGDINGACCESSTOKEN,
+//   secret: process.env.DINGDINGSECRET,
+// });
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   const payload = (await request.body) as DingTalk;
