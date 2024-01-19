@@ -178,8 +178,7 @@ const getMarkdown = () => {
           `- @${item} ${dayjs(nextMeetingDate.nextMeetingDate)
             .add(14 * (index + 1), 'day')
             .format('YYYY-MM-DD')}`,
-      )
-      .join('\n'),
+      ),
   };
 };
 
@@ -219,8 +218,9 @@ export default async function handler(request: NextApiRequest, response: NextApi
     temperature: 0.9,
   });
 
-  markDown.setTitle('周会值班')
-    .add(`hi @${payload.senderNick},${chatData.choices[0]?.message?.content}
+  markDown.setTitle('周会值班').add(`hi @${payload.senderNick},${
+    chatData.choices[0]?.message?.content
+  }
 
 -----------
 
@@ -240,7 +240,7 @@ ${content.list?.slice(0, 3)}`);
       
       请注意预定会议室和手机分享资料哦~
       
-      ${content.list?.slice(0, 3)}`,
+      ${content.list?.slice(0, 3).join('\n')}`,
       success: true,
     }),
   );
