@@ -206,7 +206,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
 
 ${content.list?.slice(0, 3)}`);
 
-  await robot.send(markDown);
+  // await robot.send(markDown);
 
   await waitTime(100);
 
