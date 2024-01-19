@@ -132,35 +132,32 @@ const getMarkdown = () => {
   );
   return {
     text: `
-    #### 周会值班
     
-    🔊  今天是 ${now} 星期${convertToChinaNum(dayjs().day())} 
-      下次周会日期： ${nextMeetingDate.nextMeetingDate}
-      
-      主持人： @${nextMeetingDate.nextMeetingUser} 注意订会议室和收集议题哦~
-      
-      ------
+#### 周会值班
     
-      值班表：
-      ${[...mettingUserList]
-        .splice(
-          mettingUserList.indexOf(nextMeetingDate.nextMeetingUser) + 1,
-          mettingUserList.length,
-        )
-        .concat(
-          [...mettingUserList].splice(
-            0,
-            mettingUserList.indexOf(nextMeetingDate.nextMeetingUser) + 1,
-          ),
-        )
-        .map(
-          (item, index) =>
-            `- @${item} ${dayjs(nextMeetingDate.nextMeetingDate)
-              .add(14 * (index + 1), 'day')
-              .format('YYYY-MM-DD')}`,
-        )
-        .slice(0, 3)
-        .join('\n')}   
+🔊  今天是 ${now} 星期${convertToChinaNum(dayjs().day())}
+    
+    
+下次周会日期： ${nextMeetingDate.nextMeetingDate}
+      
+主持人： @${nextMeetingDate.nextMeetingUser} 注意订会议室和收集议题哦~
+      
+------
+    
+值班表：
+${[...mettingUserList]
+  .splice(mettingUserList.indexOf(nextMeetingDate.nextMeetingUser) + 1, mettingUserList.length)
+  .concat(
+    [...mettingUserList].splice(0, mettingUserList.indexOf(nextMeetingDate.nextMeetingUser) + 1),
+  )
+  .map(
+    (item, index) =>
+      `- @${item} ${dayjs(nextMeetingDate.nextMeetingDate)
+        .add(14 * (index + 1), 'day')
+        .format('YYYY-MM-DD')}`,
+  )
+  .slice(0, 3)
+  .join('\n')}   
         `,
     list: [...mettingUserList]
       .splice(mettingUserList.indexOf(nextMeetingDate.nextMeetingUser) + 1, mettingUserList.length)
@@ -199,7 +196,9 @@ export default async function handler(request: NextApiRequest, response: NextApi
   const content = getMarkdown();
   const markDown = new Robot.Markdown();
 
-  markDown.setTitle('周会值班').add(`hi @${payload.senderNick},${content.text}`);
+  markDown.setTitle('周会值班').add(`hi @${payload.senderNick}
+
+${content.text}`);
 
   await robot.send(markDown);
 
