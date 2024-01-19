@@ -1,14 +1,10 @@
 ﻿import dayjs from 'dayjs';
 import Robot from 'dingtalk-robot-sdk';
 import { NextApiRequest, NextApiResponse } from 'next';
-import OpenAI from 'openai';
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error('Missing env var from OpenAI');
 }
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 export interface DingTalk {
   conversationId: string;
