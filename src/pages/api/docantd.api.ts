@@ -38,7 +38,8 @@ export default async function handler(request: Request) {
         controller.enqueue(encoder.encode(''));
         const searchResult = await qdrantClient.search('test_collection', {
           vector: embedding || [],
-          limit: 1,
+          limit: 2,
+          score_threshold: 0.2,
         });
 
         controller.enqueue(
