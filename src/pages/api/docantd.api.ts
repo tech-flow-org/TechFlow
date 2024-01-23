@@ -25,22 +25,26 @@ export default async function handler(request: Request) {
   return new Response(
     new ReadableStream({
       async start(controller) {
-        const embedding = await openai.embeddings
-          .create({
-            input: payload.result || payload.title,
-            model: 'text-embedding-ada-002',
-          })
-          .then((res) => {
-            return res.data.at(0)?.embedding;
-          });
+        const embedding = payload.result
+          ? ''
+          : await openai.embeddings
+              .create({
+                input: payload.title,
+                model: 'text-embedding-ada-002',
+              })
+              .then((res) => {
+                return res.data.at(0)?.embedding;
+              });
         const encoder = new TextEncoder();
 
         controller.enqueue(encoder.encode(''));
-        const searchResult = await qdrantClient.search('test_collection', {
-          vector: embedding || [],
-          limit: 2,
-          score_threshold: 0.2,
-        });
+        const searchResult = payload.result
+          ? [payload.result]
+          : await qdrantClient.search('test_collection', {
+              vector: embedding || [],
+              limit: 2,
+              score_threshold: 0.2,
+            });
 
         controller.enqueue(
           encoder.encode(
