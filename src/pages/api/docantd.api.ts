@@ -19,6 +19,7 @@ export default async function handler(request: Request) {
   const payload = (await request.json()) as {
     body: string;
     title: string;
+    result: string;
   };
 
   return new Response(
@@ -26,7 +27,7 @@ export default async function handler(request: Request) {
       async start(controller) {
         const embedding = await openai.embeddings
           .create({
-            input: payload.title,
+            input: payload.result || payload.title,
             model: 'text-embedding-ada-002',
           })
           .then((res) => {
@@ -61,16 +62,18 @@ export default async function handler(request: Request) {
   - 前端工程化
   - 前端性能优化
   - React  技术
-  - Umi  和  antd
+  - Umi 和 antd
 请注意，我们需要你对前端技术有一定的了解，并且能够在短时间内给出一个解决方案，并且保证技术都是先进的
   `,
             },
             {
               role: 'user',
-              content: `基于以下片段，简明扼要的一步步的给出${
-                payload.title + payload.body
-              } 问题的解决方案 
-  ${searchResult.map((item) => `- ${item?.payload?.text}`).join('\n')})}`,
+              content: `基于以下片段，简明扼要的一步步的给出${payload.title}问题可能的解决方案
+参考文档：
+${payload.body}        
+
+${searchResult.map((item) => `${item?.payload?.text}`).join('\n')})}
+`,
             },
           ],
           stream: true,

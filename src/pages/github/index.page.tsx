@@ -108,6 +108,13 @@ const GitHubIssue: NextPage = () => {
             }}
           />
           <ProFormTextArea
+            label="解决方案"
+            name="result"
+            fieldProps={{
+              rows: 3,
+            }}
+          />
+          <ProFormTextArea
             label={
               <div
                 style={{
@@ -131,6 +138,7 @@ const GitHubIssue: NextPage = () => {
                         id: row?.id,
                         body: row?.body,
                         owner: 'ant-design',
+                        result: formRef.current?.getFieldValue('result'),
                         repo,
                       }),
                     })
