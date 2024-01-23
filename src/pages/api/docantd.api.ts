@@ -39,7 +39,13 @@ export default async function handler(request: Request) {
 
         controller.enqueue(encoder.encode(''));
         const searchResult = payload.result
-          ? [payload.result]
+          ? [
+              {
+                payload: {
+                  text: payload.result,
+                },
+              },
+            ]
           : await qdrantClient.search('test_collection', {
               vector: embedding || [],
               limit: 2,
