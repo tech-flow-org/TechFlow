@@ -79,11 +79,16 @@ export default async function handler(request: Request) {
             },
             {
               role: 'user',
-              content: `基于以下片段，简明扼要的一步步的给出${payload.title}问题可能的解决方案
+              content: !payload.result
+                ? `基于以下片段，简明扼要的一步步的给出${payload.title}问题可能的解决方案
 参考文档：
 ${payload.body}        
 
 ${searchResult.map((item) => `${item?.payload?.text}`).join('\n')})}
+`
+                : `
+根据答案：${payload.result}，简明扼要的一步步的回答 ${payload.title} 问题。
+
 `,
             },
           ],
