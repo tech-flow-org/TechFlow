@@ -206,7 +206,7 @@ ${content.text}`);
 
   return response.send(
     JSON.stringify({
-      message: `hi @${payload.senderNick},${content.text}`,
+      message: `hi @${payload.senderNick || '通知机器人'},${content.text}`,
       success: true,
     }),
   );
