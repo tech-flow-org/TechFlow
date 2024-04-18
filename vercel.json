@@ -1,8 +1,1 @@
-﻿{
-  "crons": [
-    {
-      "path": "/api/dingding/zhiban",
-      "schedule": "0 10 * * 1"
-    }
-  ]
-}
+﻿{}
