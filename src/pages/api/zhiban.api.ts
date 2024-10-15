@@ -196,9 +196,15 @@ export default async function handler(request: NextApiRequest, response: NextApi
   const content = getMarkdown();
   const markDown = new Robot.Markdown();
 
-  markDown.setTitle('周会值班').add(`hi @${payload.senderNick}
+  if (payload.senderNick) {
+    markDown.setTitle('周会值班').add(`😄 Hi @${payload.senderNick || '通知机器人'}
 
-${content.text}`);
+      ${content.text}`);
+  } else {
+    markDown.setTitle('周会值班').add(`😄 Hi, everyone'}
+
+      ${content.text}`);
+  }
 
   await robot.send(markDown);
 
@@ -206,7 +212,7 @@ ${content.text}`);
 
   return response.send(
     JSON.stringify({
-      message: `hi @${payload.senderNick || '通知机器人'},${content.text}`,
+      message: `hi @${payload?.senderNick || '通知机器人'},${content.text}`,
       success: true,
     }),
   );
