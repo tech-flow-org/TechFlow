@@ -21,6 +21,7 @@ const nextConfig = {
   transpilePackages: [
     '@ant-design/pro-flow-editor',
     '@ant-design/pro-editor',
+    '@antv/g2',
     'zustand',
     'leva',
     'ahooks',
