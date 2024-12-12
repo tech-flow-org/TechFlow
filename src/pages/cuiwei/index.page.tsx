@@ -1,7 +1,7 @@
 ﻿import { Chart } from '@antv/g2';
-import { Card } from 'antd';
+import { Card, Select } from 'antd';
 import dayjs from 'dayjs';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const excelData = [
   {
@@ -17257,7 +17257,7 @@ const excelData = [
   },
 ];
 
-const ChartHtml = ({ data, title }: { data: any[]; title: string }) => {
+const ChartHtml = ({ data, title, y }: { data: any[]; title: string; y: string }) => {
   const htmlref = useRef(null);
   useEffect(() => {
     const chart = new Chart({
@@ -17268,17 +17268,20 @@ const ChartHtml = ({ data, title }: { data: any[]; title: string }) => {
 
     chart
       .data(
-        data?.map((item) => {
-          console.log(dayjs(item.日期, 'MM/DD/YY').format('YYYY-MM-DD'));
-          return {
-            ...item,
-            pv曝光次数: Number(item.pv曝光次数),
-            日期: dayjs(item.日期, 'MM/D/YY').format('YYYY-MM-DD'),
-          };
-        }),
+        data
+          ?.map((item) => {
+            return {
+              ...item,
+              [y]: Number(item[y].replace('%', '')),
+              日期: dayjs(item.日期, 'MM/D/YY').format('YYYY-MM-DD'),
+            };
+          })
+          .sort((a, b) => {
+            return dayjs(a.日期).valueOf() - dayjs(b.日期).valueOf();
+          }),
       )
       .encode('x', '日期')
-      .encode('y', 'pv曝光次数')
+      .encode('y', y)
       .encode('color', '内容名称');
 
     chart.line().encode('shape', 'smooth');
@@ -17296,19 +17299,59 @@ const ChartHtml = ({ data, title }: { data: any[]; title: string }) => {
 
 const dataGroupBy = Object.groupBy(excelData, (item) => item.钩子名称);
 const Page = () => {
+  const [y, setY] = useState('uv曝光标记');
   return (
     <div
       style={{
-        display: 'grid',
-        gap: '20px',
-        gridTemplateColumns: '1fr 1fr',
         width: '100%',
-        padding: 42,
       }}
     >
-      {Object.keys(dataGroupBy).map((key) => {
-        return <ChartHtml key={key} data={(dataGroupBy[key] || []) as any} title={key} />;
-      })}
+      <div
+        style={{
+          display: 'flex',
+          padding: '12px 42px',
+          gap: 24,
+          alignItems: 'center',
+        }}
+      >
+        y 轴参数
+        <Select
+          value={y}
+          onChange={(value) => {
+            setY(value);
+          }}
+          options={[
+            'pv曝光次数',
+            'pv点击次数',
+            'pv点击率',
+            'uv曝光标记',
+            'uv点击标记',
+            'uv点击率',
+          ].map((item) => {
+            return {
+              label: item,
+              value: item,
+            };
+          })}
+          style={{
+            width: 200,
+          }}
+        />
+      </div>
+      <div
+        style={{
+          display: 'grid',
+          gap: '20px',
+          gridTemplateColumns: '1fr 1fr',
+          width: '100%',
+          padding: 42,
+        }}
+        key={y}
+      >
+        {Object.keys(dataGroupBy).map((key) => {
+          return <ChartHtml y={y} key={key} data={(dataGroupBy[key] || []) as any} title={key} />;
+        })}
+      </div>
     </div>
   );
 };
