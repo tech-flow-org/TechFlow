@@ -17297,7 +17297,15 @@ const ChartHtml = ({ data, title, y }: { data: any[]; title: string; y: string }
   );
 };
 
-const dataGroupBy = Object.groupBy(excelData, (item) => item.钩子名称);
+const groupByCategory = (data: any[], key: any) => {
+  return data.reduce((group, product) => {
+    const category = product[key];
+    group[category] = group[category] ?? [];
+    group[category].push(product);
+    return group;
+  }, {});
+};
+const dataGroupBy = groupByCategory(excelData, '钩子名称');
 const Page = () => {
   const [y, setY] = useState('uv曝光标记');
   return (
