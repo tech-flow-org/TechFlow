@@ -1,7 +1,5 @@
-﻿'use client';
-
-import { Input, Segmented } from 'antd';
-import { useRouter } from 'next/router';
+﻿import { Input, Segmented } from 'antd';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 const gugong = [
@@ -582,20 +580,36 @@ const colorMap = [
   },
 ];
 const Color = () => {
-  const { query, replace } = useRouter();
-  const [colorListName, setColorListName] = useState(() => query['colorListName'] || 'gugong');
-  const [keyword, setKeyword] = useState(() => query['keyword'] || '');
-  const [color, setColor] = useState(() =>
-    query['color'] ? (`#${query['color']}` as string) : '#F5F2E9' || '#F5F2E9',
-  );
+  const params = useSearchParams();
+  const [colorListName, setColorListName] = useState(params.get('colorListName') || 'gugong');
+  const [keyword, setKeyword] = useState(params.get('keyword') || '');
+  const [color, setColor] = useState(params.get('color') || '#F5F2E9');
 
-  const [colorName, setColorName] = useState(() => query['colorName'] || '凝脂');
+  const [colorName, setColorName] = useState(params.get('colorName') || '凝脂');
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setColorListName(params.get('colorListName') || 'gugong');
+    setKeyword(params.get('keyword') || '');
+    setColor(params.get('color') ? `#${params.get('color')}` : '#F5F2E9');
+    setColorName(params.get('colorName') || '凝脂');
+  }, []);
+
   useEffect(() => {
     document.title = '之之选色 - ' + colorName;
   }, [colorListName, colorName, keyword]);
 
   useEffect(() => {
-    replace(
+    if (
+      colorListName === 'gugong' &&
+      color === '#F5F2E9' &&
+      keyword === '' &&
+      colorName === '凝脂'
+    ) {
+      return;
+    }
+    history.replaceState(
+      {},
+      '',
       `?color=${color.replace(
         '#',
         '',
