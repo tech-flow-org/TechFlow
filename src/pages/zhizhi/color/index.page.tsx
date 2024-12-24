@@ -1,6 +1,6 @@
 ﻿import { Input, Segmented } from 'antd';
 import { useEffect, useState } from 'react';
-
+import styles from './index.module.css';
 const gugong = [
   { name: '黄白游', color: '#FFF799' },
   { name: '松花', color: '#FFEE6F' },
@@ -639,12 +639,12 @@ const Color = () => {
           .map((item) => (
             <div
               key={item.color}
+              className={styles?.['mask-cards']}
               style={{
                 borderRadius: 12,
                 padding: 12,
                 boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
                 width: '100%',
-                transform: 'scale(1)',
                 transition: 'all 0.3s',
                 //@ts-ignore
                 '--bg': item.color,
