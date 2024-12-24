@@ -27,3 +27,16 @@
 .mask-cards:hover {
   transform: scale(1.02);
 }
+
+.mask-card-list {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(100px, 1fr));
+  gap: 10px;
+  min-width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .mask-card-list {
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
+  }
+}

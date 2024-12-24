@@ -620,13 +620,7 @@ const Color = () => {
           setKeyword(e.target.value);
         }}
       />
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(6, minmax(100px, 1fr))',
-          gap: 10,
-        }}
-      >
+      <div className={` ${styles?.['mask-card-list']}`}>
         {colorMap
           .find((item) => item.value === colorListName)
           ?.children.filter((item) => {
