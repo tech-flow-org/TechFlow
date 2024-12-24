@@ -1,4 +1,7 @@
-﻿import { Input, Segmented } from 'antd';
+﻿'use client';
+
+import { Input, Segmented } from 'antd';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 const gugong = [
@@ -579,14 +582,26 @@ const colorMap = [
   },
 ];
 const Color = () => {
-  const [colorListName, setColorListName] = useState('gugong');
-  const [keyword, setKeyword] = useState('');
-  const [color, setColor] = useState('#F5F2E9');
-  const [colorName, setColorName] = useState('凝脂');
+  const { query, replace } = useRouter();
+  const [colorListName, setColorListName] = useState(() => query['colorListName'] || 'gugong');
+  const [keyword, setKeyword] = useState(() => query['keyword'] || '');
+  const [color, setColor] = useState(() =>
+    query['color'] ? (`#${query['color']}` as string) : '#F5F2E9' || '#F5F2E9',
+  );
+
+  const [colorName, setColorName] = useState(() => query['colorName'] || '凝脂');
+  useEffect(() => {
+    document.title = '之之选色 - ' + colorName;
+  }, [colorListName, colorName, keyword]);
 
   useEffect(() => {
-    document.title = '之之选色';
-  }, [colorListName, keyword]);
+    replace(
+      `?color=${color.replace(
+        '#',
+        '',
+      )}&colorListName=${colorListName}&keyword=${keyword}&colorName=${colorName}`,
+    );
+  }, [color, colorListName]);
 
   return (
     <div
