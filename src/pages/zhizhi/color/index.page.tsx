@@ -579,8 +579,10 @@ const colorMap = [
   },
 ];
 const Color = () => {
-  const [colorListName, setColorName] = useState('gugong');
+  const [colorListName, setColorListName] = useState('gugong');
   const [keyword, setKeyword] = useState('');
+  const [color, setColor] = useState('#F5F2E9');
+  const [colorName, setColorName] = useState('凝脂');
 
   useEffect(() => {
     document.title = '之之选色';
@@ -594,17 +596,26 @@ const Color = () => {
         gap: 24,
         padding: 24,
         minWidth: '100%',
+        background: color,
+        transition: 'all 0.3s',
         fontFamily:
           '"Times New Roman", times, "Heti Song", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
       }}
       className="entry heti"
     >
       <link rel="stylesheet" href="//unpkg.com/heti/umd/heti.min.css"></link>
-      <div>
+      {colorName ? <h1>{colorName}</h1> : null}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <Segmented
           value={colorListName}
           onChange={(value) => {
-            setColorName(value);
+            setColorListName(value);
           }}
           options={colorMap.map((item) => ({
             key: item.key,
@@ -644,6 +655,10 @@ const Color = () => {
                 '--bg': item.color,
                 backgroundColor: 'var(--bg)',
                 marginBottom: 10,
+              }}
+              onClick={() => {
+                setColor(item.color);
+                setColorName(item.name);
               }}
             >
               <div style={{ color: 'color-contrast(var(--bg) vs #fff, #000)' }}>{item.name}</div>
