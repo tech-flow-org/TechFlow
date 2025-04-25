@@ -87,7 +87,7 @@ function convertToChinaNum(num: number) {
 
 const lastMeetingDate = process.env.DINGDINGLASTMEETINGDATE;
 const preSident = process.env.DINGDINGPRESIDENT;
-const mettingUserList = process.env.DINGDINGMETTINGUSERLIST?.split(',') || [];
+const mettingUserList = (process.env.DINGDINGMETTINGUSERLIST?.split(',') || []).filter(Boolean);
 
 const waitTime = (ms: number) =>
   new Promise((resolve) => {
