@@ -201,9 +201,8 @@ export default async function handler(request: NextApiRequest, response: NextApi
 
       ${content.text}`);
   } else {
-    markDown.setTitle('周会值班').add(`😄 Hi, everyone'
-
-      ${content.text}`);
+    markDown.setTitle('周会值班').add(`😄 Hi, everyone
+${content.text}`);
   }
 
   await robot.send(markDown);
